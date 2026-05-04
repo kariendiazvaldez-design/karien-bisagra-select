@@ -64,3 +64,14 @@
   .font-quicksand { font-family: 'Quicksand', system-ui, sans-serif; }
   .font-caveat { font-family: 'Caveat', cursive; }
 }
+
+/* Lado A: no radius, strip default 0.5px global borders */
+.lado-a *,
+.lado-a *::before,
+.lado-a *::after {
+  border-radius: 0 !important;
+}
+.lado-a :where(section, header, nav, main, footer, div, article, aside) {
+  border-width: 0;
+}
+
