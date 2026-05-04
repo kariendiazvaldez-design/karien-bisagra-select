@@ -111,7 +111,7 @@ const LadoA = () => {
   };
 
   return (
-    <div className="font-lexend min-h-screen bg-background text-foreground">
+    <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]" style={{ borderBottomWidth: "0.5px" }}>
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
@@ -163,15 +163,18 @@ const LadoA = () => {
       )}
 
       {/* HERO */}
-      <section className="min-h-screen flex items-center px-6 md:px-20 pt-16">
-        <div className="max-w-3xl mx-auto w-full">
+      <section className="lado-a-hero relative min-h-screen flex items-center justify-center px-6 md:px-20 pt-16 text-center">
+        <div className="w-full max-w-[680px] mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-8">
             Diseño de servicios · Transformación digital
           </p>
-          <h1 className="font-extralight text-[40px] md:text-[64px] leading-[1.05] text-foreground mb-8 max-w-[700px]">
+          <h1
+            className="font-extralight text-[40px] md:text-[72px] leading-[1.05] text-foreground mb-8"
+            style={{ letterSpacing: "-0.02em" }}
+          >
             Entender mejor,<br />diseñar mejor.
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-[560px] mb-10 leading-relaxed">
+          <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed mx-auto">
             <HoverWord src={HOVER_IMG_1} onHover={setHoverImg}>Comunicadora</HoverWord> de formación,{" "}
             <HoverWord src={HOVER_IMG_2} onHover={setHoverImg}>diseñadora de servicios</HoverWord> en la práctica.
             Traduzco lo complejo en{" "}
@@ -180,7 +183,7 @@ const LadoA = () => {
           </p>
           <button
             onClick={scrollToProjects}
-            className="w-full md:w-auto bg-a-accent text-background px-6 py-2.5 hover:bg-a-accent-mid transition-colors"
+            className="inline-block bg-a-accent text-background px-6 py-2.5 hover:bg-a-accent-mid transition-colors"
           >
             Ver proyectos →
           </button>
