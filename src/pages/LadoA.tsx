@@ -111,7 +111,7 @@ const LadoA = () => {
   };
 
   return (
-    <div className="font-lexend min-h-screen bg-background text-foreground">
+    <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]" style={{ borderBottomWidth: "0.5px" }}>
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
