@@ -68,10 +68,20 @@
 /* Lado A: no radius, strip default 0.5px global borders */
 .lado-a *,
 .lado-a *::before,
-.lado-a *::after {
+.lado-a *::after,
+.lado-b *,
+.lado-b *::before,
+.lado-b *::after {
   border-radius: 0 !important;
 }
-.lado-a :where(section, header, nav, main, footer, div, article, aside) {
+.lado-a :where(section, header, nav, main, footer, div, article, aside),
+.lado-b :where(section, header, nav, main, footer, div, article, aside) {
   border-width: 0;
 }
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(4px); }
+}
+.animate-pulse-soft { animation: pulseSoft 2s ease-in-out infinite; }
 
