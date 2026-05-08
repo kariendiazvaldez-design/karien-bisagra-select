@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { sanityClient, urlFor } from "@/lib/sanityClient";
+import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 
 const NAV_LINKS = [
   { label: "Proyectos", href: "#proyectos" },
@@ -106,6 +108,25 @@ const LadoA = () => {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
+  const [sanityProjects, setSanityProjects] = useState<any[] | null>(null);
+  const [sanityPosts, setSanityPosts] = useState<any[] | null>(null);
+
+  useEffect(() => {
+    sanityClient.fetch(CASE_STUDIES_QUERY).then((res) => {
+      if (Array.isArray(res) && res.length > 0) setSanityProjects(res);
+    }).catch(() => {});
+    sanityClient.fetch(BLOG_POSTS_QUERY).then((res) => {
+      if (Array.isArray(res) && res.length > 0) setSanityPosts(res);
+    }).catch(() => {});
+  }, []);
+
+  const projects = sanityProjects ?? PROJECTS.map((p) => ({
+    ...p, slug: null, mainImage: null, excerpt: p.desc,
+  }));
+  const posts = sanityPosts ?? POSTS.map((p) => ({
+    ...p, slug: null, category: p.cat, excerpt: p.desc, publishedAt: p.date,
+  }));
+
   const scrollToProjects = () => {
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -197,23 +218,40 @@ const LadoA = () => {
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Portafolio</p>
           <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PROJECTS.map((p) => (
-              <article
-                key={p.title}
-                className="border border-[#D4CFC5] p-6 flex flex-col"
-                style={{ borderWidth: "0.5px" }}
-              >
-                <div className="aspect-[16/9] bg-[#E8E4DC] mb-5" />
-                <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
-                  {p.tag}
-                </p>
-                <h3 className="font-medium text-[17px] mb-2">{p.title}</h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{p.desc}</p>
-                <a href="#" className="text-a-accent text-sm mt-auto">Ver caso →</a>
-              </article>
-            ))}
+            {projects.map((p: any) => {
+              const inner = (
+                <>
+                  <div className="aspect-[16/9] bg-[#E8E4DC] mb-5 overflow-hidden">
+                    {p.mainImage && (
+                      <img
+                        src={urlFor(p.mainImage).width(800).height(450).url()}
+                        alt={p.title}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
+                    {p.tag || p.category}
+                  </p>
+                  <h3 className="font-medium text-[17px] mb-2">{p.title}</h3>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                    {p.excerpt || p.desc}
+                  </p>
+                  <span className="text-a-accent text-sm mt-auto">Ver caso →</span>
+                </>
+              );
+              const className = "border border-[#D4CFC5] p-6 flex flex-col hover:bg-[#EEEAE0] transition-colors";
+              return p.slug ? (
+                <Link key={p._id || p.title} to={`/lado-a/proyecto/${p.slug}`} className={className} style={{ borderWidth: "0.5px" }}>
+                  {inner}
+                </Link>
+              ) : (
+                <article key={p.title} className={className} style={{ borderWidth: "0.5px" }}>
+                  {inner}
+                </article>
+              );
+            })}
           </div>
-          <a href="#" className="inline-block mt-10 text-a-accent">Ver todos los proyectos →</a>
         </div>
       </section>
 
@@ -240,20 +278,35 @@ const LadoA = () => {
             })}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
-            {POSTS.map((post, i) => (
-              <article
-                key={post.title}
-                className={`py-6 md:py-0 ${i < POSTS.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`}
-                style={{ borderBottomWidth: i < POSTS.length - 1 ? "0.5px" : undefined }}
-              >
-                <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
-                  {post.cat}
-                </p>
-                <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
-                <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{post.desc}</p>
-                <p className="text-xs text-a-accent-soft">{post.date}</p>
-              </article>
-            ))}
+            {posts.map((post: any, i: number) => {
+              const inner = (
+                <>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
+                    {post.category || post.cat}
+                  </p>
+                  <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
+                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                    {post.excerpt || post.desc}
+                  </p>
+                  <p className="text-xs text-a-accent-soft">
+                    {post.publishedAt && typeof post.publishedAt === "string" && post.publishedAt.includes("-")
+                      ? new Date(post.publishedAt).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
+                      : post.publishedAt || post.date}
+                  </p>
+                </>
+              );
+              const className = `block py-6 md:py-0 ${i < posts.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`;
+              const style = { borderBottomWidth: i < posts.length - 1 ? "0.5px" : undefined } as any;
+              return post.slug ? (
+                <Link key={post._id || post.title} to={`/lado-a/blog/${post.slug}`} className={className} style={style}>
+                  {inner}
+                </Link>
+              ) : (
+                <article key={post.title} className={className} style={style}>
+                  {inner}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
