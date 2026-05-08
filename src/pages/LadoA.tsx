@@ -108,6 +108,25 @@ const LadoA = () => {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
+  const [sanityProjects, setSanityProjects] = useState<any[] | null>(null);
+  const [sanityPosts, setSanityPosts] = useState<any[] | null>(null);
+
+  useEffect(() => {
+    sanityClient.fetch(CASE_STUDIES_QUERY).then((res) => {
+      if (Array.isArray(res) && res.length > 0) setSanityProjects(res);
+    }).catch(() => {});
+    sanityClient.fetch(BLOG_POSTS_QUERY).then((res) => {
+      if (Array.isArray(res) && res.length > 0) setSanityPosts(res);
+    }).catch(() => {});
+  }, []);
+
+  const projects = sanityProjects ?? PROJECTS.map((p) => ({
+    ...p, slug: null, mainImage: null, excerpt: p.desc,
+  }));
+  const posts = sanityPosts ?? POSTS.map((p) => ({
+    ...p, slug: null, category: p.cat, excerpt: p.desc, publishedAt: p.date,
+  }));
+
   const scrollToProjects = () => {
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
   };
