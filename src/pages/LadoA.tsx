@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { sanityClient, urlFor } from "@/lib/sanityClient";
+import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 
 const NAV_LINKS = [
   { label: "Proyectos", href: "#proyectos" },
