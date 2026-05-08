@@ -278,20 +278,35 @@ const LadoA = () => {
             })}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
-            {POSTS.map((post, i) => (
-              <article
-                key={post.title}
-                className={`py-6 md:py-0 ${i < POSTS.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`}
-                style={{ borderBottomWidth: i < POSTS.length - 1 ? "0.5px" : undefined }}
-              >
-                <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
-                  {post.cat}
-                </p>
-                <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
-                <p className="text-muted-foreground text-sm mb-3 line-clamp-2">{post.desc}</p>
-                <p className="text-xs text-a-accent-soft">{post.date}</p>
-              </article>
-            ))}
+            {posts.map((post: any, i: number) => {
+              const inner = (
+                <>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
+                    {post.category || post.cat}
+                  </p>
+                  <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
+                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                    {post.excerpt || post.desc}
+                  </p>
+                  <p className="text-xs text-a-accent-soft">
+                    {post.publishedAt && typeof post.publishedAt === "string" && post.publishedAt.includes("-")
+                      ? new Date(post.publishedAt).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
+                      : post.publishedAt || post.date}
+                  </p>
+                </>
+              );
+              const className = `block py-6 md:py-0 ${i < posts.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`;
+              const style = { borderBottomWidth: i < posts.length - 1 ? "0.5px" : undefined } as any;
+              return post.slug ? (
+                <Link key={post._id || post.title} to={`/lado-a/blog/${post.slug}`} className={className} style={style}>
+                  {inner}
+                </Link>
+              ) : (
+                <article key={post.title} className={className} style={style}>
+                  {inner}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
