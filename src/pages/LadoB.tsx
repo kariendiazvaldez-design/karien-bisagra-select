@@ -292,14 +292,14 @@ const LadoB = () => {
           <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>en qué ando</p>
           <h2 className="mb-10" style={{ fontWeight: 600, fontSize: 36 }}>Intereses activos</h2>
           <div>
-            {INTERESTS.map((it, i) => {
+            {interests.map((it, i) => {
               const isActive = it.state === "activo";
               return (
                 <div
                   key={i}
                   className="py-6 pl-5"
                   style={{
-                    borderBottom: i < INTERESTS.length - 1 ? "0.5px solid #D4CFC5" : undefined,
+                    borderBottom: i < interests.length - 1 ? "0.5px solid #D4CFC5" : undefined,
                     borderLeft: `2px solid ${isActive ? "#C4622D" : "#D4916A"}`,
                   }}
                 >
