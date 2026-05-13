@@ -47,22 +47,22 @@ export const GARDEN_NOTES_QUERY = `*[_type == "gardenNote"] | order(_updatedAt d
   _id,
   title,
   "slug": slug.current,
-  maturity,
+  state,
   format,
-  topic,
-  excerpt,
-  description
+  topics,
+  date,
+  published
 }`;
 
 export const GARDEN_NOTE_BY_SLUG_QUERY = `*[_type == "gardenNote" && slug.current == $slug][0] {
   _id,
   title,
   "slug": slug.current,
-  maturity,
+  state,
   format,
-  topic,
-  excerpt,
+  topics,
+  date,
   body,
-  publishedAt,
+  published,
   _updatedAt
 }`;
