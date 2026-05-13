@@ -265,7 +265,7 @@ const LadoB = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {NOTES.map((n, i) => {
+            {notes.map((n, i) => {
               const s = maturityStyles[n.maturity];
               return (
                 <article key={i} className="p-5 flex flex-col" style={{ border: s.border, background: s.bg }}>
