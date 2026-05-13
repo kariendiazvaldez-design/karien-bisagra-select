@@ -66,3 +66,21 @@ export const GARDEN_NOTE_BY_SLUG_QUERY = `*[_type == "gardenNote" && slug.curren
   published,
   _updatedAt
 }`;
+
+export const INTERESTS_QUERY = `*[_type == "interest"] | order(_updatedAt desc) {
+  _id,
+  name,
+  why,
+  status,
+  since
+}`;
+
+export const RECOMMENDATIONS_QUERY = `*[_type == "recommendation"] | order(_createdAt desc) {
+  _id,
+  title,
+  category,
+  author,
+  description,
+  url,
+  date
+}`;
