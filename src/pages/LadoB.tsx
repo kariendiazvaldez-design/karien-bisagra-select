@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { sanityClient } from "@/lib/sanityClient";
+import { GARDEN_NOTES_QUERY, INTERESTS_QUERY, RECOMMENDATIONS_QUERY } from "@/lib/sanityQueries";
 
 const NAV_LINKS = [
   { label: "Jardín", href: "#jardin" },
