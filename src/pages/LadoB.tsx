@@ -340,7 +340,7 @@ const LadoB = () => {
           </div>
 
           <div>
-            {RECS.map((r, i) => (
+            {recs.map((r, i) => (
               <div
                 key={i}
                 className="py-6"
