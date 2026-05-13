@@ -100,11 +100,76 @@ const maturityStyles: Record<Maturity, { border: string; bg: string; titleColor:
   },
 };
 
+const mapState = (s?: string): Maturity => {
+  const v = (s || "").toLowerCase();
+  if (v.includes("madera") || v.includes("ever")) return "madera";
+  if (v.includes("creci") || v.includes("grow")) return "creciendo";
+  return "semilla";
+};
+
+const capitalize = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
 const LadoB = () => {
   const [topic, setTopic] = useState(TOPICS[0]);
   const [format, setFormat] = useState(FORMATS[0]);
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sanityNotes, setSanityNotes] = useState<typeof NOTES | null>(null);
+  const [sanityInterests, setSanityInterests] = useState<typeof INTERESTS | null>(null);
+  const [sanityRecs, setSanityRecs] = useState<typeof RECS | null>(null);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(GARDEN_NOTES_QUERY)
+      .then((data: any[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSanityNotes(
+            data.map((n) => ({
+              maturity: mapState(n.state),
+              format: capitalize(n.format || "Nota"),
+              title: n.title || "",
+              desc: Array.isArray(n.topics) ? n.topics.join(" · ") : "",
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+
+    sanityClient
+      .fetch(INTERESTS_QUERY)
+      .then((data: any[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSanityInterests(
+            data.map((it) => ({
+              title: it.name || "",
+              desc: it.why || "",
+              state: it.status || "activo",
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+
+    sanityClient
+      .fetch(RECOMMENDATIONS_QUERY)
+      .then((data: any[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSanityRecs(
+            data.map((r) => ({
+              category: r.category || "Otros",
+              title: r.title || "",
+              author: r.author || "",
+              desc: r.description || "",
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const notes = sanityNotes ?? NOTES;
+  const interests = sanityInterests ?? INTERESTS;
+  const recs = sanityRecs ?? RECS;
 
   return (
     <div className="lado-b font-quicksand min-h-screen" style={{ background: "#F2EFE8", color: "#1C1A17" }}>
