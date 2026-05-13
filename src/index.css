@@ -47,12 +47,14 @@
 @layer base {
   * {
     @apply border-border;
-    border-width: 0.5px;
+    border-width: 0;
     border-radius: 0 !important;
   }
+
   html, body, #root {
     height: 100%;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Lexend', system-ui, sans-serif;
@@ -64,19 +66,6 @@
   .font-lexend { font-family: 'Lexend', system-ui, sans-serif; }
   .font-quicksand { font-family: 'Quicksand', system-ui, sans-serif; }
   .font-caveat { font-family: 'Caveat', cursive; }
-}
-
-/* Strip default 0.5px global borders from Lado A / Lado B containers */
-.lado-a :where(section, header, nav, main, footer, div, article, aside),
-.lado-b :where(section, header, nav, main, footer, div, article, aside) {
-  border-width: 0;
-}
-
-/* No child element inside any card component may have its own border */
-[class*="card"] *,
-[class*="Card"] * {
-  border-width: 0 !important;
-  border: none !important;
 }
 
 @keyframes pulseSoft {
