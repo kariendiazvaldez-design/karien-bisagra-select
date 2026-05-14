@@ -286,9 +286,7 @@ const LadoB = () => {
           </div>
         </div>
       </section>
-
-
-
+      {/* RECOMENDACIONES */}
       <section id="recomendaciones" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-3xl mx-auto">
           <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>cosas que me gustan</p>
