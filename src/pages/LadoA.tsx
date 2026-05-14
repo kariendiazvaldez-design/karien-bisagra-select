@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { sanityClient, urlFor } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
+import LearningToday from "@/components/LearningToday";
 
 const NAV_LINKS = [
   { label: "Proyectos", href: "#proyectos" },
@@ -352,6 +353,9 @@ const LadoA = () => {
           </div>
         </div>
       </section>
+
+      {/* APRENDIENDO HOY */}
+      <LearningToday />
 
       {/* CONTACTO */}
       <section className="px-6 md:px-20 py-24 md:py-32 bg-[#1C1A17] text-background">
