@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { sanityClient } from "@/lib/sanityClient";
-import { GARDEN_NOTES_QUERY, INTERESTS_QUERY, RECOMMENDATIONS_QUERY } from "@/lib/sanityQueries";
+import { GARDEN_NOTES_QUERY, RECOMMENDATIONS_QUERY } from "@/lib/sanityQueries";
+import DailyLog from "@/components/DailyLog";
 
 const NAV_LINKS = [
   { label: "Jardín", href: "#jardin" },
-  { label: "Intereses", href: "#intereses" },
   { label: "Recomendaciones", href: "#recomendaciones" },
+  { label: "Log", href: "#log-cotidiano" },
 ];
 
 const TOPICS = ["Todos los temas", "Comunidades", "Aprendizaje", "Museos", "Tecnología", "Personal"];
@@ -47,23 +48,6 @@ const NOTES: { maturity: Maturity; format: string; title: string; desc: string }
   },
 ];
 
-const INTERESTS = [
-  {
-    title: "Transformación digital en museos",
-    desc: "Mi nueva fijación. ¿Qué se puede esperar de los museos? ¿Cómo construyen ciudadanía?",
-    state: "activo",
-  },
-  {
-    title: "Arquitectura de información",
-    desc: "¿Dónde la información se convierte en aprendizaje? Sigo sin tener respuesta.",
-    state: "en proceso",
-  },
-  {
-    title: "Jardines digitales como práctica",
-    desc: "Estoy viviendo el experimento mientras lo estudio.",
-    state: "activo",
-  },
-];
 
 const CATEGORIES = ["Libros", "Música", "Lugares", "Otros"];
 
@@ -115,7 +99,6 @@ const LadoB = () => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sanityNotes, setSanityNotes] = useState<typeof NOTES | null>(null);
-  const [sanityInterests, setSanityInterests] = useState<typeof INTERESTS | null>(null);
   const [sanityRecs, setSanityRecs] = useState<typeof RECS | null>(null);
 
   useEffect(() => {
@@ -135,20 +118,6 @@ const LadoB = () => {
       })
       .catch(() => {});
 
-    sanityClient
-      .fetch(INTERESTS_QUERY)
-      .then((data: any[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setSanityInterests(
-            data.map((it) => ({
-              title: it.name || "",
-              desc: it.why || "",
-              state: it.status || "activo",
-            }))
-          );
-        }
-      })
-      .catch(() => {});
 
     sanityClient
       .fetch(RECOMMENDATIONS_QUERY)
@@ -168,7 +137,6 @@ const LadoB = () => {
   }, []);
 
   const notes = sanityNotes ?? NOTES;
-  const interests = sanityInterests ?? INTERESTS;
   const recs = sanityRecs ?? RECS;
 
   return (
@@ -285,34 +253,6 @@ const LadoB = () => {
           </div>
         </div>
       </section>
-
-      {/* INTERESES */}
-      <section id="intereses" className="px-6 md:px-20 py-24 md:py-32">
-        <div className="max-w-3xl mx-auto">
-          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>en qué ando</p>
-          <h2 className="mb-10" style={{ fontWeight: 600, fontSize: 36 }}>Intereses activos</h2>
-          <div>
-            {interests.map((it, i) => {
-              const isActive = it.state === "activo";
-              return (
-                <div
-                  key={i}
-                  className="py-6 pl-5"
-                  style={{
-                    borderBottom: i < interests.length - 1 ? "0.5px solid #D4CFC5" : undefined,
-                    borderLeft: `2px solid ${isActive ? "#C4622D" : "#D4916A"}`,
-                  }}
-                >
-                  <h3 style={{ fontWeight: 500, fontSize: 17, color: "#1C1A17", marginBottom: 6 }}>{it.title}</h3>
-                  <p style={{ color: "#6B6660", fontSize: 14, marginBottom: 8, lineHeight: 1.5 }}>{it.desc}</p>
-                  <span style={{ color: "#C4622D", fontSize: 12, fontWeight: 500 }}>{it.state} →</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* RECOMENDACIONES */}
       <section id="recomendaciones" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-3xl mx-auto">
@@ -358,6 +298,9 @@ const LadoB = () => {
           </div>
         </div>
       </section>
+
+      {/* LOG COTIDIANO */}
+      <DailyLog />
 
       {/* FOOTER */}
       <footer className="px-6 md:px-20 py-16 text-center" style={{ borderTop: "0.5px solid #D4CFC5" }}>
