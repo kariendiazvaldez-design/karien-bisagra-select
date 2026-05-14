@@ -287,34 +287,8 @@ const LadoB = () => {
         </div>
       </section>
 
-      {/* INTERESES */}
-      <section id="intereses" className="px-6 md:px-20 py-24 md:py-32">
-        <div className="max-w-3xl mx-auto">
-          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>en qué ando</p>
-          <h2 className="mb-10" style={{ fontWeight: 600, fontSize: 36 }}>Intereses activos</h2>
-          <div>
-            {interests.map((it, i) => {
-              const isActive = it.state === "activo";
-              return (
-                <div
-                  key={i}
-                  className="py-6 pl-5"
-                  style={{
-                    borderBottom: i < interests.length - 1 ? "0.5px solid #D4CFC5" : undefined,
-                    borderLeft: `2px solid ${isActive ? "#C4622D" : "#D4916A"}`,
-                  }}
-                >
-                  <h3 style={{ fontWeight: 500, fontSize: 17, color: "#1C1A17", marginBottom: 6 }}>{it.title}</h3>
-                  <p style={{ color: "#6B6660", fontSize: 14, marginBottom: 8, lineHeight: 1.5 }}>{it.desc}</p>
-                  <span style={{ color: "#C4622D", fontSize: 12, fontWeight: 500 }}>{it.state} →</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
-      {/* RECOMENDACIONES */}
+
       <section id="recomendaciones" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-3xl mx-auto">
           <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>cosas que me gustan</p>
