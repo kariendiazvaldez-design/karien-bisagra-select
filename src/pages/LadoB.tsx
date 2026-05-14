@@ -118,20 +118,6 @@ const LadoB = () => {
       })
       .catch(() => {});
 
-    sanityClient
-      .fetch(INTERESTS_QUERY)
-      .then((data: any[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setSanityInterests(
-            data.map((it) => ({
-              title: it.name || "",
-              desc: it.why || "",
-              state: it.status || "activo",
-            }))
-          );
-        }
-      })
-      .catch(() => {});
 
     sanityClient
       .fetch(RECOMMENDATIONS_QUERY)
