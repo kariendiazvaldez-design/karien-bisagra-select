@@ -332,6 +332,9 @@ const LadoB = () => {
         </div>
       </section>
 
+      {/* LOG COTIDIANO */}
+      <DailyLog />
+
       {/* FOOTER */}
       <footer className="px-6 md:px-20 py-16 text-center" style={{ borderTop: "0.5px solid #D4CFC5" }}>
         <p className="font-caveat mb-3" style={{ color: "#D4916A", fontSize: 18 }}>
