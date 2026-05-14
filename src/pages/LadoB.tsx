@@ -99,7 +99,6 @@ const LadoB = () => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sanityNotes, setSanityNotes] = useState<typeof NOTES | null>(null);
-  const [sanityInterests, setSanityInterests] = useState<typeof INTERESTS | null>(null);
   const [sanityRecs, setSanityRecs] = useState<typeof RECS | null>(null);
 
   useEffect(() => {
