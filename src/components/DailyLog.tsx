@@ -4,13 +4,6 @@ type LogEntry = {
   mood: string;
 };
 
-const C = {
-  bg: "#2C4A52",
-  light: "#F5EDD6",
-  mustard: "#E8B84B",
-  terra: "#D4956A",
-};
-
 const DEFAULT_ENTRIES: LogEntry[] = [
   {
     date: "12 de mayo de 2025",
@@ -33,8 +26,6 @@ interface DailyLogProps {
   entries?: LogEntry[];
 }
 
-const lightBorder = "0.5px solid rgba(245, 237, 214, 0.3)";
-
 const DailyLog = ({ entries = DEFAULT_ENTRIES }: DailyLogProps) => {
   const sorted = [...entries].sort((a, b) => {
     const da = new Date(a.date).getTime();
@@ -44,19 +35,12 @@ const DailyLog = ({ entries = DEFAULT_ENTRIES }: DailyLogProps) => {
   });
 
   return (
-    <section
-      id="log-cotidiano"
-      className="px-6 md:px-20 font-quicksand"
-      style={{ background: C.bg, color: C.light, paddingTop: 120, paddingBottom: 140 }}
-    >
+    <section id="log-cotidiano" className="px-6 md:px-20 py-24 md:py-32">
       <div className="max-w-3xl mx-auto">
-        <p className="font-caveat mb-3" style={{ color: C.mustard, fontSize: 22 }}>
+        <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>
           el día a día
         </p>
-        <h2
-          className="font-caveat mb-12"
-          style={{ fontWeight: 400, fontSize: "clamp(40px, 5vw, 56px)", color: C.light, lineHeight: 1.1 }}
-        >
+        <h2 className="mb-10" style={{ fontWeight: 600, fontSize: 36 }}>
           Log cotidiano
         </h2>
 
@@ -64,24 +48,28 @@ const DailyLog = ({ entries = DEFAULT_ENTRIES }: DailyLogProps) => {
           {sorted.map((entry, i) => (
             <li
               key={`${entry.date}-${i}`}
+              className="py-6"
               style={{
-                padding: "24px 0",
-                borderTop: i === 0 ? lightBorder : undefined,
-                borderBottom: lightBorder,
+                borderTop: i === 0 ? "0.5px solid #D4CFC5" : undefined,
+                borderBottom: "0.5px solid #D4CFC5",
               }}
             >
-              <div className="flex items-center justify-between gap-4 mb-3 flex-wrap">
+              <div className="flex items-center justify-between gap-4 mb-3">
                 <p
-                  className="font-caveat"
-                  style={{ color: C.mustard, fontSize: 20 }}
+                  style={{
+                    color: "#D4916A",
+                    fontSize: 11,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.15em",
+                  }}
                 >
                   {entry.date}
                 </p>
                 <span
-                  className="inline-block px-3 py-1 font-quicksand"
+                  className="inline-block px-2.5 py-1"
                   style={{
-                    border: lightBorder,
-                    color: C.terra,
+                    border: "0.5px solid #D4916A",
+                    color: "#C4622D",
                     fontSize: 11,
                     textTransform: "lowercase",
                     letterSpacing: "0.05em",
@@ -90,7 +78,7 @@ const DailyLog = ({ entries = DEFAULT_ENTRIES }: DailyLogProps) => {
                   {entry.mood}
                 </span>
               </div>
-              <p style={{ color: C.light, opacity: 0.9, fontSize: 16, lineHeight: 1.6 }}>{entry.text}</p>
+              <p style={{ color: "#1C1A17", fontSize: 15, lineHeight: 1.6 }}>{entry.text}</p>
             </li>
           ))}
         </ul>
