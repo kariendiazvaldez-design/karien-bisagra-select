@@ -354,6 +354,9 @@ const LadoA = () => {
         </div>
       </section>
 
+      {/* APRENDIENDO HOY */}
+      <LearningToday />
+
       {/* CONTACTO */}
       <section className="px-6 md:px-20 py-24 md:py-32 bg-[#1C1A17] text-background">
         <div className="max-w-3xl mx-auto text-center">
