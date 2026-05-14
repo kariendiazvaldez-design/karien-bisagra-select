@@ -137,7 +137,6 @@ const LadoB = () => {
   }, []);
 
   const notes = sanityNotes ?? NOTES;
-  const interests = sanityInterests ?? INTERESTS;
   const recs = sanityRecs ?? RECS;
 
   return (
