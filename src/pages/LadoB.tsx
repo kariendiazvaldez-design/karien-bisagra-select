@@ -48,23 +48,6 @@ const NOTES: { maturity: Maturity; format: string; title: string; desc: string }
   },
 ];
 
-const INTERESTS = [
-  {
-    title: "Transformación digital en museos",
-    desc: "Mi nueva fijación. ¿Qué se puede esperar de los museos? ¿Cómo construyen ciudadanía?",
-    state: "activo",
-  },
-  {
-    title: "Arquitectura de información",
-    desc: "¿Dónde la información se convierte en aprendizaje? Sigo sin tener respuesta.",
-    state: "en proceso",
-  },
-  {
-    title: "Jardines digitales como práctica",
-    desc: "Estoy viviendo el experimento mientras lo estudio.",
-    state: "activo",
-  },
-];
 
 const CATEGORIES = ["Libros", "Música", "Lugares", "Otros"];
 
