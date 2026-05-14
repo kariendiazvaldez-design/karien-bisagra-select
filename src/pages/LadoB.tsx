@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { sanityClient } from "@/lib/sanityClient";
-import { GARDEN_NOTES_QUERY, INTERESTS_QUERY, RECOMMENDATIONS_QUERY } from "@/lib/sanityQueries";
+import { GARDEN_NOTES_QUERY, RECOMMENDATIONS_QUERY } from "@/lib/sanityQueries";
 import DailyLog from "@/components/DailyLog";
 
 const NAV_LINKS = [
