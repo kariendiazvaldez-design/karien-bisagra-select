@@ -293,10 +293,10 @@ const LadoB = () => {
               marginBottom: 24,
             }}
           >
-            Un espacio para curiosear en voz alta.
+            Una casita digital para mi curiosidad.
           </h1>
           <p style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.6, color: "#1C1A17", opacity: 0.75 }}>
-            Notas en proceso, recomendaciones, fragmentos de días. Aquí no todo está terminado y ya me acostumbré.
+            Cuaderno de apuntes, notas en proceso, reseñas y pensamientos que preferiría no olvidar.
           </p>
         </div>
 
@@ -318,7 +318,7 @@ const LadoB = () => {
                 Este es el lado B: el espacio donde proceso, archivo y curioseo sin necesidad de que todo esté terminado.
               </p>
               <p style={{ opacity: 0.8 }}>
-                Lo que aquí ves es un cuaderno abierto. A veces son ideas, a veces son cosas que me gustaron, a veces solo es lo que pasó hoy.
+                Lo que aquí ves es un cuaderno de campo. A veces son ideas, a veces son cosas que me gustaron, a veces solo es lo que pasó hoy.
               </p>
             </div>
 
