@@ -1,210 +1,373 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { sanityClient } from "@/lib/sanityClient";
-import { GARDEN_NOTES_QUERY, RECOMMENDATIONS_QUERY } from "@/lib/sanityQueries";
-import DailyLog from "@/components/DailyLog";
+import { useState } from "react";
 
 const NAV_LINKS = [
+  { label: "Sobre mí", href: "#about" },
   { label: "Jardín", href: "#jardin" },
-  { label: "Recomendaciones", href: "#recomendaciones" },
-  { label: "Log", href: "#log-cotidiano" },
 ];
 
-const TOPICS = ["Todos los temas", "Comunidades", "Aprendizaje", "Museos", "Tecnología", "Personal"];
-const FORMATS = ["Todos los formatos", "Nota", "Diario", "Reseña"];
+// ---------- TYPES ----------
+type PhotoItem = { color: string; src?: string; alt?: string };
+type CollageItem = { color: string; src?: string; alt?: string; caption?: string; size: "lg" | "sm"; offset?: boolean };
 
-type Maturity = "semilla" | "creciendo" | "madera";
+type NoteEntry = {
+  kind: "nota";
+  maturity: "semilla" | "brote" | "fruto";
+  title: string;
+  excerpt: string;
+  date: string;
+  imageColor?: string;
+  imageSrc?: string;
+};
+type RecEntry = {
+  kind: "recomendacion";
+  type: string;
+  title: string;
+  author?: string;
+  review: string;
+  rating: string;
+  imageColor?: string;
+  imageSrc?: string;
+};
+type LogEntry = {
+  kind: "log";
+  date: string;
+  text: string;
+  mood: string;
+};
 
-const NOTES: { maturity: Maturity; format: string; title: string; desc: string }[] = [
+type GardenEntry = NoteEntry | RecEntry | LogEntry;
+
+// ---------- DATA (placeholders) ----------
+const HERO_PHOTOS: PhotoItem[] = [
+  { color: "#D4B896" },
+  { color: "#C4956A" },
+  { color: "#8B7355" },
+  { color: "#A8C5A0" },
+  { color: "#2C4A52" },
+  { color: "#D4B896" },
+];
+
+const COLLAGE: CollageItem[] = [
+  { color: "#C4956A", size: "lg", caption: "mayo 2025" },
+  { color: "#A8C5A0", size: "sm", offset: true },
+];
+
+const FIND_LIST = [
+  "Notas en proceso, semillas que aún no son ideas",
+  "Recomendaciones de libros, música y lugares",
+  "Un log cotidiano — pequeñas entradas casi en tiempo real",
+  "Fragmentos de proyectos paralelos",
+];
+
+const GARDEN_ENTRIES: GardenEntry[] = [
   {
-    maturity: "creciendo",
-    format: "Nota",
+    kind: "nota",
+    maturity: "brote",
     title: "¿Qué hace que una comunidad esté viva?",
-    desc: "Llevo semanas dando vueltas a esta pregunta. No es lo mismo una comunidad activa que una comunidad viva.",
+    excerpt: "Llevo semanas dando vueltas a esta pregunta. Una comunidad activa no es lo mismo que una viva.",
+    date: "12 mayo 2025",
+    imageColor: "#A8C5A0",
   },
   {
+    kind: "nota",
     maturity: "semilla",
-    format: "Diario",
-    title: "Primera semana con Obsidian",
-    desc: "Todo se conecta con todo y eso me da miedo y alegría al mismo tiempo.",
-  },
-  {
-    maturity: "madera",
-    format: "Reseña",
-    title: "Strategy is Your Words — Mark Pollard",
-    desc: "Un libro sobre estrategia que se lee como poesía.",
-  },
-  {
-    maturity: "semilla",
-    format: "Nota",
     title: "Museos y ciudadanía digital",
-    desc: "¿Puede un museo construir identidad digital sin perder su identidad física?",
+    excerpt: "¿Puede un museo construir identidad digital sin perder la física?",
+    date: "3 mayo 2025",
+    imageColor: "#D4B896",
   },
   {
-    maturity: "creciendo",
-    format: "Diario",
-    title: "Sobre documentar el proceso",
-    desc: "Documentar no es archivar. Es entender qué pasó mientras pasaba.",
-  },
-];
-
-
-const CATEGORIES = ["Libros", "Música", "Lugares", "Otros"];
-
-const RECS = [
-  {
-    category: "Libros",
+    kind: "recomendacion",
+    type: "Libro",
     title: "Strategy is Your Words",
     author: "Mark Pollard",
-    desc: "Cambió cómo entiendo la estrategia y también cómo escribo.",
+    review: "Cambió cómo entiendo la estrategia y también cómo escribo.",
+    rating: "★★★★★",
+    imageColor: "#8B7355",
+  },
+  {
+    kind: "recomendacion",
+    type: "Lugar",
+    title: "Café del jardín botánico",
+    author: "CDMX",
+    review: "Mesa al fondo, luz de las 4pm, té de jamaica. Mi oficina honoraria.",
+    rating: "★★★★",
+    imageColor: "#A8C5A0",
+  },
+  {
+    kind: "log",
+    date: "10 mayo 2025",
+    text: "Mapeé los flujos de la nueva plataforma. Costó pero quedaron claros.",
+    mood: "concentrada",
+  },
+  {
+    kind: "log",
+    date: "7 mayo 2025",
+    text: "Releí un capítulo de arquitectura de información. Vuelve a tener sentido.",
+    mood: "curiosa",
   },
 ];
 
-const maturityStyles: Record<Maturity, { border: string; bg: string; titleColor: string; titleWeight: string; label: string }> = {
-  semilla: {
-    border: "0.5px solid #D4916A",
-    bg: "#F2EFE8",
-    titleColor: "#6B6660",
-    titleWeight: "500",
-    label: "🌱 Semilla",
-  },
-  creciendo: {
-    border: "1px solid #C4622D",
-    bg: "#FAF6F0",
-    titleColor: "#1C1A17",
-    titleWeight: "500",
-    label: "🌿 Creciendo",
-  },
-  madera: {
-    border: "1.5px solid #8B3A1A",
-    bg: "#F5EDE4",
-    titleColor: "#1C1A17",
-    titleWeight: "600",
-    label: "🪵 Madera",
-  },
-};
+const TABS = ["Todo", "Notas", "Recomendaciones", "Log"] as const;
+type Tab = (typeof TABS)[number];
 
-const mapState = (s?: string): Maturity => {
-  const v = (s || "").toLowerCase();
-  if (v.includes("madera") || v.includes("ever")) return "madera";
-  if (v.includes("creci") || v.includes("grow")) return "creciendo";
-  return "semilla";
-};
+const BORDER_FAINT = "0.5px solid rgba(28, 26, 23, 0.15)";
+const BORDER_DARK = "0.5px solid #1C1A17";
 
-const capitalize = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+// ---------- COMPONENTS ----------
+const PhotoCarousel = ({ photos }: { photos: PhotoItem[] }) => (
+  <div className="w-full overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+    <div className="flex gap-3 px-6 md:px-20 pb-2" style={{ width: "max-content" }}>
+      {photos.map((p, i) => (
+        <div
+          key={i}
+          style={{
+            width: 220,
+            height: 220,
+            background: p.color,
+            backgroundImage: p.src ? `url(${p.src})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            border: BORDER_FAINT,
+          }}
+          aria-label={p.alt || `foto ${i + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+);
+
+const Collage = ({ items }: { items: CollageItem[] }) => (
+  <div className="relative" style={{ minHeight: 420 }}>
+    {items.map((it, i) => {
+      const isLg = it.size === "lg";
+      const w = isLg ? 240 : 160;
+      const h = isLg ? 300 : 200;
+      return (
+        <div
+          key={i}
+          className="absolute"
+          style={{
+            top: isLg ? 0 : 240,
+            left: it.offset ? 80 : 0,
+            width: w,
+          }}
+        >
+          <div
+            style={{
+              width: w,
+              height: h,
+              background: it.color,
+              backgroundImage: it.src ? `url(${it.src})` : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              border: BORDER_FAINT,
+            }}
+          />
+          {it.caption && (
+            <p className="font-caveat mt-2" style={{ color: "#C4622D", fontSize: 18 }}>
+              {it.caption}
+            </p>
+          )}
+        </div>
+      );
+    })}
+  </div>
+);
+
+const NoteCard = ({ n }: { n: NoteEntry }) => (
+  <article className="flex flex-col" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
+    {n.imageColor && (
+      <div
+        style={{
+          width: "100%",
+          aspectRatio: "3 / 2",
+          background: n.imageColor,
+          backgroundImage: n.imageSrc ? `url(${n.imageSrc})` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+    )}
+    <div className="p-5 flex flex-col gap-2">
+      <p className="font-caveat" style={{ color: "#C4622D", fontSize: 18 }}>
+        {n.maturity === "semilla" ? "🌱 semilla" : n.maturity === "brote" ? "🌿 brote" : "🍎 fruto"}
+      </p>
+      <h3 style={{ fontWeight: 600, fontSize: 17, color: "#1C1A17" }}>{n.title}</h3>
+      <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 14, lineHeight: 1.5 }}>{n.excerpt}</p>
+      <p className="font-caveat mt-2" style={{ color: "#C4622D", fontSize: 16 }}>{n.date}</p>
+    </div>
+  </article>
+);
+
+const RecCard = ({ r }: { r: RecEntry }) => (
+  <article className="flex" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
+    <div
+      style={{
+        width: 110,
+        minWidth: 110,
+        background: r.imageColor || "#D4B896",
+        backgroundImage: r.imageSrc ? `url(${r.imageSrc})` : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    />
+    <div className="p-4 flex flex-col gap-2">
+      <p className="font-caveat" style={{ color: "#C4622D", fontSize: 16 }}>{r.type}</p>
+      <h3 style={{ fontWeight: 600, fontSize: 16, color: "#1C1A17", lineHeight: 1.3 }}>
+        {r.title}
+        {r.author && <span style={{ fontWeight: 400, opacity: 0.7 }}> — {r.author}</span>}
+      </h3>
+      <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 13, lineHeight: 1.5 }}>{r.review}</p>
+      <p style={{ color: "#C4622D", fontSize: 13, letterSpacing: "0.1em" }}>{r.rating}</p>
+    </div>
+  </article>
+);
+
+const LogCard = ({ l }: { l: LogEntry }) => (
+  <article className="p-5 flex flex-col gap-3" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
+    <p className="font-caveat" style={{ color: "#C4622D", fontSize: 26, lineHeight: 1.1 }}>{l.date}</p>
+    <p style={{ color: "#1C1A17", fontSize: 15, lineHeight: 1.55 }}>{l.text}</p>
+    <span
+      className="self-start px-2 py-1 font-caveat"
+      style={{ color: "#C4622D", border: "0.5px solid #C4622D", fontSize: 14 }}
+    >
+      {l.mood}
+    </span>
+  </article>
+);
 
 const LadoB = () => {
-  const [topic, setTopic] = useState(TOPICS[0]);
-  const [format, setFormat] = useState(FORMATS[0]);
-  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [tab, setTab] = useState<Tab>("Todo");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sanityNotes, setSanityNotes] = useState<typeof NOTES | null>(null);
-  const [sanityRecs, setSanityRecs] = useState<typeof RECS | null>(null);
 
-  useEffect(() => {
-    sanityClient
-      .fetch(GARDEN_NOTES_QUERY)
-      .then((data: any[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setSanityNotes(
-            data.map((n) => ({
-              maturity: mapState(n.state),
-              format: capitalize(n.format || "Nota"),
-              title: n.title || "",
-              desc: Array.isArray(n.topics) ? n.topics.join(" · ") : "",
-            }))
-          );
-        }
-      })
-      .catch(() => {});
-
-
-    sanityClient
-      .fetch(RECOMMENDATIONS_QUERY)
-      .then((data: any[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setSanityRecs(
-            data.map((r) => ({
-              category: r.category || "Otros",
-              title: r.title || "",
-              author: r.author || "",
-              desc: r.description || "",
-            }))
-          );
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  const notes = sanityNotes ?? NOTES;
-  const recs = sanityRecs ?? RECS;
+  const filtered = GARDEN_ENTRIES.filter((e) => {
+    if (tab === "Todo") return true;
+    if (tab === "Notas") return e.kind === "nota";
+    if (tab === "Recomendaciones") return e.kind === "recomendacion";
+    if (tab === "Log") return e.kind === "log";
+    return true;
+  });
 
   return (
-    <div className="lado-b font-quicksand min-h-screen" style={{ background: "#F2EFE8", color: "#1C1A17" }}>
+    <div className="lado-b font-quicksand min-h-screen" style={{ background: "#FAFAF8", color: "#1C1A17" }}>
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-40" style={{ background: "#F2EFE8", borderBottom: "0.5px solid #D4CFC5" }}>
+      <nav className="fixed top-0 left-0 right-0 z-40" style={{ background: "#FAFAF8", borderBottom: BORDER_FAINT }}>
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
           <Link to="/" className="font-medium" style={{ color: "#1C1A17" }}>Karien.xyz</Link>
-          <div className="hidden md:flex gap-8 text-sm" style={{ color: "#6B6660" }}>
+          <div className="hidden md:flex gap-8 text-sm" style={{ color: "#1C1A17", opacity: 0.7 }}>
             {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} className="hover:opacity-70 transition-opacity">
+              <a key={l.label} href={l.href} className="hover:opacity-100 transition-opacity">
                 {l.label}
               </a>
             ))}
           </div>
-          <Link to="/lado-a" className="hidden md:inline text-sm transition-opacity hover:opacity-70" style={{ color: "#D4916A" }}>
+          <Link to="/lado-a" className="hidden md:inline text-sm transition-opacity hover:opacity-70" style={{ color: "#C4622D" }}>
             Lado A →
           </Link>
           <button className="md:hidden text-xl" onClick={() => setMenuOpen((v) => !v)} aria-label="Menú">···</button>
         </div>
         {menuOpen && (
-          <div className="md:hidden px-6 py-4 flex flex-col gap-3" style={{ borderTop: "0.5px solid #D4CFC5" }}>
+          <div className="md:hidden px-6 py-4 flex flex-col gap-3" style={{ borderTop: BORDER_FAINT }}>
             {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "#6B6660" }}>{l.label}</a>
+              <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "#1C1A17" }}>{l.label}</a>
             ))}
-            <Link to="/lado-a" style={{ color: "#D4916A" }}>Lado A →</Link>
+            <Link to="/lado-a" style={{ color: "#C4622D" }}>Lado A →</Link>
           </div>
         )}
       </nav>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-20 pt-16">
-        <p className="font-caveat mb-6" style={{ color: "#C4622D", fontSize: "20px" }}>
-          bienvenida al jardín 🌿
-        </p>
-        <h1
-          className="font-quicksand mx-auto mb-8"
-          style={{ fontWeight: 600, fontSize: "clamp(40px, 6vw, 64px)", maxWidth: 680, lineHeight: 1.1, color: "#1C1A17" }}
-        >
-          Un espacio para curiosear en voz alta.
-        </h1>
-        <p className="mx-auto mb-8" style={{ maxWidth: 520, color: "#6B6660", fontSize: "clamp(16px, 1.2vw, 18px)", lineHeight: 1.6 }}>
-          Notas en proceso, intereses en curso y pensamientos que me tienen capturados. No todo está terminado y ya me acostumbré.
-        </p>
-        <p style={{ color: "#6B6660", fontSize: 14, fontWeight: 500 }}>
-          5 notas · 2 semillas · 1 madera
-        </p>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xl animate-pulse-soft" style={{ color: "#D4916A" }}>↓</div>
+      <section className="pt-28 md:pt-32 pb-12">
+        <div className="max-w-6xl mx-auto px-6 md:px-20">
+          <p className="font-caveat mb-4" style={{ color: "#C4622D", fontSize: 22 }}>Lado B</p>
+          <h1
+            style={{
+              fontFamily: 'Georgia, "Times New Roman", serif',
+              fontWeight: 400,
+              fontSize: "clamp(40px, 6vw, 68px)",
+              lineHeight: 1.1,
+              maxWidth: 760,
+              color: "#1C1A17",
+              marginBottom: 24,
+            }}
+          >
+            Un espacio para curiosear en voz alta.
+          </h1>
+          <p style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.6, color: "#1C1A17", opacity: 0.75 }}>
+            Notas en proceso, recomendaciones, fragmentos de días. Aquí no todo está terminado y ya me acostumbré.
+          </p>
+        </div>
+
+        <div className="mt-12">
+          <PhotoCarousel photos={HERO_PHOTOS} />
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section id="about" className="px-6 md:px-20 py-20 md:py-28">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-7">
+            <p className="font-caveat mb-4" style={{ color: "#C4622D", fontSize: 22 }}>en qué ando</p>
+            <div className="flex flex-col gap-5" style={{ fontSize: 17, lineHeight: 1.7, color: "#1C1A17" }}>
+              <p>
+                Estoy en medio de una maestría, un podcast, una agencia y varios proyectos paralelos.
+              </p>
+              <p>
+                Este es el lado B: el espacio donde proceso, archivo y curioseo sin necesidad de que todo esté terminado.
+              </p>
+              <p style={{ opacity: 0.8 }}>
+                Lo que aquí ves es un cuaderno abierto. A veces son ideas, a veces son cosas que me gustaron, a veces solo es lo que pasó hoy.
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <p style={{ fontWeight: 600, fontSize: 15, marginBottom: 12 }}>qué encontrarás aquí:</p>
+              <ul className="flex flex-col gap-2" style={{ fontSize: 15, color: "#1C1A17", opacity: 0.85 }}>
+                {FIND_LIST.map((item, i) => (
+                  <li key={i} style={{ borderTop: i === 0 ? BORDER_FAINT : undefined, borderBottom: BORDER_FAINT, padding: "10px 0" }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="md:col-span-5">
+            <Collage items={COLLAGE} />
+          </div>
+        </div>
       </section>
 
       {/* JARDÍN */}
-      <section id="jardin" className="px-6 md:px-20 py-24 md:py-32">
+      <section id="jardin" className="px-6 md:px-20 py-20 md:py-28">
         <div className="max-w-6xl mx-auto">
-          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>el jardín</p>
-          <h2 className="mb-8" style={{ fontWeight: 600, fontSize: 36 }}>Notas e ideas</h2>
+          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 22 }}>el jardín</p>
+          <h2
+            style={{
+              fontFamily: 'Georgia, "Times New Roman", serif',
+              fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 44px)",
+              marginBottom: 32,
+              color: "#1C1A17",
+            }}
+          >
+            Notas, ideas y lo que me gusta
+          </h2>
 
-          <div className="flex flex-wrap gap-2 mb-3">
-            {TOPICS.map((t) => {
-              const active = topic === t;
+          <div className="flex flex-wrap gap-2 mb-10">
+            {TABS.map((t) => {
+              const active = tab === t;
               return (
                 <button
                   key={t}
-                  onClick={() => setTopic(t)}
+                  onClick={() => setTab(t)}
                   className="px-4 py-2 text-sm transition-colors"
                   style={{
-                    border: "0.5px solid #D4916A",
-                    background: active ? "#C4622D" : "transparent",
-                    color: active ? "#F2EFE8" : "#6B6660",
+                    border: BORDER_DARK,
+                    background: active ? "#1C1A17" : "transparent",
+                    color: active ? "#FAFAF8" : "#1C1A17",
                   }}
                 >
                   {t}
@@ -212,110 +375,30 @@ const LadoB = () => {
               );
             })}
           </div>
-          <div className="flex flex-wrap gap-2 mb-10">
-            {FORMATS.map((f) => {
-              const active = format === f;
-              return (
-                <button
-                  key={f}
-                  onClick={() => setFormat(f)}
-                  className="px-4 py-2 text-sm transition-colors"
-                  style={{
-                    border: "0.5px solid #D4916A",
-                    background: active ? "#C4622D" : "transparent",
-                    color: active ? "#F2EFE8" : "#6B6660",
-                  }}
-                >
-                  {f}
-                </button>
-              );
-            })}
-          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {notes.map((n, i) => {
-              const s = maturityStyles[n.maturity];
-              return (
-                <article key={i} className="p-5 flex flex-col" style={{ border: s.border, background: s.bg }}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <span style={{ color: "#6B7A52", fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                      {s.label}
-                    </span>
-                    <span style={{ color: "#D4916A", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.15em" }}>
-                      {n.format}
-                    </span>
-                  </div>
-                  <h3 style={{ color: s.titleColor, fontWeight: s.titleWeight, fontSize: 17, marginBottom: 8 }}>{n.title}</h3>
-                  <p style={{ color: "#6B6660", fontSize: 14, lineHeight: 1.5 }}>{n.desc}</p>
-                </article>
-              );
+            {filtered.map((e, i) => {
+              if (e.kind === "nota") return <NoteCard key={i} n={e} />;
+              if (e.kind === "recomendacion") return <RecCard key={i} r={e} />;
+              return <LogCard key={i} l={e} />;
             })}
           </div>
         </div>
       </section>
-      {/* RECOMENDACIONES */}
-      <section id="recomendaciones" className="px-6 md:px-20 py-24 md:py-32">
-        <div className="max-w-3xl mx-auto">
-          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 20 }}>cosas que me gustan</p>
-          <h2 className="mb-8" style={{ fontWeight: 600, fontSize: 36 }}>Recomendaciones</h2>
-
-          <div className="flex flex-wrap gap-2 mb-10">
-            {CATEGORIES.map((c) => {
-              const active = category === c;
-              return (
-                <button
-                  key={c}
-                  onClick={() => setCategory(c)}
-                  className="px-4 py-2 text-sm transition-colors"
-                  style={{
-                    border: "0.5px solid #D4916A",
-                    background: active ? "#C4622D" : "transparent",
-                    color: active ? "#F2EFE8" : "#6B6660",
-                  }}
-                >
-                  {c}
-                </button>
-              );
-            })}
-          </div>
-
-          <div>
-            {recs.map((r, i) => (
-              <div
-                key={i}
-                className="py-6"
-                style={{ borderBottom: "0.5px solid #D4CFC5", borderTop: i === 0 ? "0.5px solid #D4CFC5" : undefined }}
-              >
-                <p style={{ color: "#D4916A", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 8 }}>
-                  {r.category}
-                </p>
-                <h3 style={{ fontWeight: 500, fontSize: 16, marginBottom: 6 }}>
-                  {r.title} — <span style={{ color: "#6B6660" }}>{r.author}</span>
-                </h3>
-                <p style={{ color: "#6B6660", fontSize: 14, lineHeight: 1.5 }}>{r.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* LOG COTIDIANO */}
-      <DailyLog />
 
       {/* FOOTER */}
-      <footer className="px-6 md:px-20 py-16 text-center" style={{ borderTop: "0.5px solid #D4CFC5" }}>
-        <p className="font-caveat mb-3" style={{ color: "#D4916A", fontSize: 18 }}>
-          Jardín regado por última vez: 4 de mayo de 2025 🌿
-        </p>
-        <p className="mb-6" style={{ color: "#8C9970", fontSize: 13 }}>
-          Un espacio en construcción permanente.
-        </p>
-        <Link to="/lado-a" className="inline-block mb-8" style={{ color: "#C4622D", fontSize: 14, fontWeight: 500 }}>
-          ← Ir a Lado A
-        </Link>
-        <p style={{ color: "#8C9970", fontSize: 12 }}>
-          Karien.xyz · Este espacio no está terminado intencionalmente.
-        </p>
+      <footer className="px-6 md:px-20 py-16" style={{ background: "#1C1A17", color: "#FAFAF8" }}>
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <p style={{ fontSize: 14, opacity: 0.85 }}>Karien.xyz · Cuaderno de campo.</p>
+            <Link to="/lado-a" className="inline-block mt-3" style={{ color: "#C4622D", fontSize: 14, fontWeight: 500 }}>
+              ← Ir a Lado A
+            </Link>
+          </div>
+          <p className="font-caveat" style={{ color: "#C4622D", fontSize: 18 }}>
+            última actualización: 14 mayo 2025
+          </p>
+        </div>
       </footer>
     </div>
   );
