@@ -8,6 +8,7 @@ import LadoA from "./pages/LadoA.tsx";
 import LadoB from "./pages/LadoB.tsx";
 import CaseStudy from "./pages/CaseStudy.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
+import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/lado-a/proyecto/:slug" element={<CaseStudy />} />
           <Route path="/lado-a/blog/:slug" element={<BlogPost />} />
           <Route path="/lado-b" element={<LadoB />} />
+          <Route path="/portafolio/innova-plus" element={<ProjectINNOVA />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
