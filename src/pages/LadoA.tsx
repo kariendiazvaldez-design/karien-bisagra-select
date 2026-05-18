@@ -109,8 +109,8 @@ const HoverWord = ({
     onMouseLeave={() => onHover(null)}
     onClick={(e) => {
       e.preventDefault();
-      onHover(src);
-      window.setTimeout(() => onHover(null), 1800);
+      onHover(src, e.clientX, e.clientY);
+      window.setTimeout(() => onHover(null), 2000);
     }}
     className="cursor-pointer"
     style={{
