@@ -281,7 +281,7 @@ const LadoA = () => {
       <section id="proyectos" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Portafolio</p>
-          <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos</h2>
+          <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos:</h2>
           {(() => {
             const ordered = PROJECT_ORDER
               .map((id) => portfolioProjects.find((p) => p.id === id))
