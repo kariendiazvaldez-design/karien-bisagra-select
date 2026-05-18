@@ -318,15 +318,14 @@ const LadoB = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="md:col-span-7">
             <p className="font-caveat mb-4" style={{ color: "#C4622D", fontSize: 22 }}>en qué ando</p>
-            <div className="flex flex-col gap-5" style={{ fontSize: 17, lineHeight: 1.7, color: "#1C1A17" }}>
+            <div className="flex flex-col gap-5 whitespace-pre-line" style={{ fontSize: 17, lineHeight: 1.7, color: "#1C1A17" }}>
               <p>
-                Estoy en medio de una maestría, un podcast, una agencia y varios proyectos paralelos.
+                Este es el lado B: escribo, archivo, reseño y curioseo sobre la marcha.{"\n"}
+                Me gusta moverme y me gusta la memoria.
               </p>
               <p>
-                Este es el lado B: el espacio donde proceso, archivo y curioseo sin necesidad de que todo esté terminado.
-              </p>
-              <p style={{ opacity: 0.8 }}>
-                Lo que aquí ves es un cuaderno de campo. A veces son ideas, a veces son cosas que me gustaron, a veces solo es lo que pasó hoy.
+                Al 2026, mis retos principales son armar hogar. Vivo pensando en posibilidades.{"\n"}
+                Aquí mi cuaderno de campo: textos armados o log cotidiano.
               </p>
             </div>
 
