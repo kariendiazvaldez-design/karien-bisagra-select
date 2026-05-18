@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.get-garden-posts]
 verify_jwt = false
+
+[functions.get-blog-post-by-slug]
+verify_jwt = false
