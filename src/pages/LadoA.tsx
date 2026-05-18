@@ -366,15 +366,17 @@ const LadoA = () => {
           <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando</h2>
           <div className="flex flex-wrap gap-2 mb-12">
             {dynamicCategories.map((cat) => {
-              const active = activeCat === cat || (cat === "Todas" && activeCat === "Todos");
+              const active = activeCat === cat;
               return (
                 <button
                   key={cat}
                   onClick={() => setActiveCat(cat)}
-                  className={`px-4 py-2 text-sm border transition-colors ${
-                    active ? "bg-a-accent text-background border-a-accent" : "bg-transparent text-muted-foreground border-a-accent-soft"
-                  }`}
-                  style={{ borderWidth: "0.5px" }}
+                  className="px-4 py-2 text-sm transition-colors"
+                  style={{
+                    border: "1px solid #6B7A3E",
+                    backgroundColor: active ? "#6B7A3E" : "transparent",
+                    color: active ? "#FFFFFF" : "#6B7A3E",
+                  }}
                 >
                   {cat}
                 </button>
