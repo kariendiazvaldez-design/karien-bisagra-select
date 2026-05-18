@@ -101,18 +101,30 @@ const ImagePairBlock = ({
   </figure>
 );
 
-// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...], [CAROUSEL: ...]
-const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO|CAROUSEL):\s*([^\]]+)\]/g;
+// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...], [CAROUSEL: ...], [INDEX: id|label]
+const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO|CAROUSEL|INDEX):\s*([^\]]+)\]/g;
 // Detect a metrics-style markdown table: rows like "| value | label |"
 // Heuristic: a block where every line starts with "|" and has exactly 2 cells, no header separator.
 const METRICS_TABLE_RE = /(?:^|\n)((?:\|[^\n]+\|\s*\n?){2,})/g;
+const INDEX_COMMENT_RE = /<!--\s*INDEX:\s*([^>]+?)\s*-->/g;
+
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 type Part =
   | { type: "md"; value: string }
   | { type: "placeholder"; kind: "IMAGE" | "GIF" | "VIDEO"; label: string }
   | { type: "image-pair"; labels: string[] }
   | { type: "carousel"; label: string }
+  | { type: "index-anchor"; id: string; label: string }
   | { type: "metrics"; items: Array<{ value: string; label: string }> };
+
 
 function parseMetricsTable(block: string): Array<{ value: string; label: string }> | null {
   const lines = block.trim().split("\n").map((l) => l.trim()).filter(Boolean);
@@ -165,6 +177,9 @@ function splitContent(content: string): Part[] {
     } else {
       if (p.kind === "CAROUSEL") {
         parts.push({ type: "carousel", label: p.label });
+      } else if (p.kind === "INDEX") {
+        const [id, ...rest] = p.label.split("|");
+        parts.push({ type: "index-anchor", id: id.trim(), label: rest.join("|").trim() || id.trim() });
       } else {
         parts.push({ type: "placeholder", kind: p.kind, label: p.label });
       }
@@ -554,14 +569,30 @@ const ProjectDetail = ({
     }
   }, []);
 
-  const parts = splitContent(content);
+  // Pre-process: extract custom <!-- INDEX: label --> comments and convert to [INDEX: id|label] tokens
+  const { processedContent, customIndex } = useMemo(() => {
+    const items: Array<{ id: string; label: string; num: string }> = [];
+    const seen = new Set<string>();
+    const processed = content.replace(INDEX_COMMENT_RE, (_m, raw: string) => {
+      const label = raw.trim();
+      let id = `idx-${slugify(label)}`;
+      let n = 2;
+      while (seen.has(id)) id = `idx-${slugify(label)}-${n++}`;
+      seen.add(id);
+      items.push({ id, label, num: String(items.length + 1) });
+      return `\n\n[INDEX: ${id}|${label}]\n\n`;
+    });
+    return { processedContent: processed, customIndex: items };
+  }, [content]);
 
-  // Extract phases (## Fase N — Title)
+  const parts = splitContent(processedContent);
+
+  // Extract phases (## Fase N — Title) — used only if no custom index
   const phases = useMemo(() => {
     const re = /^##\s+(Fase\s*(\d+)[^\n]*)/gim;
     const out: Array<{ id: string; label: string; num: string }> = [];
     let m: RegExpExecArray | null;
-    while ((m = re.exec(content)) !== null) {
+    while ((m = re.exec(processedContent)) !== null) {
       const num = m[2];
       const label = m[1].replace(/^#+\s*/, "").trim();
       const id = `fase-${num}`;
@@ -570,12 +601,14 @@ const ProjectDetail = ({
       }
     }
     return out;
-  }, [content]);
+  }, [processedContent]);
+
+  const indexItems = customIndex.length > 0 ? customIndex : phases;
 
   const [activePhase, setActivePhase] = useState(0);
   useEffect(() => {
-    if (phases.length === 0) return;
-    const els = phases
+    if (indexItems.length === 0) return;
+    const els = indexItems
       .map((p) => document.getElementById(p.id))
       .filter((el): el is HTMLElement => !!el);
     if (els.length === 0) return;
@@ -590,7 +623,7 @@ const ProjectDetail = ({
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [phases]);
+  }, [indexItems]);
 
   return (
     <div
@@ -601,7 +634,7 @@ const ProjectDetail = ({
         minHeight: "100vh",
       }}
     >
-      <PhaseIndicator phases={phases} activeIndex={activePhase} />
+      <PhaseIndicator phases={indexItems} activeIndex={activePhase} />
 
       {/* Sticky nav */}
       <nav
@@ -727,6 +760,9 @@ const ProjectDetail = ({
           }
           if (part.type === "metrics") {
             return <MetricsBand key={i} items={part.items} />;
+          }
+          if (part.type === "index-anchor") {
+            return <div key={i} id={part.id} className="scroll-mt-24" aria-hidden="true" />;
           }
           return null;
         })}

@@ -3,6 +3,7 @@ import { innovaContent } from "./projects/innova-content";
 import { washmaContent } from "./projects/washma-content";
 import { commandZContent } from "./projects/commandz-content";
 import { patriaCContent } from "./projects/patriac-content";
+import { laHuacaContent } from "./projects/lahuaca-content";
 
 export interface Project extends ProjectDetailProps {
   id: string;
@@ -76,4 +77,17 @@ export const patriaC: Project = {
   content: patriaCContent,
 };
 
-export const projects: Project[] = [innovaPlus, washma, commandZ, patriaC];
+export const laHuaca: Project = {
+  id: "la-huaca",
+  title: "La Huaca Independiente: diseñé un servicio cultural sin saber que eso era lo que hacía",
+  description:
+    "Tres ediciones de un festival cultural en espacios patrimoniales de Lambayeque. Un modelo de activación territorial que combinaba feria de emprendimientos, programación artística y patrimonio como ancla, sin presupuesto propio pero con ecosistema de alianzas como infraestructura.",
+  client: "DDC Lambayeque",
+  year: "2020",
+  role: ["Co-fundadora", "Gestora cultural", "Service Design"],
+  projectType: ["Gestión cultural", "Desarrollo territorial", "Investigación aplicada"],
+  tools: ["Customer journey", "Ecosystem mapping", "Stakeholder mapping", "Facilitación presencial"],
+  content: laHuacaContent,
+};
+
+export const projects: Project[] = [innovaPlus, washma, commandZ, patriaC, laHuaca];
