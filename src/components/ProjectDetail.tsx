@@ -553,6 +553,42 @@ const ProjectDetail = ({
 
   const parts = splitContent(content);
 
+  // Extract phases (## Fase N — Title)
+  const phases = useMemo(() => {
+    const re = /^##\s+(Fase\s*(\d+)[^\n]*)/gim;
+    const out: Array<{ id: string; label: string; num: string }> = [];
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(content)) !== null) {
+      const num = m[2];
+      const label = m[1].replace(/^#+\s*/, "").trim();
+      const id = `fase-${num}`;
+      if (!out.find((p) => p.id === id)) {
+        out.push({ id, label, num });
+      }
+    }
+    return out;
+  }, [content]);
+
+  const [activePhase, setActivePhase] = useState(0);
+  useEffect(() => {
+    if (phases.length === 0) return;
+    const els = phases
+      .map((p) => document.getElementById(p.id))
+      .filter((el): el is HTMLElement => !!el);
+    if (els.length === 0) return;
+    const onScroll = () => {
+      const probe = window.innerHeight * 0.35;
+      let idx = 0;
+      els.forEach((el, i) => {
+        if (el.getBoundingClientRect().top <= probe) idx = i;
+      });
+      setActivePhase(idx);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [phases]);
+
   return (
     <div
       style={{
