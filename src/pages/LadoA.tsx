@@ -431,6 +431,15 @@ const LadoA = () => {
               })}
             </div>
           )}
+
+          <div className="mt-12 text-center">
+            <Link
+              to="/blog"
+              className="inline-block bg-a-accent text-background px-6 py-2.5 hover:bg-a-accent-mid transition-colors"
+            >
+              Ver más →
+            </Link>
+          </div>
         </div>
       </section>
 
