@@ -598,6 +598,8 @@ const ProjectDetail = ({
         minHeight: "100vh",
       }}
     >
+      <PhaseIndicator phases={phases} activeIndex={activePhase} />
+
       {/* Sticky nav */}
       <nav
         className="sticky top-0 z-40"
