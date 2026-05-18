@@ -3,6 +3,7 @@ import { innovaContent } from "./projects/innova-content";
 import { washmaContent } from "./projects/washma-content";
 import { commandZContent } from "./projects/commandz-content";
 import { patriaCContent } from "./projects/patriac-content";
+import { laHuacaContent } from "./projects/lahuaca-content";
 
 export interface Project extends ProjectDetailProps {
   id: string;
