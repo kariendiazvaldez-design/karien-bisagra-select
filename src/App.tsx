@@ -8,6 +8,7 @@ import LadoA from "./pages/LadoA.tsx";
 import LadoB from "./pages/LadoB.tsx";
 import CaseStudy from "./pages/CaseStudy.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
+import Blog from "./pages/Blog.tsx";
 import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
 import ProjectWASHMA from "./pages/ProjectWASHMA.tsx";
 import ProjectCommandZ from "./pages/ProjectCommandZ.tsx";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/lado-a" element={<LadoA />} />
           <Route path="/lado-a/proyecto/:slug" element={<CaseStudy />} />
           <Route path="/lado-a/blog/:slug" element={<BlogPost />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/lado-b" element={<LadoB />} />
           <Route path="/portafolio/innova-plus" element={<ProjectINNOVA />} />
           <Route path="/portafolio/washma" element={<ProjectWASHMA />} />
