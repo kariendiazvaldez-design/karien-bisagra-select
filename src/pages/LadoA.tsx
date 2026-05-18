@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { sanityClient, urlFor } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
+import { supabase } from "@/integrations/supabase/client";
+
+type NotionPost = {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  excerpt: string;
+  date: string;
+};
 
 import { projects as portfolioProjects } from "@/data/projects";
 
@@ -131,12 +141,45 @@ const LadoA = () => {
     }).catch(() => {});
   }, []);
 
+  const [notionPosts, setNotionPosts] = useState<NotionPost[] | null>(null);
+  const [notionLoading, setNotionLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase.functions
+      .invoke("get-blog-posts", { method: "POST" })
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("get-blog-posts error", error);
+          setNotionPosts([]);
+        } else {
+          setNotionPosts(Array.isArray(data?.posts) ? data.posts : []);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setNotionLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const projects = sanityProjects ?? PROJECTS.map((p) => ({
     ...p, slug: null, mainImage: null, excerpt: p.desc,
   }));
-  const posts = sanityPosts ?? POSTS.map((p) => ({
-    ...p, slug: null, category: p.cat, excerpt: p.desc, publishedAt: p.date,
-  }));
+
+  const dynamicCategories = useMemo(() => {
+    const set = new Set<string>();
+    (notionPosts || []).forEach((p) => p.category && set.add(p.category));
+    return ["Todas", ...Array.from(set)];
+  }, [notionPosts]);
+
+  const filteredPosts = useMemo(() => {
+    if (!notionPosts) return [];
+    if (activeCat === "Todas" || activeCat === "Todos") return notionPosts;
+    return notionPosts.filter((p) => p.category === activeCat);
+  }, [notionPosts, activeCat]);
 
   const scrollToProjects = () => {
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
