@@ -172,12 +172,12 @@ const LadoA = () => {
   const dynamicCategories = useMemo(() => {
     const set = new Set<string>();
     (notionPosts || []).forEach((p) => p.category && set.add(p.category));
-    return ["Todas", ...Array.from(set)];
+    return ["Todos", ...Array.from(set)];
   }, [notionPosts]);
 
   const filteredPosts = useMemo(() => {
     if (!notionPosts) return [];
-    if (activeCat === "Todas" || activeCat === "Todos") return notionPosts;
+    if (activeCat === "Todos") return notionPosts;
     return notionPosts.filter((p) => p.category === activeCat);
   }, [notionPosts, activeCat]);
 
