@@ -344,7 +344,7 @@ const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }>
     style={{
       background: QUOTE_BG,
       borderRadius: 12,
-      padding: "48px 32px",
+      padding: "28px 32px",
     }}
   >
     <div
@@ -359,9 +359,9 @@ const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }>
             style={{
               fontFamily: "Lexend, sans-serif",
               fontWeight: 700,
-              fontSize: 42,
+              fontSize: 24,
               color: OLIVE,
-              lineHeight: 1.1,
+              lineHeight: 1.2,
             }}
           >
             {m.value}
@@ -393,6 +393,7 @@ const markdownComponents = {
     );
     const m = text.match(/Fase\s*(\d+)/i);
     const id = m ? `fase-${m[1]}` : undefined;
+    const isPhase = !!m;
     return (
       <h2
         id={id}
@@ -400,10 +401,12 @@ const markdownComponents = {
         style={{
           fontFamily: "Lexend, sans-serif",
           color: OLIVE,
-          marginTop: 40,
+          marginTop: isPhase ? 64 : 40,
           marginBottom: 14,
-          fontSize: 22,
+          fontSize: isPhase ? 28 : 22,
           lineHeight: 1.3,
+          borderTop: isPhase ? `1px solid ${OLIVE}4D` : undefined,
+          paddingTop: isPhase ? 16 : undefined,
         }}
       >
         {children}
