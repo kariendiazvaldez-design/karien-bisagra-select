@@ -205,6 +205,139 @@ function splitContent(content: string): Part[] {
   return final;
 }
 
+const Carousel = ({ label }: { label: string }) => {
+  const [index, setIndex] = useState(0);
+  const total = 5;
+  const prev = () => setIndex((i) => (i - 1 + total) % total);
+  const next = () => setIndex((i) => (i + 1) % total);
+  return (
+    <figure className="my-12 md:-mx-[110px]">
+      <div className="relative w-full overflow-hidden" style={{ background: "#E8E8E8" }}>
+        <div
+          className="flex transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {Array.from({ length: total }).map((_, i) => (
+            <div
+              key={i}
+              className="w-full flex-shrink-0 flex items-center justify-center"
+              style={{ background: "#E8E8E8", aspectRatio: "4 / 3" }}
+            >
+              <ImageIcon size={56} color="#999" strokeWidth={1.5} />
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Anterior"
+          onClick={prev}
+          className="absolute top-1/2 -translate-y-1/2 left-3 md:left-5 flex items-center justify-center rounded-full"
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            color: OLIVE,
+            width: 44,
+            height: 44,
+            border: `1px solid ${OLIVE}`,
+          }}
+        >
+          <ChevronLeft size={22} />
+        </button>
+        <button
+          type="button"
+          aria-label="Siguiente"
+          onClick={next}
+          className="absolute top-1/2 -translate-y-1/2 right-3 md:right-5 flex items-center justify-center rounded-full"
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            color: OLIVE,
+            width: 44,
+            height: 44,
+            border: `1px solid ${OLIVE}`,
+          }}
+        >
+          <ChevronRight size={22} />
+        </button>
+      </div>
+      <div className="flex justify-center gap-2 mt-4">
+        {Array.from({ length: total }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Ir a slide ${i + 1}`}
+            onClick={() => setIndex(i)}
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              background: i === index ? OLIVE : `${OLIVE}33`,
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+            }}
+          />
+        ))}
+      </div>
+      <figcaption
+        className="mt-3 text-center"
+        style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 14 }}
+      >
+        {label}
+      </figcaption>
+    </figure>
+  );
+};
+
+const PhaseIndicator = ({
+  phases,
+  activeIndex,
+}: {
+  phases: Array<{ id: string; label: string; num: string }>;
+  activeIndex: number;
+}) => {
+  if (phases.length === 0) return null;
+  return (
+    <div
+      className="hidden md:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col items-end gap-5"
+      style={{ fontFamily: "Lexend, sans-serif" }}
+    >
+      {phases.map((p, i) => {
+        const active = i === activeIndex;
+        return (
+          <a
+            key={p.id}
+            href={`#${p.id}`}
+            className="flex items-center gap-3 group"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              style={{
+                fontSize: 12,
+                color: OLIVE,
+                opacity: active ? 1 : 0,
+                transition: "opacity 0.25s",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {p.label}
+            </span>
+            <span
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 999,
+                background: OLIVE,
+                opacity: active ? 1 : 0.2,
+                transition: "opacity 0.25s",
+                display: "inline-block",
+              }}
+            />
+          </a>
+        );
+      })}
+    </div>
+  );
+};
+
 const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }> }) => (
   <div
     className="my-12 md:-mx-[110px]"
