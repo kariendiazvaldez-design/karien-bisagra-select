@@ -350,7 +350,7 @@ const LadoB = () => {
       {/* JARDÍN */}
       <section id="jardin" className="px-6 md:px-20 py-20 md:py-28">
         <div className="max-w-6xl mx-auto">
-          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 22 }}>el jardín</p>
+          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 22 }}>El jardín</p>
           <h2
             style={{
               fontFamily: 'Georgia, "Times New Roman", serif',
@@ -360,7 +360,7 @@ const LadoB = () => {
               color: "#1C1A17",
             }}
           >
-            Apuntes, ideas e intereses
+            El jardín&nbsp;🌿
           </h2>
 
           <div className="flex flex-col gap-4 mb-10">
