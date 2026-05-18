@@ -209,7 +209,7 @@ const Blog = () => {
                 borderBottom: "1px solid #E8E8E8",
               };
               return post.slug ? (
-                <Link key={post.id} to={`/lado-a/blog/${post.slug}`} style={wrapperStyle}>
+                <Link key={post.id} to={`/blog/${post.slug}`} style={wrapperStyle}>
                   {inner}
                 </Link>
               ) : (
