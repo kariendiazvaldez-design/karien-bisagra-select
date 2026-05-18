@@ -78,8 +78,11 @@ const Blog = () => {
         style={{ borderBottomWidth: "0.5px" }}
       >
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
-          <Link to="/lado-a" className="font-medium">← Karien.xyz</Link>
-          <Link to="/lado-b" className="text-sm text-a-accent-soft hover:text-a-accent">Lado B →</Link>
+          <Link to="/" className="font-medium">Karien.xyz</Link>
+          <div className="flex items-center gap-6 text-sm">
+            <Link to="/lado-a" className="text-a-accent-soft hover:text-a-accent">Lado A</Link>
+            <Link to="/lado-b" className="text-a-accent-soft hover:text-a-accent">Lado B</Link>
+          </div>
         </div>
       </nav>
 
@@ -93,7 +96,7 @@ const Blog = () => {
             marginBottom: 12,
           }}
         >
-          Blog
+          Blog de aprendizaje
         </h1>
         <p style={{ fontSize: 16, color: "#666", marginBottom: 40 }}>
           Apuntes, reseñas y reflexiones
