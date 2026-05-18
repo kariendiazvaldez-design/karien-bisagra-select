@@ -9,7 +9,6 @@ import LadoB from "./pages/LadoB.tsx";
 
 import BlogPost from "./pages/BlogPost.tsx";
 import Blog from "./pages/Blog.tsx";
-import Jardin from "./pages/Jardin.tsx";
 import GardenPost from "./pages/GardenPost.tsx";
 import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
 import ProjectWASHMA from "./pages/ProjectWASHMA.tsx";
@@ -31,7 +30,7 @@ const App = () => (
           <Route path="/lado-a" element={<LadoA />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/jardin" element={<Jardin />} />
+          
           <Route path="/jardin/:slug" element={<GardenPost />} />
           <Route path="/lado-b" element={<LadoB />} />
           <Route path="/portafolio/innova-plus" element={<ProjectINNOVA />} />
