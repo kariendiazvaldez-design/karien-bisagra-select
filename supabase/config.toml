@@ -2,3 +2,6 @@ project_id = "aopsophqctgfldthfazl"
 
 [functions.get-blog-posts]
 verify_jwt = false
+
+[functions.get-garden-posts]
+verify_jwt = false

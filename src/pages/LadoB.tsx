@@ -1,5 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  useGardenPosts,
+  useGardenFilters,
+  FilterRow,
+  GardenCard,
+  GardenSkeleton,
+} from "@/pages/Jardin";
+
+const TIPO_OPTS = ["Todo", "Nota", "Recomendación", "Log"];
+const MAT_OPTS = ["Todo", "Semilla", "Brote", "Fruto"];
 
 const NAV_LINKS = [
   { label: "Sobre mí", href: "#about" },
@@ -138,43 +148,47 @@ const PhotoCarousel = ({ photos }: { photos: PhotoItem[] }) => (
   </div>
 );
 
-const Collage = ({ items }: { items: CollageItem[] }) => (
-  <div className="relative" style={{ minHeight: 420 }}>
-    {items.map((it, i) => {
-      const isLg = it.size === "lg";
-      const w = isLg ? 240 : 160;
-      const h = isLg ? 300 : 200;
-      return (
-        <div
-          key={i}
-          className="absolute"
-          style={{
-            top: isLg ? 0 : 240,
-            left: it.offset ? 80 : 0,
-            width: w,
-          }}
-        >
+const Collage = ({ items }: { items: CollageItem[] }) => {
+  const brown = items.find((i) => i.size === "lg") || items[0];
+  const green = items.find((i) => i.size === "sm") || items[1];
+  return (
+    <div className="flex flex-col gap-4 w-full">
+      {brown && (
+        <div>
           <div
             style={{
-              width: w,
-              height: h,
-              background: it.color,
-              backgroundImage: it.src ? `url(${it.src})` : undefined,
+              width: "100%",
+              aspectRatio: "5 / 4",
+              background: brown.color,
+              backgroundImage: brown.src ? `url(${brown.src})` : undefined,
               backgroundSize: "cover",
               backgroundPosition: "center",
               border: BORDER_FAINT,
             }}
           />
-          {it.caption && (
+          {brown.caption && (
             <p className="font-caveat mt-2" style={{ color: "#C4622D", fontSize: 18 }}>
-              {it.caption}
+              {brown.caption}
             </p>
           )}
         </div>
-      );
-    })}
-  </div>
-);
+      )}
+      {green && (
+        <div
+          style={{
+            width: "100%",
+            aspectRatio: "16 / 9",
+            background: green.color,
+            backgroundImage: green.src ? `url(${green.src})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            border: BORDER_FAINT,
+          }}
+        />
+      )}
+    </div>
+  );
+};
 
 const NoteCard = ({ n }: { n: NoteEntry }) => (
   <article className="flex flex-col" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
@@ -239,16 +253,10 @@ const LogCard = ({ l }: { l: LogEntry }) => (
 );
 
 const LadoB = () => {
-  const [tab, setTab] = useState<Tab>("Todo");
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const filtered = GARDEN_ENTRIES.filter((e) => {
-    if (tab === "Todo") return true;
-    if (tab === "Notas") return e.kind === "nota";
-    if (tab === "Recomendaciones") return e.kind === "recomendacion";
-    if (tab === "Log") return e.kind === "log";
-    return true;
-  });
+  const { posts, loading } = useGardenPosts();
+  const { tipo, setTipo, mat, setMat, tema, setTema, temas, filtered } = useGardenFilters(posts);
+  const visible = filtered.slice(0, 6);
 
   return (
     <div className="lado-b font-quicksand min-h-screen" style={{ background: "#FAFAF8", color: "#1C1A17" }}>
@@ -356,33 +364,33 @@ const LadoB = () => {
             Notas, ideas y lo que me gusta
           </h2>
 
-          <div className="flex flex-wrap gap-2 mb-10">
-            {TABS.map((t) => {
-              const active = tab === t;
-              return (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className="px-4 py-2 text-sm transition-colors"
-                  style={{
-                    border: BORDER_DARK,
-                    background: active ? "#1C1A17" : "transparent",
-                    color: active ? "#FAFAF8" : "#1C1A17",
-                  }}
-                >
-                  {t}
-                </button>
-              );
-            })}
+          <div className="flex flex-col gap-4 mb-10">
+            <FilterRow label="Tipo" options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
+            <FilterRow label="Madurez" options={MAT_OPTS} active={mat} onSelect={setMat} />
+            <FilterRow label="Temas" options={temas} active={tema} onSelect={setTema} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {filtered.map((e, i) => {
-              if (e.kind === "nota") return <NoteCard key={i} n={e} />;
-              if (e.kind === "recomendacion") return <RecCard key={i} r={e} />;
-              return <LogCard key={i} l={e} />;
-            })}
+            {loading ? (
+              <GardenSkeleton />
+            ) : visible.length === 0 ? (
+              <p style={{ color: "#999", textAlign: "center", gridColumn: "1/-1" }}>Nada por aquí todavía</p>
+            ) : (
+              visible.map((p) => <GardenCard key={p.id} p={p} />)
+            )}
           </div>
+
+          {filtered.length > 6 && (
+            <div className="flex justify-center mt-10">
+              <Link
+                to="/jardin"
+                className="px-5 py-2.5 text-sm transition-colors"
+                style={{ border: "1px solid #C4622D", color: "#C4622D" }}
+              >
+                Ver más →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
