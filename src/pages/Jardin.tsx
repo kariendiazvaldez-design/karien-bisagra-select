@@ -73,49 +73,57 @@ export const FilterRow = ({
 
 export const GardenCard = ({ p }: { p: GardenPost }) => {
   const tipo = (p.tipo || "").toLowerCase();
-  if (tipo.includes("log")) {
-    return (
-      <article className="p-5 flex flex-col gap-3 mb-4" style={{ border: BORDER_FAINT, background: "#FAFAF8", breakInside: "avoid" }}>
-        <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 26, lineHeight: 1.1 }}>{fmtDate(p.date)}</p>
-        <p style={{ color: "#1C1A17", fontSize: 15, lineHeight: 1.55 }}>{p.excerpt || p.nombre}</p>
-        {p.maturity && (
-          <span className="self-start px-2 py-1 font-caveat" style={{ color: TERRACOTA, border: `0.5px solid ${TERRACOTA}`, fontSize: 14 }}>
-            {p.maturity}
-          </span>
-        )}
-      </article>
-    );
-  }
-  if (tipo.includes("recom")) {
+  const inner = (() => {
+    if (tipo.includes("log")) {
+      return (
+        <article className="p-5 flex flex-col gap-3 mb-4" style={{ border: BORDER_FAINT, background: "#FAFAF8", breakInside: "avoid" }}>
+          <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 26, lineHeight: 1.1 }}>{fmtDate(p.date)}</p>
+          <p style={{ color: "#1C1A17", fontSize: 15, lineHeight: 1.55 }}>{p.excerpt || p.nombre}</p>
+          {p.maturity && (
+            <span className="self-start px-2 py-1 font-caveat" style={{ color: TERRACOTA, border: `0.5px solid ${TERRACOTA}`, fontSize: 14 }}>
+              {p.maturity}
+            </span>
+          )}
+        </article>
+      );
+    }
+    if (tipo.includes("recom")) {
+      return (
+        <article className="p-5 flex flex-col gap-2 mb-4" style={{ border: BORDER_FAINT, background: "#FAFAF8", breakInside: "avoid" }}>
+          {p.category && (
+            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase" }}>{p.category}</p>
+          )}
+          <h3 style={{ fontWeight: 600, fontSize: 17, color: "#1C1A17", lineHeight: 1.3 }}>{p.nombre}</h3>
+          {p.excerpt && <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 14, lineHeight: 1.55 }}>{p.excerpt}</p>}
+          {p.temas.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {p.temas.map((t) => (
+                <span key={t} className="px-2 py-0.5 text-xs" style={{ border: `0.5px solid ${TERRACOTA}`, color: TERRACOTA }}>
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+        </article>
+      );
+    }
     return (
       <article className="p-5 flex flex-col gap-2 mb-4" style={{ border: BORDER_FAINT, background: "#FAFAF8", breakInside: "avoid" }}>
-        {p.category && (
-          <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase" }}>{p.category}</p>
-        )}
+        <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 20 }}>
+          {maturityIcon(p.maturity)} {p.maturity || "semilla"}
+        </p>
         <h3 style={{ fontWeight: 600, fontSize: 17, color: "#1C1A17", lineHeight: 1.3 }}>{p.nombre}</h3>
         {p.excerpt && <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 14, lineHeight: 1.55 }}>{p.excerpt}</p>}
-        {p.temas.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            {p.temas.map((t) => (
-              <span key={t} className="px-2 py-0.5 text-xs" style={{ border: `0.5px solid ${TERRACOTA}`, color: TERRACOTA }}>
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
+        <p className="font-caveat mt-2" style={{ color: TERRACOTA, fontSize: 16 }}>{fmtDate(p.date)}</p>
       </article>
     );
-  }
-  // Nota (default)
+  })();
+
+  if (!p.slug) return inner;
   return (
-    <article className="p-5 flex flex-col gap-2 mb-4" style={{ border: BORDER_FAINT, background: "#FAFAF8", breakInside: "avoid" }}>
-      <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 20 }}>
-        {maturityIcon(p.maturity)} {p.maturity || "semilla"}
-      </p>
-      <h3 style={{ fontWeight: 600, fontSize: 17, color: "#1C1A17", lineHeight: 1.3 }}>{p.nombre}</h3>
-      {p.excerpt && <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 14, lineHeight: 1.55 }}>{p.excerpt}</p>}
-      <p className="font-caveat mt-2" style={{ color: TERRACOTA, fontSize: 16 }}>{fmtDate(p.date)}</p>
-    </article>
+    <Link to={`/jardin/${p.slug}`} style={{ display: "block", breakInside: "avoid", color: "inherit", textDecoration: "none" }}>
+      {inner}
+    </Link>
   );
 };
 
