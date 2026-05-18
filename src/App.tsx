@@ -11,6 +11,7 @@ import BlogPost from "./pages/BlogPost.tsx";
 import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
 import ProjectWASHMA from "./pages/ProjectWASHMA.tsx";
 import ProjectCommandZ from "./pages/ProjectCommandZ.tsx";
+import ProjectPatriaC from "./pages/ProjectPatriaC.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/portafolio/innova-plus" element={<ProjectINNOVA />} />
           <Route path="/portafolio/washma" element={<ProjectWASHMA />} />
           <Route path="/portafolio/command-z" element={<ProjectCommandZ />} />
+          <Route path="/portafolio/patria-c" element={<ProjectPatriaC />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
