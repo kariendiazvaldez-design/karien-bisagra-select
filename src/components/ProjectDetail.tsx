@@ -101,8 +101,8 @@ const ImagePairBlock = ({
   </figure>
 );
 
-// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...]
-const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO):\s*([^\]]+)\]/g;
+// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...], [CAROUSEL: ...]
+const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO|CAROUSEL):\s*([^\]]+)\]/g;
 // Detect a metrics-style markdown table: rows like "| value | label |"
 // Heuristic: a block where every line starts with "|" and has exactly 2 cells, no header separator.
 const METRICS_TABLE_RE = /(?:^|\n)((?:\|[^\n]+\|\s*\n?){2,})/g;
@@ -111,6 +111,7 @@ type Part =
   | { type: "md"; value: string }
   | { type: "placeholder"; kind: "IMAGE" | "GIF" | "VIDEO"; label: string }
   | { type: "image-pair"; labels: string[] }
+  | { type: "carousel"; label: string }
   | { type: "metrics"; items: Array<{ value: string; label: string }> };
 
 function parseMetricsTable(block: string): Array<{ value: string; label: string }> | null {
