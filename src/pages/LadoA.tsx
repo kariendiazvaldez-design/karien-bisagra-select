@@ -115,6 +115,12 @@ const HoverWord = ({
     }}
   >
     {children}
+    onClick={(e) => {
+      e.preventDefault();
+      onHover(src);
+    }}
+  >
+    {children}
   </span>
 );
 
