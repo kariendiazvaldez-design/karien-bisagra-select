@@ -188,7 +188,7 @@ const NotaCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
     className="p-5 flex flex-col gap-3 h-full"
-    style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4 }}
+    style={{ background: "#E8DCCF", color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
     <ImgPlaceholder h={200} />
     <div className="flex items-center gap-2">
