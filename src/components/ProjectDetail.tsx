@@ -177,6 +177,9 @@ function splitContent(content: string): Part[] {
     } else {
       if (p.kind === "CAROUSEL") {
         parts.push({ type: "carousel", label: p.label });
+      } else if (p.kind === "INDEX") {
+        const [id, ...rest] = p.label.split("|");
+        parts.push({ type: "index-anchor", id: id.trim(), label: rest.join("|").trim() || id.trim() });
       } else {
         parts.push({ type: "placeholder", kind: p.kind, label: p.label });
       }
