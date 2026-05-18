@@ -3,6 +3,16 @@ import { useState, useEffect } from "react";
 import { sanityClient, urlFor } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 import LearningToday from "@/components/LearningToday";
+import { projects as portfolioProjects } from "@/data/projects";
+
+const PROJECT_SUBTITLES: Record<string, string> = {
+  "innova-plus": "Diseño de servicio · Iteración metodológica",
+  "command-z": "Arquitectura de información · Producto digital",
+  "washma": "Diseño territorial · Cinco años en campo",
+  "patria-c": "Learning experience · Gestión de programa",
+  "la-huaca": "Gestión cultural · Activación patrimonial",
+};
+const PROJECT_ORDER = ["innova-plus", "command-z", "washma", "patria-c", "la-huaca"];
 
 const NAV_LINKS = [
   { label: "Proyectos", href: "#proyectos" },
@@ -218,41 +228,92 @@ const LadoA = () => {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Portafolio</p>
           <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {projects.map((p: any) => {
-              const inner = (
-                <>
-                  <div className="aspect-[16/9] bg-[#E8E4DC] mb-5 overflow-hidden">
-                    {p.mainImage && (
-                      <img
-                        src={urlFor(p.mainImage).width(800).height(450).url()}
-                        alt={p.title}
-                        className="w-full h-full object-cover"
+          {(() => {
+            const ordered = PROJECT_ORDER
+              .map((id) => portfolioProjects.find((p) => p.id === id))
+              .filter((p): p is NonNullable<typeof p> => !!p);
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 [&>*:nth-child(4)]:md:col-start-1 [&>*:nth-child(4)]:md:col-end-3 [&>*:nth-child(5)]:md:col-start-3 [&>*:nth-child(5)]:md:col-end-4">
+                {ordered.map((p, idx) => {
+                  // For desktop layout: first 3 in row 1; last 2 centered in row 2
+                  const isLastTwo = idx >= 3;
+                  return (
+                    <Link
+                      key={p.id}
+                      to={`/portafolio/${p.id}`}
+                      className={`group flex flex-col bg-background border border-[#E8E8E8] overflow-hidden hover:bg-[#F5F2EB] transition-colors ${
+                        isLastTwo ? "md:col-span-1" : ""
+                      }`}
+                      style={{ borderRadius: 8 }}
+                    >
+                      <div
+                        className="w-full bg-[#D9D9D9]"
+                        style={{ height: 200 }}
                       />
-                    )}
-                  </div>
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
-                    {p.tag || p.category}
-                  </p>
-                  <h3 className="font-medium text-[17px] mb-2">{p.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                    {p.excerpt || p.desc}
-                  </p>
-                  <span className="text-a-accent text-sm mt-auto">Ver caso →</span>
-                </>
-              );
-              const className = "border border-[#D4CFC5] p-6 flex flex-col hover:bg-[#EEEAE0] transition-colors";
-              return p.slug ? (
-                <Link key={p._id || p.title} to={`/lado-a/proyecto/${p.slug}`} className={className} style={{ borderWidth: "0.5px" }}>
-                  {inner}
-                </Link>
-              ) : (
-                <article key={p.title} className={className} style={{ borderWidth: "0.5px" }}>
-                  {inner}
-                </article>
-              );
-            })}
-          </div>
+                      <div className="p-4 flex flex-col flex-1">
+                        <p
+                          className="uppercase mb-2"
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontSize: 10,
+                            letterSpacing: "0.12em",
+                            color: "#999",
+                          }}
+                        >
+                          {p.projectType[0]}
+                        </p>
+                        <h3
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontWeight: 700,
+                            fontSize: 16,
+                            color: "#1A1A1A",
+                            lineHeight: 1.3,
+                            marginBottom: 6,
+                          }}
+                        >
+                          {p.title}
+                        </h3>
+                        <p
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontSize: 13,
+                            fontStyle: "italic",
+                            color: "#6B7A3E",
+                            marginBottom: 10,
+                          }}
+                        >
+                          {PROJECT_SUBTITLES[p.id]}
+                        </p>
+                        <p
+                          className="line-clamp-2"
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontSize: 13,
+                            color: "#666",
+                            lineHeight: 1.5,
+                            marginBottom: 14,
+                          }}
+                        >
+                          {p.description}
+                        </p>
+                        <span
+                          className="mt-auto"
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontSize: 13,
+                            color: "#6B7A3E",
+                          }}
+                        >
+                          Ver caso →
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            );
+          })()}
         </div>
       </section>
 
