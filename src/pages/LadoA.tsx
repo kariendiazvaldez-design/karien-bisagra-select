@@ -122,6 +122,7 @@ const LadoA = () => {
   const [hoverImg, setHoverImg] = useState<string | null>(null);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [activeCat, setActiveCat] = useState("Todos");
+  const [activeTipo, setActiveTipo] = useState("Todos");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
