@@ -761,6 +761,9 @@ const ProjectDetail = ({
           if (part.type === "metrics") {
             return <MetricsBand key={i} items={part.items} />;
           }
+          if (part.type === "index-anchor") {
+            return <div key={i} id={part.id} className="scroll-mt-24" aria-hidden="true" />;
+          }
           return null;
         })}
 
