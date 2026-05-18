@@ -9,6 +9,7 @@ type NotionPost = {
   title: string;
   slug: string;
   category: string;
+  tipo: string;
   excerpt: string;
   date: string;
 };
@@ -121,6 +122,7 @@ const LadoA = () => {
   const [hoverImg, setHoverImg] = useState<string | null>(null);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [activeCat, setActiveCat] = useState("Todos");
+  const [activeTipo, setActiveTipo] = useState("Todos");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -175,11 +177,20 @@ const LadoA = () => {
     return ["Todos", ...Array.from(set)];
   }, [notionPosts]);
 
+  const dynamicTipos = useMemo(() => {
+    const set = new Set<string>();
+    (notionPosts || []).forEach((p) => p.tipo && set.add(p.tipo));
+    return ["Todos", ...Array.from(set)];
+  }, [notionPosts]);
+
   const filteredPosts = useMemo(() => {
     if (!notionPosts) return [];
-    if (activeCat === "Todos") return notionPosts;
-    return notionPosts.filter((p) => p.category === activeCat);
-  }, [notionPosts, activeCat]);
+    return notionPosts.filter((p) => {
+      const catOk = activeCat === "Todos" || p.category === activeCat;
+      const tipoOk = activeTipo === "Todos" || p.tipo === activeTipo;
+      return catOk && tipoOk;
+    });
+  }, [notionPosts, activeCat, activeTipo]);
 
   const scrollToProjects = () => {
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
@@ -364,24 +375,53 @@ const LadoA = () => {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Aprendizajes</p>
           <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando</h2>
-          <div className="flex flex-wrap gap-2 mb-12">
-            {dynamicCategories.map((cat) => {
-              const active = activeCat === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCat(cat)}
-                  className="px-4 py-2 text-sm transition-colors"
-                  style={{
-                    border: "1px solid #6B7A3E",
-                    backgroundColor: active ? "#6B7A3E" : "transparent",
-                    color: active ? "#FFFFFF" : "#6B7A3E",
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+          <div className="mb-4">
+            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
+              Temas
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {dynamicCategories.map((cat) => {
+                const active = activeCat === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCat(cat)}
+                    className="px-4 py-2 text-sm transition-colors"
+                    style={{
+                      border: "1px solid #6B7A3E",
+                      backgroundColor: active ? "#6B7A3E" : "transparent",
+                      color: active ? "#FFFFFF" : "#6B7A3E",
+                    }}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="mb-12">
+            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
+              Formato
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {dynamicTipos.map((t) => {
+                const active = activeTipo === t;
+                return (
+                  <button
+                    key={t}
+                    onClick={() => setActiveTipo(t)}
+                    className="px-4 py-2 text-sm transition-colors"
+                    style={{
+                      border: "1px solid #6B7A3E",
+                      backgroundColor: active ? "#6B7A3E" : "transparent",
+                      color: active ? "#FFFFFF" : "#6B7A3E",
+                    }}
+                  >
+                    {t}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {notionLoading ? (
