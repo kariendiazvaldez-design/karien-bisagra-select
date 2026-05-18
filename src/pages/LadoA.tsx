@@ -107,17 +107,16 @@ const HoverWord = ({
   <span
     onMouseEnter={() => onHover(src)}
     onMouseLeave={() => onHover(null)}
-    className="cursor-pointer"
-    style={{
-      textDecoration: "underline dotted",
-      textDecorationColor: "#8C9970",
-      textUnderlineOffset: "4px",
-    }}
-  >
-    {children}
     onClick={(e) => {
       e.preventDefault();
       onHover(src);
+      window.setTimeout(() => onHover(null), 1800);
+    }}
+    className="cursor-pointer"
+    style={{
+      textDecoration: "underline dotted",
+      textDecorationColor: "#E8E4DA",
+      textUnderlineOffset: "4px",
     }}
   >
     {children}
