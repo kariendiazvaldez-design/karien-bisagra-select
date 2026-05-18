@@ -129,6 +129,12 @@ const LadoA = () => {
   const [activeCat, setActiveCat] = useState("Todos");
   const [activeTipo, setActiveTipo] = useState("Todos");
   const [menuOpen, setMenuOpen] = useState(false);
+  const handleHover = (src: string | null, x?: number, y?: number) => {
+    if (src && typeof x === "number" && typeof y === "number") {
+      setCursor({ x, y });
+    }
+    setHoverImg(src);
+  };
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => setCursor({ x: e.clientX, y: e.clientY });
