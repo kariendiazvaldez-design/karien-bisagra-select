@@ -47,11 +47,12 @@ const fmtDate = (d: string) => {
   }
 };
 
-type Kind = "nota" | "recomendacion" | "log";
+type Kind = "nota" | "recomendacion" | "log" | "diario";
 
 const tipoOf = (p: GardenPost): Kind => {
   const t = (p.tipo || "").toLowerCase();
   if (t.includes("log")) return "log";
+  if (t.includes("diario") || t.includes("pensam")) return "diario";
   if (t.includes("recom") || t.includes("reseñ") || t.includes("resen")) return "recomendacion";
   return "nota";
 };
@@ -246,10 +247,32 @@ const LogCard = ({ p }: { p: GardenPost }) => (
   </Link>
 );
 
+const DiarioCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-5 flex flex-col gap-3 h-full"
+    style={{ background: "#DCE5DA", color: TEXT, textDecoration: "none", borderRadius: 4 }}
+  >
+    <ImgPlaceholder h={140} bg="#C7D3C4" />
+    <div className="flex items-center gap-2">
+      <span style={{ fontSize: 20 }}>{maturityIcon(p.maturity)}</span>
+      <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 17, lineHeight: 1.25 }}>{p.nombre}</h3>
+    </div>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#4a5a48", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
+    {p.temas.length > 0 && (
+      <div className="flex flex-wrap gap-1.5">
+        {p.temas.slice(0, 3).map((t) => <Chip key={t}>{t}</Chip>)}
+      </div>
+    )}
+    {p.date && <p style={{ color: TERRACOTA, fontSize: 12, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+  </Link>
+);
+
 // ---------- BENTO ----------
 const bentoSpanClass = (kind: Kind) => {
   if (kind === "nota") return "col-span-1 md:col-span-2 md:row-span-2";
   if (kind === "recomendacion") return "col-span-1 md:row-span-2";
+  if (kind === "diario") return "col-span-1 md:row-span-2";
   return "col-span-1";
 };
 
@@ -268,6 +291,7 @@ const Bento = ({ posts }: { posts: GardenPost[] }) => (
           <div key={p.id} className={bentoSpanClass(kind)}>
             {kind === "nota" && <NotaCard p={p} />}
             {kind === "recomendacion" && <RecCard p={p} />}
+            {kind === "diario" && <DiarioCard p={p} />}
             {kind === "log" && <LogCard p={p} />}
           </div>
         );
