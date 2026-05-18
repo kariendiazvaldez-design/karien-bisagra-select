@@ -488,11 +488,12 @@ const LadoA = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div className="order-2 md:order-1">
             <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-4">Sobre mí</p>
-            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6">Karien.</h2>
-            <p className="text-base text-muted-foreground max-w-[480px] leading-relaxed mb-6">
-              Comunicadora de profesión, formada en mediación cultural. Actualmente diseñadora cursando la Maestría en Gerencia de TI y Transformación Digital. Mi caja de herramientas incluye facilitación para el aprendizaje, UX Design, comunicación digital y project management.
-              <br /><br />
-              Trabajo para conectar innovación, tecnología y propósito.
+            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6">Karien:</h2>
+            <p className="text-base text-muted-foreground max-w-[480px] leading-relaxed mb-6 whitespace-pre-line">
+              Comunicadora de profesión, diseñadora en la práctica. Actualmente diseñadora cursando la Maestría en Gerencia de TI y Transformación Digital.{" "}
+              {"\n"}Trabajo para conectar innovación, tecnología y propósito.
+              {"\n\n"}Fun fact: me formé en mediación cultural y soy muy fan de los museos.
+              {"\n\n"}Mi caja de herramientas incluye:
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {SKILLS.map((s) => (
