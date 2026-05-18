@@ -102,7 +102,7 @@ const HoverWord = ({
 }: {
   children: React.ReactNode;
   src: string;
-  onHover: (src: string | null) => void;
+  onHover: (src: string | null, x?: number, y?: number) => void;
 }) => (
   <span
     onMouseEnter={() => onHover(src)}
