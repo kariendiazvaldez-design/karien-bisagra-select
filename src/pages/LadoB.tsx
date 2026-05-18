@@ -66,7 +66,7 @@ const COLLAGE: CollageItem[] = [
 const FIND_LIST = [
   "Notas en proceso, semillas que aún no son ideas",
   "Recomendaciones de libros, música y lugares",
-  "Un log cotidiano — pequeñas entradas casi en tiempo real",
+  "Textos más cuidados, para no olvidarme de lo que importa",
   "Fragmentos de proyectos paralelos",
 ];
 
