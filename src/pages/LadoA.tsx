@@ -177,11 +177,20 @@ const LadoA = () => {
     return ["Todos", ...Array.from(set)];
   }, [notionPosts]);
 
+  const dynamicTipos = useMemo(() => {
+    const set = new Set<string>();
+    (notionPosts || []).forEach((p) => p.tipo && set.add(p.tipo));
+    return ["Todos", ...Array.from(set)];
+  }, [notionPosts]);
+
   const filteredPosts = useMemo(() => {
     if (!notionPosts) return [];
-    if (activeCat === "Todos") return notionPosts;
-    return notionPosts.filter((p) => p.category === activeCat);
-  }, [notionPosts, activeCat]);
+    return notionPosts.filter((p) => {
+      const catOk = activeCat === "Todos" || p.category === activeCat;
+      const tipoOk = activeTipo === "Todos" || p.tipo === activeTipo;
+      return catOk && tipoOk;
+    });
+  }, [notionPosts, activeCat, activeTipo]);
 
   const scrollToProjects = () => {
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
