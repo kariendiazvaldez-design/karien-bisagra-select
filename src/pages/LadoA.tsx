@@ -103,20 +103,29 @@ const HoverWord = ({
   children: React.ReactNode;
   src: string;
   onHover: (src: string | null) => void;
-}) => (
-  <span
-    onMouseEnter={() => onHover(src)}
-    onMouseLeave={() => onHover(null)}
-    className="cursor-pointer"
-    style={{
-      textDecoration: "underline dotted",
-      textDecorationColor: "#8C9970",
-      textUnderlineOffset: "4px",
-    }}
-  >
-    {children}
-  </span>
-);
+}) => {
+  const handleTap = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    onHover(src);
+    window.setTimeout(() => onHover(null), 1800);
+  };
+  return (
+    <span
+      onMouseEnter={() => onHover(src)}
+      onMouseLeave={() => onHover(null)}
+      onTouchStart={handleTap}
+      onClick={handleTap}
+      className="cursor-pointer"
+      style={{
+        textDecoration: "underline dotted",
+        textDecorationColor: "#E8DCC4",
+        textUnderlineOffset: "4px",
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 const LadoA = () => {
   const [hoverImg, setHoverImg] = useState<string | null>(null);
@@ -232,7 +241,7 @@ const LadoA = () => {
         )}
       </nav>
 
-      {/* Floating hover image */}
+      {/* Floating hover image (desktop follows cursor) */}
       {hoverImg && (
         <img
           src={hoverImg}
@@ -247,10 +256,26 @@ const LadoA = () => {
           }}
         />
       )}
+      {/* Floating hover image (mobile centered) */}
+      {hoverImg && (
+        <img
+          src={hoverImg}
+          alt=""
+          className="md:hidden fixed pointer-events-none z-50 transition-opacity duration-300"
+          style={{
+            left: "50%",
+            bottom: 24,
+            transform: "translateX(-50%)",
+            width: 180,
+            height: "auto",
+            opacity: 1,
+          }}
+        />
+      )}
 
       {/* HERO */}
       <section
-        className="lado-a-hero relative min-h-screen flex items-center justify-center px-6 md:px-20 pt-16 text-center"
+        className="lado-a-hero relative min-h-[70vh] flex items-center justify-center px-6 md:px-20 pt-16 text-center"
         style={{
           backgroundImage:
             "url('https://images.unsplash.com/photo-1621610087641-f3e6fbe7a3d5?fm=jpg&q=60&w=3000&auto=format&fit=crop')",
@@ -260,16 +285,19 @@ const LadoA = () => {
       >
         <div className="absolute inset-0" style={{ backgroundColor: "rgba(26, 26, 17, 0.75)" }} />
         <div className="relative w-full max-w-[680px] mx-auto">
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-8">
+          <p className="text-xs font-medium uppercase tracking-[0.25em] mb-8" style={{ color: "rgba(255,255,255,0.7)" }}>
             Diseño de servicios · Transformación digital
           </p>
           <h1
-            className="font-extralight text-[40px] md:text-[72px] leading-[1.05] text-foreground mb-8"
-            style={{ letterSpacing: "-0.02em" }}
+            className="font-extralight text-[40px] md:text-[72px] leading-[1.05] mb-8"
+            style={{ letterSpacing: "-0.02em", color: "#FFFFFF" }}
           >
             Entender mejor,<br />diseñar mejor.
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed mx-auto whitespace-pre-line">
+          <p
+            className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line"
+            style={{ color: "rgba(255,255,255,0.85)" }}
+          >
             <HoverWord src={HOVER_IMG_1} onHover={setHoverImg}>Comunicadora</HoverWord> de formación,{" "}
             <HoverWord src={HOVER_IMG_2} onHover={setHoverImg}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
             Busco traducir lo complejo en{" "}
@@ -283,7 +311,7 @@ const LadoA = () => {
             Ver proyectos →
           </button>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-a-accent-soft animate-pulse text-xl">↓</div>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "rgba(255,255,255,0.7)" }}>↓</div>
       </section>
 
       {/* PROYECTOS */}
