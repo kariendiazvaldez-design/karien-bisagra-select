@@ -9,6 +9,7 @@ type NotionPost = {
   title: string;
   slug: string;
   category: string;
+  tipo: string;
   excerpt: string;
   date: string;
 };
