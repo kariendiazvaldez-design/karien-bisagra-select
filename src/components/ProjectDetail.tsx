@@ -163,7 +163,11 @@ function splitContent(content: string): Part[] {
       lastIndex = next.index + next.length;
       i += 2;
     } else {
-      parts.push({ type: "placeholder", kind: p.kind, label: p.label });
+      if (p.kind === "CAROUSEL") {
+        parts.push({ type: "carousel", label: p.label });
+      } else {
+        parts.push({ type: "placeholder", kind: p.kind, label: p.label });
+      }
       lastIndex = p.index + p.length;
       i += 1;
     }
