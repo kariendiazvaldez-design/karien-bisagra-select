@@ -391,6 +391,8 @@ const LadoB = () => {
               </Link>
             </div>
           )}
+        </div>
+      </section>
 
       {/* FOOTER */}
       <footer className="px-6 md:px-20 py-16" style={{ background: "#1C1A17", color: "#FAFAF8" }}>
