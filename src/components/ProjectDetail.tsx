@@ -344,7 +344,7 @@ const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }>
     style={{
       background: QUOTE_BG,
       borderRadius: 12,
-      padding: "48px 32px",
+      padding: "28px 32px",
     }}
   >
     <div
@@ -359,9 +359,9 @@ const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }>
             style={{
               fontFamily: "Lexend, sans-serif",
               fontWeight: 700,
-              fontSize: 42,
+              fontSize: 24,
               color: OLIVE,
-              lineHeight: 1.1,
+              lineHeight: 1.2,
             }}
           >
             {m.value}
