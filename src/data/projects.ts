@@ -1,4 +1,5 @@
 import type { ProjectDetailProps } from "@/components/ProjectDetail";
+import { innovaContent } from "./projects/innova-content";
 
 export interface Project extends ProjectDetailProps {
   id: string;
