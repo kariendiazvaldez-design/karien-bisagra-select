@@ -233,17 +233,16 @@ const LadoA = () => {
               .map((id) => portfolioProjects.find((p) => p.id === id))
               .filter((p): p is NonNullable<typeof p> => !!p);
             return (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 [&>*:nth-child(4)]:md:col-start-1 [&>*:nth-child(4)]:md:col-end-3 [&>*:nth-child(5)]:md:col-start-3 [&>*:nth-child(5)]:md:col-end-4">
+              <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
                 {ordered.map((p, idx) => {
-                  // For desktop layout: first 3 in row 1; last 2 centered in row 2
-                  const isLastTwo = idx >= 3;
+                  let colClasses = "md:col-span-2";
+                  if (idx === 3) colClasses = "md:col-span-2 md:col-start-2";
+                  if (idx === 4) colClasses = "md:col-span-2 md:col-start-4";
                   return (
                     <Link
                       key={p.id}
                       to={`/portafolio/${p.id}`}
-                      className={`group flex flex-col bg-background border border-[#E8E8E8] overflow-hidden hover:bg-[#F5F2EB] transition-colors ${
-                        isLastTwo ? "md:col-span-1" : ""
-                      }`}
+                      className={`group flex flex-col bg-background border border-[#E8E8E8] overflow-hidden hover:bg-[#F5F2EB] transition-colors ${colClasses}`}
                       style={{ borderRadius: 8 }}
                     >
                       <div
