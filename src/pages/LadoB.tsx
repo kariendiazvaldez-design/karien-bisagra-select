@@ -1,412 +1,375 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import {
-  useGardenPosts,
-  useGardenFilters,
-  FilterRow,
-  GardenCard,
-  GardenSkeleton,
-} from "@/pages/Jardin";
+import { useEffect, useMemo, useState } from "react";
+import { MapPin, Menu, X } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+const BG = "#F2EFE8";
+const TERRACOTA = "#C4622D";
+const TEXT = "#1C1A17";
+const DIVIDER = "#E8E8E8";
 
 const TIPO_OPTS = ["Todo", "Nota", "Recomendación", "Log"];
-const MAT_OPTS = ["Todo", "Semilla", "Brote", "Fruto"];
-
-const NAV_LINKS = [
-  { label: "Sobre mí", href: "#about" },
-  { label: "Jardín", href: "#jardin" },
+const CHIPS_HERO = [
+  "Diseño de servicios",
+  "UX Research",
+  "Facilitación",
+  "Transformación digital",
 ];
 
-// ---------- TYPES ----------
-type PhotoItem = { color: string; src?: string; alt?: string };
-type CollageItem = { color: string; src?: string; alt?: string; caption?: string; size: "lg" | "sm"; offset?: boolean };
-
-type NoteEntry = {
-  kind: "nota";
-  maturity: "semilla" | "brote" | "fruto";
-  title: string;
+type GardenPost = {
+  id: string;
+  nombre: string;
+  category: string;
+  date: string;
   excerpt: string;
-  date: string;
-  imageColor?: string;
-  imageSrc?: string;
-};
-type RecEntry = {
-  kind: "recomendacion";
-  type: string;
-  title: string;
-  author?: string;
-  review: string;
-  rating: string;
-  imageColor?: string;
-  imageSrc?: string;
-};
-type LogEntry = {
-  kind: "log";
-  date: string;
-  text: string;
-  mood: string;
+  maturity: string;
+  slug: string;
+  temas: string[];
+  tipo: string;
 };
 
-type GardenEntry = NoteEntry | RecEntry | LogEntry;
+const maturityIcon = (m: string) => {
+  const k = (m || "").toLowerCase();
+  if (k.includes("brote")) return "🌿";
+  if (k.includes("fruto")) return "🍂";
+  return "🌱";
+};
 
-// ---------- DATA (placeholders) ----------
-const HERO_PHOTOS: PhotoItem[] = [
-  { color: "#D4B896" },
-  { color: "#C4956A" },
-  { color: "#8B7355" },
-  { color: "#A8C5A0" },
-  { color: "#2C4A52" },
-  { color: "#D4B896" },
-];
+const fmtDate = (d: string) => {
+  if (!d) return "";
+  try {
+    return new Date(d).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" });
+  } catch {
+    return d;
+  }
+};
 
-const COLLAGE: CollageItem[] = [
-  { color: "#C4956A", size: "lg", caption: "mayo 2025" },
-  { color: "#A8C5A0", size: "sm", offset: true },
-];
+const tipoOf = (p: GardenPost): "nota" | "recomendacion" | "log" => {
+  const t = (p.tipo || "").toLowerCase();
+  if (t.includes("log")) return "log";
+  if (t.includes("recom")) return "recomendacion";
+  return "nota";
+};
 
-const FIND_LIST = [
-  "Notas en proceso, semillas que aún no son ideas",
-  "Recomendaciones de libros, música y lugares",
-  "Textos más cuidados, para no olvidarme de lo que importa",
-  "Fragmentos de proyectos paralelos",
-];
+// ---------- NAVBAR ----------
+const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-40" style={{ background: BG, borderBottom: `1px solid ${DIVIDER}` }}>
+      <div className="max-w-6xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
+        <Link to="/lado-b" className="font-quicksand font-semibold" style={{ color: TEXT, fontSize: 18 }}>
+          karien.xyz
+        </Link>
+        <div className="hidden md:flex items-center gap-8 font-quicksand" style={{ fontSize: 14 }}>
+          <a href="#about" style={{ color: TEXT }}>Sobre mí</a>
+          <a href="#jardin" style={{ color: TEXT }}>Jardín</a>
+          <Link to="/lado-a" style={{ color: TERRACOTA, fontWeight: 600 }}>Lado A →</Link>
+        </div>
+        <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="menu" style={{ color: TEXT }}>
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+      {open && (
+        <div className="md:hidden px-6 pb-4 flex flex-col gap-3 font-quicksand" style={{ background: BG, borderTop: `1px solid ${DIVIDER}` }}>
+          <a href="#about" onClick={() => setOpen(false)} style={{ color: TEXT }}>Sobre mí</a>
+          <a href="#jardin" onClick={() => setOpen(false)} style={{ color: TEXT }}>Jardín</a>
+          <Link to="/lado-a" onClick={() => setOpen(false)} style={{ color: TERRACOTA, fontWeight: 600 }}>Lado A →</Link>
+        </div>
+      )}
+    </nav>
+  );
+};
 
-const GARDEN_ENTRIES: GardenEntry[] = [
-  {
-    kind: "nota",
-    maturity: "brote",
-    title: "¿Qué hace que una comunidad esté viva?",
-    excerpt: "Llevo semanas dando vueltas a esta pregunta. Una comunidad activa no es lo mismo que una viva.",
-    date: "12 mayo 2025",
-    imageColor: "#A8C5A0",
-  },
-  {
-    kind: "nota",
-    maturity: "semilla",
-    title: "Museos y ciudadanía digital",
-    excerpt: "¿Puede un museo construir identidad digital sin perder la física?",
-    date: "3 mayo 2025",
-    imageColor: "#D4B896",
-  },
-  {
-    kind: "recomendacion",
-    type: "Libro",
-    title: "Strategy is Your Words",
-    author: "Mark Pollard",
-    review: "Cambió cómo entiendo la estrategia y también cómo escribo.",
-    rating: "★★★★★",
-    imageColor: "#8B7355",
-  },
-  {
-    kind: "recomendacion",
-    type: "Lugar",
-    title: "Café del jardín botánico",
-    author: "CDMX",
-    review: "Mesa al fondo, luz de las 4pm, té de jamaica. Mi oficina honoraria.",
-    rating: "★★★★",
-    imageColor: "#A8C5A0",
-  },
-  {
-    kind: "log",
-    date: "10 mayo 2025",
-    text: "Mapeé los flujos de la nueva plataforma. Costó pero quedaron claros.",
-    mood: "concentrada",
-  },
-  {
-    kind: "log",
-    date: "7 mayo 2025",
-    text: "Releí un capítulo de arquitectura de información. Vuelve a tener sentido.",
-    mood: "curiosa",
-  },
-];
+// ---------- HERO ----------
+const Hero = () => (
+  <section id="about" className="pt-28 md:pt-32 pb-12 px-6 md:px-12">
+    <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
+      <div
+        className="flex-shrink-0 flex items-center justify-center font-quicksand"
+        style={{
+          width: 200,
+          height: 200,
+          borderRadius: "50%",
+          background: "#D9D9D9",
+          color: "#7A7670",
+          fontSize: 14,
+        }}
+      >
+        Foto
+      </div>
+      <div className="flex-1 text-center md:text-left">
+        <h1 className="font-caveat" style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 12 }}>
+          Karien.
+        </h1>
+        <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 560 }}>
+          Diseñadora de servicios. Comunicadora de formación. Curiosa por vocación.
+        </p>
+        <div className="flex items-center justify-center md:justify-start gap-2 mb-5 font-quicksand" style={{ fontSize: 14, color: TEXT }}>
+          <MapPin size={14} style={{ color: TERRACOTA }} />
+          <span>Chiclayo · Lima · Remoto</span>
+        </div>
+        <div className="flex flex-wrap justify-center md:justify-start gap-2">
+          {CHIPS_HERO.map((c) => (
+            <span
+              key={c}
+              className="font-quicksand"
+              style={{
+                fontSize: 13,
+                padding: "6px 14px",
+                borderRadius: 999,
+                border: `1px solid ${TERRACOTA}`,
+                color: TERRACOTA,
+              }}
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
-const TABS = ["Todo", "Notas", "Recomendaciones", "Log"] as const;
-type Tab = (typeof TABS)[number];
-
-const BORDER_FAINT = "0.5px solid rgba(28, 26, 23, 0.15)";
-const BORDER_DARK = "0.5px solid #1C1A17";
-
-// ---------- COMPONENTS ----------
-const PhotoCarousel = ({ photos }: { photos: PhotoItem[] }) => (
-  <div className="w-full overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-    <div className="flex gap-3 px-6 md:px-20 pb-2" style={{ width: "max-content" }}>
-      {photos.map((p, i) => (
-        <div
-          key={i}
-          style={{
-            width: 220,
-            height: 220,
-            background: p.color,
-            backgroundImage: p.src ? `url(${p.src})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            border: BORDER_FAINT,
-          }}
-          aria-label={p.alt || `foto ${i + 1}`}
-        />
-      ))}
+// ---------- FILTER CHIPS ----------
+const FilterChips = ({
+  options,
+  active,
+  onSelect,
+}: {
+  options: string[];
+  active: string;
+  onSelect: (v: string) => void;
+}) => (
+  <div
+    className="flex gap-2 overflow-x-auto md:flex-wrap"
+    style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
+  >
+    <style>{`.no-bar::-webkit-scrollbar{display:none}`}</style>
+    <div className="flex gap-2 md:flex-wrap no-bar">
+      {options.map((opt) => {
+        const isActive = active === opt;
+        return (
+          <button
+            key={opt}
+            onClick={() => onSelect(opt)}
+            className="font-quicksand whitespace-nowrap transition-colors"
+            style={{
+              fontSize: 13,
+              padding: "6px 14px",
+              borderRadius: 999,
+              border: `1px solid ${TERRACOTA}`,
+              background: isActive ? TERRACOTA : "transparent",
+              color: isActive ? "#FFFFFF" : TERRACOTA,
+              flexShrink: 0,
+            }}
+          >
+            {opt}
+          </button>
+        );
+      })}
     </div>
   </div>
 );
 
-const Collage = ({ items }: { items: CollageItem[] }) => {
-  const brown = items.find((i) => i.size === "lg") || items[0];
-  const green = items.find((i) => i.size === "sm") || items[1];
-  return (
-    <div className="flex flex-col gap-4 w-full">
-      {brown && (
-        <div>
-          <div
-            style={{
-              width: "100%",
-              aspectRatio: "5 / 4",
-              background: brown.color,
-              backgroundImage: brown.src ? `url(${brown.src})` : undefined,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              border: BORDER_FAINT,
-            }}
-          />
-          {brown.caption && (
-            <p className="font-caveat mt-2" style={{ color: "#C4622D", fontSize: 18 }}>
-              {brown.caption}
-            </p>
-          )}
-        </div>
-      )}
-      {green && (
-        <div
-          style={{
-            width: "100%",
-            aspectRatio: "16 / 9",
-            background: green.color,
-            backgroundImage: green.src ? `url(${green.src})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            border: BORDER_FAINT,
-          }}
-        />
-      )}
-    </div>
-  );
+// ---------- CARDS ----------
+const Chip = ({ children }: { children: React.ReactNode }) => (
+  <span
+    className="font-quicksand"
+    style={{
+      fontSize: 11,
+      padding: "3px 8px",
+      borderRadius: 999,
+      border: `1px solid ${TERRACOTA}`,
+      color: TERRACOTA,
+    }}
+  >
+    {children}
+  </span>
+);
+
+const NotaCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-6 flex flex-col gap-3"
+    style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4, minHeight: 200 }}
+  >
+    <span style={{ fontSize: 24 }}>{maturityIcon(p.maturity)}</span>
+    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 20, lineHeight: 1.25 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "#555", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
+    {p.temas.length > 0 && (
+      <div className="flex flex-wrap gap-1.5 mt-1">
+        {p.temas.slice(0, 4).map((t) => <Chip key={t}>{t}</Chip>)}
+      </div>
+    )}
+    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+  </Link>
+);
+
+const RecCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-5 flex flex-col gap-2"
+    style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
+  >
+    {p.category && (
+      <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase" }}>
+        {p.category}
+      </p>
+    )}
+    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "#777", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
+    {p.temas.length > 0 && (
+      <div className="flex flex-wrap gap-1.5 mt-1">
+        {p.temas.slice(0, 3).map((t) => <Chip key={t}>{t}</Chip>)}
+      </div>
+    )}
+    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+  </Link>
+);
+
+const LogCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-4 flex flex-col gap-2 justify-between"
+    style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4, minHeight: 120 }}
+  >
+    <p className="font-caveat" style={{ fontSize: 18, lineHeight: 1 }}>{fmtDate(p.date) || "—"}</p>
+    <p
+      className="font-quicksand"
+      style={{
+        fontSize: 13,
+        lineHeight: 1.45,
+        display: "-webkit-box",
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+      }}
+    >
+      {p.excerpt || p.nombre}
+    </p>
+  </Link>
+);
+
+// ---------- BENTO ----------
+const bentoSpanClass = (kind: "nota" | "recomendacion" | "log") => {
+  if (kind === "nota") return "col-span-1 md:col-span-2 md:row-span-2";
+  if (kind === "recomendacion") return "col-span-1 md:row-span-2";
+  return "col-span-1";
 };
 
-const NoteCard = ({ n }: { n: NoteEntry }) => (
-  <article className="flex flex-col" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
-    {n.imageColor && (
-      <div
-        style={{
-          width: "100%",
-          aspectRatio: "3 / 2",
-          background: n.imageColor,
-          backgroundImage: n.imageSrc ? `url(${n.imageSrc})` : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-    )}
-    <div className="p-5 flex flex-col gap-2">
-      <p className="font-caveat" style={{ color: "#C4622D", fontSize: 18 }}>
-        {n.maturity === "semilla" ? "🌱 semilla" : n.maturity === "brote" ? "🌿 brote" : "🍎 fruto"}
-      </p>
-      <h3 style={{ fontWeight: 600, fontSize: 17, color: "#1C1A17" }}>{n.title}</h3>
-      <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 14, lineHeight: 1.5 }}>{n.excerpt}</p>
-      <p className="font-caveat mt-2" style={{ color: "#C4622D", fontSize: 16 }}>{n.date}</p>
+const Bento = ({ posts }: { posts: GardenPost[] }) => (
+  <div
+    className="grid gap-4"
+    style={{ gridTemplateColumns: "1fr", gridAutoRows: "minmax(120px, auto)" }}
+  >
+    <style>{`
+      @media (min-width: 768px) {
+        .bento-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      }
+      @media (min-width: 1024px) {
+        .bento-grid { grid-template-columns: repeat(4, 1fr) !important; }
+      }
+    `}</style>
+    <div className="bento-grid grid gap-4 col-span-1" style={{ gridTemplateColumns: "1fr", gridAutoRows: "minmax(120px, auto)" }}>
+      {posts.map((p) => {
+        const kind = tipoOf(p);
+        const cls = bentoSpanClass(kind);
+        return (
+          <div key={p.id} className={cls}>
+            {kind === "nota" && <NotaCard p={p} />}
+            {kind === "recomendacion" && <RecCard p={p} />}
+            {kind === "log" && <LogCard p={p} />}
+          </div>
+        );
+      })}
     </div>
-  </article>
+  </div>
 );
 
-const RecCard = ({ r }: { r: RecEntry }) => (
-  <article className="flex" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
-    <div
-      style={{
-        width: 110,
-        minWidth: 110,
-        background: r.imageColor || "#D4B896",
-        backgroundImage: r.imageSrc ? `url(${r.imageSrc})` : undefined,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    />
-    <div className="p-4 flex flex-col gap-2">
-      <p className="font-caveat" style={{ color: "#C4622D", fontSize: 16 }}>{r.type}</p>
-      <h3 style={{ fontWeight: 600, fontSize: 16, color: "#1C1A17", lineHeight: 1.3 }}>
-        {r.title}
-        {r.author && <span style={{ fontWeight: 400, opacity: 0.7 }}> — {r.author}</span>}
-      </h3>
-      <p style={{ color: "#1C1A17", opacity: 0.7, fontSize: 13, lineHeight: 1.5 }}>{r.review}</p>
-      <p style={{ color: "#C4622D", fontSize: 13, letterSpacing: "0.1em" }}>{r.rating}</p>
-    </div>
-  </article>
+const BentoSkeleton = () => (
+  <div className="bento-grid grid gap-4" style={{ gridTemplateColumns: "1fr", gridAutoRows: "minmax(120px, auto)" }}>
+    {[
+      "col-span-1 md:col-span-2 md:row-span-2",
+      "col-span-1 md:row-span-2",
+      "col-span-1",
+      "col-span-1",
+      "col-span-1 md:col-span-2 md:row-span-2",
+      "col-span-1",
+    ].map((cls, i) => (
+      <div key={i} className={cls} style={{ background: "#EAE6DE", borderRadius: 4, minHeight: 120 }} />
+    ))}
+  </div>
 );
 
-const LogCard = ({ l }: { l: LogEntry }) => (
-  <article className="p-5 flex flex-col gap-3" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
-    <p className="font-caveat" style={{ color: "#C4622D", fontSize: 26, lineHeight: 1.1 }}>{l.date}</p>
-    <p style={{ color: "#1C1A17", fontSize: 15, lineHeight: 1.55 }}>{l.text}</p>
-    <span
-      className="self-start px-2 py-1 font-caveat"
-      style={{ color: "#C4622D", border: "0.5px solid #C4622D", fontSize: 14 }}
-    >
-      {l.mood}
-    </span>
-  </article>
-);
+// ---------- HOOKS ----------
+function useGardenPosts() {
+  const [posts, setPosts] = useState<GardenPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke("get-garden-posts");
+        if (error) throw error;
+        setPosts(data?.posts || []);
+      } catch (e) {
+        console.error("garden fetch", e);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+  return { posts, loading };
+}
 
+// ---------- PAGE ----------
 const LadoB = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const { posts, loading } = useGardenPosts();
-  const { tipo, setTipo, mat, setMat, tema, setTema, temas, filtered } = useGardenFilters(posts);
-  const visible = filtered.slice(0, 6);
+  const [tipo, setTipo] = useState("Todo");
+  const [tema, setTema] = useState("Todo");
+
+  const temas = useMemo(() => {
+    const s = new Set<string>(["Todo"]);
+    posts.forEach((p) => p.temas.forEach((t) => t && s.add(t)));
+    return Array.from(s);
+  }, [posts]);
+
+  const filtered = useMemo(() => {
+    return posts.filter((p) => {
+      const kind = tipoOf(p);
+      const tipoOk =
+        tipo === "Todo" ||
+        (tipo === "Nota" && kind === "nota") ||
+        (tipo === "Recomendación" && kind === "recomendacion") ||
+        (tipo === "Log" && kind === "log");
+      const temaOk = tema === "Todo" || p.temas.includes(tema);
+      return tipoOk && temaOk;
+    });
+  }, [posts, tipo, tema]);
 
   return (
-    <div className="lado-b font-quicksand min-h-screen" style={{ background: "#FAFAF8", color: "#1C1A17" }}>
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-40" style={{ background: "#FAFAF8", borderBottom: BORDER_FAINT }}>
-        <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
-          <Link to="/" className="font-medium" style={{ color: "#1C1A17" }}>Karien.xyz</Link>
-          <div className="hidden md:flex gap-8 text-sm" style={{ color: "#1C1A17", opacity: 0.7 }}>
-            {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} className="hover:opacity-100 transition-opacity">
-                {l.label}
-              </a>
-            ))}
-          </div>
-          <Link to="/lado-a" className="hidden md:inline text-sm transition-opacity hover:opacity-70" style={{ color: "#C4622D" }}>
-            Lado A →
-          </Link>
-          <button className="md:hidden text-xl" onClick={() => setMenuOpen((v) => !v)} aria-label="Menú">···</button>
-        </div>
-        {menuOpen && (
-          <div className="md:hidden px-6 py-4 flex flex-col gap-3" style={{ borderTop: BORDER_FAINT }}>
-            {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} style={{ color: "#1C1A17" }}>{l.label}</a>
-            ))}
-            <Link to="/lado-a" style={{ color: "#C4622D" }}>Lado A →</Link>
-          </div>
-        )}
-      </nav>
+    <div className="font-quicksand min-h-screen" style={{ background: BG, color: TEXT }}>
+      <Navbar />
+      <Hero />
+      <div style={{ borderTop: `1px solid ${DIVIDER}` }} />
 
-      {/* HERO */}
-      <section className="pt-28 md:pt-32 pb-12">
-        <div className="max-w-6xl mx-auto px-6 md:px-20">
-          <p className="font-caveat mb-4" style={{ color: "#C4622D", fontSize: 22 }}>Lado B</p>
-          <h1
-            style={{
-              fontFamily: 'Georgia, "Times New Roman", serif',
-              fontWeight: 400,
-              fontSize: "clamp(40px, 6vw, 68px)",
-              lineHeight: 1.1,
-              maxWidth: 760,
-              color: "#1C1A17",
-              marginBottom: 24,
-            }}
-          >
-            Una casita digital para mi curiosidad.
-          </h1>
-          <p style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.6, color: "#1C1A17", opacity: 0.75 }}>
-            Cuaderno de apuntes, notas en proceso, reseñas y pensamientos que preferiría no olvidar.
-          </p>
-        </div>
-
-        <div className="mt-12">
-          <PhotoCarousel photos={HERO_PHOTOS} />
-        </div>
-      </section>
-
-      {/* ABOUT */}
-      <section id="about" className="px-6 md:px-20 py-20 md:py-28">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
-          <div className="md:col-span-7">
-            <p className="font-caveat mb-4" style={{ color: "#C4622D", fontSize: 22 }}>en qué ando</p>
-            <div className="flex flex-col gap-5 whitespace-pre-line" style={{ fontSize: 17, lineHeight: 1.7, color: "#1C1A17" }}>
-              <p>
-                Este es el lado B: escribo, archivo, reseño y curioseo sobre la marcha.{"\n"}
-                Me gusta moverme y me gusta la memoria.
-              </p>
-              <p>
-                Al 2026, mis retos principales son armar hogar. Vivo pensando en posibilidades.{"\n"}
-                Aquí mi cuaderno de campo: textos armados o log cotidiano.
-              </p>
-            </div>
-
-            <div className="mt-10">
-              <p style={{ fontWeight: 600, fontSize: 15, marginBottom: 12 }}>qué encontrarás aquí:</p>
-              <ul className="flex flex-col gap-2" style={{ fontSize: 15, color: "#1C1A17", opacity: 0.85 }}>
-                {FIND_LIST.map((item, i) => (
-                  <li key={i} style={{ borderTop: i === 0 ? BORDER_FAINT : undefined, borderBottom: BORDER_FAINT, padding: "10px 0" }}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="md:col-span-5">
-            <Collage items={COLLAGE} />
-          </div>
-        </div>
-      </section>
-
-      {/* JARDÍN */}
-      <section id="jardin" className="px-6 md:px-20 py-20 md:py-28">
+      <section id="jardin" className="px-6 md:px-12 py-12">
         <div className="max-w-6xl mx-auto">
-          <p className="font-caveat mb-3" style={{ color: "#C4622D", fontSize: 22 }}>El jardín</p>
-          <h2
-            style={{
-              fontFamily: 'Georgia, "Times New Roman", serif',
-              fontWeight: 400,
-              fontSize: "clamp(32px, 4vw, 44px)",
-              marginBottom: 32,
-              color: "#1C1A17",
-            }}
-          >
-            El jardín&nbsp;🌿
-          </h2>
-
-          <div className="flex flex-col gap-4 mb-10">
-            <FilterRow label="Tipo" options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
-            <FilterRow label="Madurez" options={MAT_OPTS} active={mat} onSelect={setMat} />
-            <FilterRow label="Temas" options={temas} active={tema} onSelect={setTema} />
+          <div className="flex flex-col gap-3 mb-8">
+            <FilterChips options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
+            <FilterChips options={temas} active={tema} onSelect={setTema} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {loading ? (
-              <GardenSkeleton />
-            ) : visible.length === 0 ? (
-              <p style={{ color: "#999", textAlign: "center", gridColumn: "1/-1" }}>Nada por aquí todavía</p>
-            ) : (
-              visible.map((p) => <GardenCard key={p.id} p={p} />)
-            )}
-          </div>
-
-          {filtered.length > 6 && (
-            <div className="flex justify-center mt-10">
-              <Link
-                to="/jardin"
-                className="px-5 py-2.5 text-sm transition-colors"
-                style={{ border: "1px solid #C4622D", color: "#C4622D" }}
-              >
-                Ver más →
-              </Link>
-            </div>
+          {loading ? (
+            <BentoSkeleton />
+          ) : filtered.length === 0 ? (
+            <p style={{ color: "#999", textAlign: "center", padding: "60px 0" }} className="font-quicksand">
+              El jardín está creciendo 🌱
+            </p>
+          ) : (
+            <Bento posts={filtered} />
           )}
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="px-6 md:px-20 py-16" style={{ background: "#1C1A17", color: "#FAFAF8" }}>
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <p style={{ fontSize: 14, opacity: 0.85 }}>Karien.xyz · Cuaderno de campo.</p>
-            <Link to="/lado-a" className="inline-block mt-3" style={{ color: "#C4622D", fontSize: 14, fontWeight: 500 }}>
-              ← Ir a Lado A
-            </Link>
-          </div>
-          <p className="font-caveat" style={{ color: "#C4622D", fontSize: 18 }}>
-            última actualización: 14 mayo 2025
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };
