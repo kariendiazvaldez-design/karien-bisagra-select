@@ -569,14 +569,30 @@ const ProjectDetail = ({
     }
   }, []);
 
-  const parts = splitContent(content);
+  // Pre-process: extract custom <!-- INDEX: label --> comments and convert to [INDEX: id|label] tokens
+  const { processedContent, customIndex } = useMemo(() => {
+    const items: Array<{ id: string; label: string; num: string }> = [];
+    const seen = new Set<string>();
+    const processed = content.replace(INDEX_COMMENT_RE, (_m, raw: string) => {
+      const label = raw.trim();
+      let id = `idx-${slugify(label)}`;
+      let n = 2;
+      while (seen.has(id)) id = `idx-${slugify(label)}-${n++}`;
+      seen.add(id);
+      items.push({ id, label, num: String(items.length + 1) });
+      return `\n\n[INDEX: ${id}|${label}]\n\n`;
+    });
+    return { processedContent: processed, customIndex: items };
+  }, [content]);
 
-  // Extract phases (## Fase N — Title)
+  const parts = splitContent(processedContent);
+
+  // Extract phases (## Fase N — Title) — used only if no custom index
   const phases = useMemo(() => {
     const re = /^##\s+(Fase\s*(\d+)[^\n]*)/gim;
     const out: Array<{ id: string; label: string; num: string }> = [];
     let m: RegExpExecArray | null;
-    while ((m = re.exec(content)) !== null) {
+    while ((m = re.exec(processedContent)) !== null) {
       const num = m[2];
       const label = m[1].replace(/^#+\s*/, "").trim();
       const id = `fase-${num}`;
@@ -585,12 +601,14 @@ const ProjectDetail = ({
       }
     }
     return out;
-  }, [content]);
+  }, [processedContent]);
+
+  const indexItems = customIndex.length > 0 ? customIndex : phases;
 
   const [activePhase, setActivePhase] = useState(0);
   useEffect(() => {
-    if (phases.length === 0) return;
-    const els = phases
+    if (indexItems.length === 0) return;
+    const els = indexItems
       .map((p) => document.getElementById(p.id))
       .filter((el): el is HTMLElement => !!el);
     if (els.length === 0) return;
@@ -605,7 +623,7 @@ const ProjectDetail = ({
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [phases]);
+  }, [indexItems]);
 
   return (
     <div
