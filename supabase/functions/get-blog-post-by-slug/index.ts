@@ -33,7 +33,8 @@ Deno.serve(async (req) => {
     const getPlain = (rich: any[]) =>
       Array.isArray(rich) && rich.length > 0 ? rich.map((r) => r.plain_text).join('') : '';
 
-    // Try Slug (rich_text) then slug (rich_text)
+    // The blog database exposes the property as `Slug`.
+    // Only fall back to `slug` if `Slug` itself is not a valid property.
     const tryFilter = async (prop: string) =>
       fetch(`${GATEWAY_URL}/databases/${BLOG_DB_ID}/query`, {
         method: 'POST',
@@ -45,7 +46,7 @@ Deno.serve(async (req) => {
 
     let qRes = await tryFilter('Slug');
     let qData = await qRes.json();
-    if (!qRes.ok || !(qData.results || []).length) {
+    if (!qRes.ok) {
       qRes = await tryFilter('slug');
       qData = await qRes.json();
     }
