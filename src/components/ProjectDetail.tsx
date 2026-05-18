@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Image as ImageIcon, Film, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Image as ImageIcon, Film, Play } from "lucide-react";
 
 export interface ProjectDetailProps {
   title: string;
@@ -101,8 +101,8 @@ const ImagePairBlock = ({
   </figure>
 );
 
-// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...]
-const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO):\s*([^\]]+)\]/g;
+// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...], [CAROUSEL: ...]
+const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO|CAROUSEL):\s*([^\]]+)\]/g;
 // Detect a metrics-style markdown table: rows like "| value | label |"
 // Heuristic: a block where every line starts with "|" and has exactly 2 cells, no header separator.
 const METRICS_TABLE_RE = /(?:^|\n)((?:\|[^\n]+\|\s*\n?){2,})/g;
@@ -111,6 +111,7 @@ type Part =
   | { type: "md"; value: string }
   | { type: "placeholder"; kind: "IMAGE" | "GIF" | "VIDEO"; label: string }
   | { type: "image-pair"; labels: string[] }
+  | { type: "carousel"; label: string }
   | { type: "metrics"; items: Array<{ value: string; label: string }> };
 
 function parseMetricsTable(block: string): Array<{ value: string; label: string }> | null {
@@ -162,7 +163,11 @@ function splitContent(content: string): Part[] {
       lastIndex = next.index + next.length;
       i += 2;
     } else {
-      parts.push({ type: "placeholder", kind: p.kind, label: p.label });
+      if (p.kind === "CAROUSEL") {
+        parts.push({ type: "carousel", label: p.label });
+      } else {
+        parts.push({ type: "placeholder", kind: p.kind, label: p.label });
+      }
       lastIndex = p.index + p.length;
       i += 1;
     }
@@ -199,6 +204,139 @@ function splitContent(content: string): Part[] {
   }
   return final;
 }
+
+const Carousel = ({ label }: { label: string }) => {
+  const [index, setIndex] = useState(0);
+  const total = 5;
+  const prev = () => setIndex((i) => (i - 1 + total) % total);
+  const next = () => setIndex((i) => (i + 1) % total);
+  return (
+    <figure className="my-12 md:-mx-[110px]">
+      <div className="relative w-full overflow-hidden" style={{ background: "#E8E8E8" }}>
+        <div
+          className="flex transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {Array.from({ length: total }).map((_, i) => (
+            <div
+              key={i}
+              className="w-full flex-shrink-0 flex items-center justify-center"
+              style={{ background: "#E8E8E8", aspectRatio: "4 / 3" }}
+            >
+              <ImageIcon size={56} color="#999" strokeWidth={1.5} />
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          aria-label="Anterior"
+          onClick={prev}
+          className="absolute top-1/2 -translate-y-1/2 left-3 md:left-5 flex items-center justify-center rounded-full"
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            color: OLIVE,
+            width: 44,
+            height: 44,
+            border: `1px solid ${OLIVE}`,
+          }}
+        >
+          <ChevronLeft size={22} />
+        </button>
+        <button
+          type="button"
+          aria-label="Siguiente"
+          onClick={next}
+          className="absolute top-1/2 -translate-y-1/2 right-3 md:right-5 flex items-center justify-center rounded-full"
+          style={{
+            background: "rgba(255,255,255,0.9)",
+            color: OLIVE,
+            width: 44,
+            height: 44,
+            border: `1px solid ${OLIVE}`,
+          }}
+        >
+          <ChevronRight size={22} />
+        </button>
+      </div>
+      <div className="flex justify-center gap-2 mt-4">
+        {Array.from({ length: total }).map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Ir a slide ${i + 1}`}
+            onClick={() => setIndex(i)}
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              background: i === index ? OLIVE : `${OLIVE}33`,
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+            }}
+          />
+        ))}
+      </div>
+      <figcaption
+        className="mt-3 text-center"
+        style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 14 }}
+      >
+        {label}
+      </figcaption>
+    </figure>
+  );
+};
+
+const PhaseIndicator = ({
+  phases,
+  activeIndex,
+}: {
+  phases: Array<{ id: string; label: string; num: string }>;
+  activeIndex: number;
+}) => {
+  if (phases.length === 0) return null;
+  return (
+    <div
+      className="hidden md:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col items-end gap-5"
+      style={{ fontFamily: "Lexend, sans-serif" }}
+    >
+      {phases.map((p, i) => {
+        const active = i === activeIndex;
+        return (
+          <a
+            key={p.id}
+            href={`#${p.id}`}
+            className="flex items-center gap-3 group"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              style={{
+                fontSize: 12,
+                color: OLIVE,
+                opacity: active ? 1 : 0,
+                transition: "opacity 0.25s",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {p.label}
+            </span>
+            <span
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 999,
+                background: OLIVE,
+                opacity: active ? 1 : 0.2,
+                transition: "opacity 0.25s",
+                display: "inline-block",
+              }}
+            />
+          </a>
+        );
+      })}
+    </div>
+  );
+};
 
 const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }> }) => (
   <div
@@ -247,21 +385,31 @@ const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }>
 );
 
 const markdownComponents = {
-  h2: ({ children }: any) => (
-    <h2
-      className="font-bold"
-      style={{
-        fontFamily: "Lexend, sans-serif",
-        color: OLIVE,
-        marginTop: 40,
-        marginBottom: 14,
-        fontSize: 22,
-        lineHeight: 1.3,
-      }}
-    >
-      {children}
-    </h2>
-  ),
+  h2: ({ children }: any) => {
+    const text = String(
+      Array.isArray(children)
+        ? children.map((c: any) => (typeof c === "string" ? c : c?.props?.children ?? "")).join("")
+        : children ?? ""
+    );
+    const m = text.match(/Fase\s*(\d+)/i);
+    const id = m ? `fase-${m[1]}` : undefined;
+    return (
+      <h2
+        id={id}
+        className="font-bold scroll-mt-24"
+        style={{
+          fontFamily: "Lexend, sans-serif",
+          color: OLIVE,
+          marginTop: 40,
+          marginBottom: 14,
+          fontSize: 22,
+          lineHeight: 1.3,
+        }}
+      >
+        {children}
+      </h2>
+    );
+  },
   h3: ({ children }: any) => (
     <h3
       className="font-semibold"
@@ -405,6 +553,42 @@ const ProjectDetail = ({
 
   const parts = splitContent(content);
 
+  // Extract phases (## Fase N — Title)
+  const phases = useMemo(() => {
+    const re = /^##\s+(Fase\s*(\d+)[^\n]*)/gim;
+    const out: Array<{ id: string; label: string; num: string }> = [];
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(content)) !== null) {
+      const num = m[2];
+      const label = m[1].replace(/^#+\s*/, "").trim();
+      const id = `fase-${num}`;
+      if (!out.find((p) => p.id === id)) {
+        out.push({ id, label, num });
+      }
+    }
+    return out;
+  }, [content]);
+
+  const [activePhase, setActivePhase] = useState(0);
+  useEffect(() => {
+    if (phases.length === 0) return;
+    const els = phases
+      .map((p) => document.getElementById(p.id))
+      .filter((el): el is HTMLElement => !!el);
+    if (els.length === 0) return;
+    const onScroll = () => {
+      const probe = window.innerHeight * 0.35;
+      let idx = 0;
+      els.forEach((el, i) => {
+        if (el.getBoundingClientRect().top <= probe) idx = i;
+      });
+      setActivePhase(idx);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [phases]);
+
   return (
     <div
       style={{
@@ -414,6 +598,8 @@ const ProjectDetail = ({
         minHeight: "100vh",
       }}
     >
+      <PhaseIndicator phases={phases} activeIndex={activePhase} />
+
       {/* Sticky nav */}
       <nav
         className="sticky top-0 z-40"
@@ -532,6 +718,9 @@ const ProjectDetail = ({
           }
           if (part.type === "image-pair") {
             return <ImagePairBlock key={i} labels={part.labels} />;
+          }
+          if (part.type === "carousel") {
+            return <Carousel key={i} label={part.label} />;
           }
           if (part.type === "metrics") {
             return <MetricsBand key={i} items={part.items} />;
