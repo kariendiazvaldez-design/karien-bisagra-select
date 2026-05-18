@@ -364,35 +364,33 @@ const LadoB = () => {
             Notas, ideas y lo que me gusta
           </h2>
 
-          <div className="flex flex-wrap gap-2 mb-10">
-            {TABS.map((t) => {
-              const active = tab === t;
-              return (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className="px-4 py-2 text-sm transition-colors"
-                  style={{
-                    border: BORDER_DARK,
-                    background: active ? "#1C1A17" : "transparent",
-                    color: active ? "#FAFAF8" : "#1C1A17",
-                  }}
-                >
-                  {t}
-                </button>
-              );
-            })}
+          <div className="flex flex-col gap-4 mb-10">
+            <FilterRow label="Tipo" options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
+            <FilterRow label="Madurez" options={MAT_OPTS} active={mat} onSelect={setMat} />
+            <FilterRow label="Temas" options={temas} active={tema} onSelect={setTema} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {filtered.map((e, i) => {
-              if (e.kind === "nota") return <NoteCard key={i} n={e} />;
-              if (e.kind === "recomendacion") return <RecCard key={i} r={e} />;
-              return <LogCard key={i} l={e} />;
-            })}
+            {loading ? (
+              <GardenSkeleton />
+            ) : visible.length === 0 ? (
+              <p style={{ color: "#999", textAlign: "center", gridColumn: "1/-1" }}>Nada por aquí todavía</p>
+            ) : (
+              visible.map((p) => <GardenCard key={p.id} p={p} />)
+            )}
           </div>
-        </div>
-      </section>
+
+          {filtered.length > 6 && (
+            <div className="flex justify-center mt-10">
+              <Link
+                to="/jardin"
+                className="px-5 py-2.5 text-sm transition-colors"
+                style={{ border: "1px solid #C4622D", color: "#C4622D" }}
+              >
+                Ver más →
+              </Link>
+            </div>
+          )}
 
       {/* FOOTER */}
       <footer className="px-6 md:px-20 py-16" style={{ background: "#1C1A17", color: "#FAFAF8" }}>
