@@ -281,10 +281,10 @@ const LadoA = () => {
             Entender mejor,<br />diseñar mejor.
           </h1>
           <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed mx-auto whitespace-pre-line">
-            <HoverWord src={HOVER_IMG_1} onHover={setHoverImg}>Comunicadora</HoverWord> de formación,{" "}
-            <HoverWord src={HOVER_IMG_2} onHover={setHoverImg}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
+            <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
+            <HoverWord src={HOVER_IMG_2} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
             Busco traducir lo complejo en{" "}
-            <HoverWord src={HOVER_IMG_3} onHover={setHoverImg}>experiencias concretas</HoverWord>{" "}
+            <HoverWord src={HOVER_IMG_3} onHover={handleHover}>experiencias concretas</HoverWord>{" "}
             que equipos y organizaciones pueden hacer funcionar.
           </p>
           <button
