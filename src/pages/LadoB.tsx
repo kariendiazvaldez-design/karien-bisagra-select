@@ -1,5 +1,15 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  useGardenPosts,
+  useGardenFilters,
+  FilterRow,
+  GardenCard,
+  GardenSkeleton,
+} from "@/pages/Jardin";
+
+const TIPO_OPTS = ["Todo", "Nota", "Recomendación", "Log"];
+const MAT_OPTS = ["Todo", "Semilla", "Brote", "Fruto"];
 
 const NAV_LINKS = [
   { label: "Sobre mí", href: "#about" },
