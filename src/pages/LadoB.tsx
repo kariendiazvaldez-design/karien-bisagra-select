@@ -148,43 +148,47 @@ const PhotoCarousel = ({ photos }: { photos: PhotoItem[] }) => (
   </div>
 );
 
-const Collage = ({ items }: { items: CollageItem[] }) => (
-  <div className="relative" style={{ minHeight: 420 }}>
-    {items.map((it, i) => {
-      const isLg = it.size === "lg";
-      const w = isLg ? 240 : 160;
-      const h = isLg ? 300 : 200;
-      return (
-        <div
-          key={i}
-          className="absolute"
-          style={{
-            top: isLg ? 0 : 240,
-            left: it.offset ? 80 : 0,
-            width: w,
-          }}
-        >
+const Collage = ({ items }: { items: CollageItem[] }) => {
+  const brown = items.find((i) => i.size === "lg") || items[0];
+  const green = items.find((i) => i.size === "sm") || items[1];
+  return (
+    <div className="flex flex-col gap-4 w-full">
+      {brown && (
+        <div>
           <div
             style={{
-              width: w,
-              height: h,
-              background: it.color,
-              backgroundImage: it.src ? `url(${it.src})` : undefined,
+              width: "100%",
+              aspectRatio: "5 / 4",
+              background: brown.color,
+              backgroundImage: brown.src ? `url(${brown.src})` : undefined,
               backgroundSize: "cover",
               backgroundPosition: "center",
               border: BORDER_FAINT,
             }}
           />
-          {it.caption && (
+          {brown.caption && (
             <p className="font-caveat mt-2" style={{ color: "#C4622D", fontSize: 18 }}>
-              {it.caption}
+              {brown.caption}
             </p>
           )}
         </div>
-      );
-    })}
-  </div>
-);
+      )}
+      {green && (
+        <div
+          style={{
+            width: "100%",
+            aspectRatio: "16 / 9",
+            background: green.color,
+            backgroundImage: green.src ? `url(${green.src})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            border: BORDER_FAINT,
+          }}
+        />
+      )}
+    </div>
+  );
+};
 
 const NoteCard = ({ n }: { n: NoteEntry }) => (
   <article className="flex flex-col" style={{ border: BORDER_FAINT, background: "#FAFAF8" }}>
