@@ -252,21 +252,31 @@ const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }>
 );
 
 const markdownComponents = {
-  h2: ({ children }: any) => (
-    <h2
-      className="font-bold"
-      style={{
-        fontFamily: "Lexend, sans-serif",
-        color: OLIVE,
-        marginTop: 40,
-        marginBottom: 14,
-        fontSize: 22,
-        lineHeight: 1.3,
-      }}
-    >
-      {children}
-    </h2>
-  ),
+  h2: ({ children }: any) => {
+    const text = String(
+      Array.isArray(children)
+        ? children.map((c: any) => (typeof c === "string" ? c : c?.props?.children ?? "")).join("")
+        : children ?? ""
+    );
+    const m = text.match(/Fase\s*(\d+)/i);
+    const id = m ? `fase-${m[1]}` : undefined;
+    return (
+      <h2
+        id={id}
+        className="font-bold scroll-mt-24"
+        style={{
+          fontFamily: "Lexend, sans-serif",
+          color: OLIVE,
+          marginTop: 40,
+          marginBottom: 14,
+          fontSize: 22,
+          lineHeight: 1.3,
+        }}
+      >
+        {children}
+      </h2>
+    );
+  },
   h3: ({ children }: any) => (
     <h3
       className="font-semibold"
