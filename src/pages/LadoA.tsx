@@ -260,10 +260,10 @@ const LadoA = () => {
           >
             Entender mejor,<br />diseñar mejor.
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground mb-10 leading-relaxed mx-auto whitespace-pre-line">
             <HoverWord src={HOVER_IMG_1} onHover={setHoverImg}>Comunicadora</HoverWord> de formación,{" "}
-            <HoverWord src={HOVER_IMG_2} onHover={setHoverImg}>diseñadora de servicios</HoverWord> en la práctica.
-            Traduzco lo complejo en{" "}
+            <HoverWord src={HOVER_IMG_2} onHover={setHoverImg}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
+            Busco traducir lo complejo en{" "}
             <HoverWord src={HOVER_IMG_3} onHover={setHoverImg}>experiencias concretas</HoverWord>{" "}
             que equipos y organizaciones pueden hacer funcionar.
           </p>
@@ -281,7 +281,7 @@ const LadoA = () => {
       <section id="proyectos" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Portafolio</p>
-          <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos</h2>
+          <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos:</h2>
           {(() => {
             const ordered = PROJECT_ORDER
               .map((id) => portfolioProjects.find((p) => p.id === id))
@@ -374,7 +374,7 @@ const LadoA = () => {
       <section id="blog" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Aprendizajes</p>
-          <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando</h2>
+          <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando:</h2>
           <div className="mb-4">
             <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
               Temas
@@ -488,11 +488,12 @@ const LadoA = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div className="order-2 md:order-1">
             <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-4">Sobre mí</p>
-            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6">Karien.</h2>
-            <p className="text-base text-muted-foreground max-w-[480px] leading-relaxed mb-6">
-              Comunicadora de profesión, formada en mediación cultural. Actualmente diseñadora cursando la Maestría en Gerencia de TI y Transformación Digital. Mi caja de herramientas incluye facilitación para el aprendizaje, UX Design, comunicación digital y project management.
-              <br /><br />
-              Trabajo para conectar innovación, tecnología y propósito.
+            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6">Karien:</h2>
+            <p className="text-base text-muted-foreground max-w-[480px] leading-relaxed mb-6 whitespace-pre-line">
+              Comunicadora de profesión, diseñadora en la práctica. Actualmente diseñadora cursando la Maestría en Gerencia de TI y Transformación Digital.{" "}
+              {"\n"}Trabajo para conectar innovación, tecnología y propósito.
+              {"\n\n"}Fun fact: me formé en mediación cultural y soy muy fan de los museos.
+              {"\n\n"}Mi caja de herramientas incluye:
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {SKILLS.map((s) => (
@@ -511,7 +512,7 @@ const LadoA = () => {
               rel="noreferrer"
               className="inline-block bg-a-accent text-background px-5 py-2.5 hover:bg-a-accent-mid transition-colors"
             >
-              Ver CV →
+              Perfil profesional →
             </a>
           </div>
           <div className="order-1 md:order-2">
@@ -530,14 +531,14 @@ const LadoA = () => {
       <section className="px-6 md:px-20 py-24 md:py-32 bg-[#1C1A17] text-background">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-soft mb-4">Contacto</p>
-          <h2 className="font-extralight text-4xl md:text-6xl text-background mb-6">¿Trabajamos juntos?</h2>
+          <h2 className="font-extralight text-4xl md:text-6xl text-background mb-6">¿Un proyecto juntxs?</h2>
           <p className="text-base text-muted-foreground mb-12 max-w-xl mx-auto">
-            Disponible para proyectos de diseño de servicios, facilitación y consultoría en transformación digital.
+            Interesada en proyectos de diseño de servicios o de aprendizaje. También en facilitación y en retos de el lado humano de la transformación digital.
           </p>
           <div className="flex flex-col items-center max-w-sm mx-auto mb-16">
             {[
               { label: "LinkedIn", href: "#" },
-              { label: "Instagram", href: "#" },
+              { label: "Instagram", href: "https://www.instagram.com/karien.xyz/" },
             ].map((l, i, arr) => (
               <a
                 key={l.label}
@@ -552,7 +553,7 @@ const LadoA = () => {
             ))}
           </div>
           <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 text-xs text-muted-foreground">
-            <p>Karien.xyz · 2025 · Hecho con curiosidad y paciencia</p>
+            <p>Karien.xyz · 2026 · Hecho con curiosidad y paciencia</p>
             <Link to="/lado-b" className="text-a-accent-soft hover:text-background transition-colors">
               ← Ir a Lado B
             </Link>
