@@ -813,10 +813,10 @@ const ProjectDetail = ({
         )}
       </article>
 
-      {/* Volver */}
+      {/* Siguiente caso */}
       <div className="max-w-3xl mx-auto px-6 md:px-16 py-16 flex justify-center">
         <Link
-          to="/lado-a"
+          to={`/portafolio/${nextProject.id}`}
           style={{
             border: `1px solid ${OLIVE}`,
             color: OLIVE,
@@ -826,7 +826,7 @@ const ProjectDetail = ({
             background: "transparent",
           }}
         >
-          ← Volver al portafolio
+          Siguiente caso: {nextProject.title.split(":")[0].split("/")[0].trim()} →
         </Link>
       </div>
     </div>
