@@ -717,6 +717,9 @@ const ProjectDetail = ({
           if (part.type === "image-pair") {
             return <ImagePairBlock key={i} labels={part.labels} />;
           }
+          if (part.type === "carousel") {
+            return <Carousel key={i} label={part.label} />;
+          }
           if (part.type === "metrics") {
             return <MetricsBand key={i} items={part.items} />;
           }
