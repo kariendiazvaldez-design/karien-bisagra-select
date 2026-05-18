@@ -553,7 +553,7 @@ const LadoA = () => {
             ))}
           </div>
           <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 text-xs text-muted-foreground">
-            <p>Karien.xyz · 2025 · Hecho con curiosidad y paciencia</p>
+            <p>Karien.xyz · 2026 · Hecho con curiosidad y paciencia</p>
             <Link to="/lado-b" className="text-a-accent-soft hover:text-background transition-colors">
               ← Ir a Lado B
             </Link>
