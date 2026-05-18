@@ -8,6 +8,7 @@ import LadoA from "./pages/LadoA.tsx";
 import LadoB from "./pages/LadoB.tsx";
 import CaseStudy from "./pages/CaseStudy.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
+import Blog from "./pages/Blog.tsx";
 import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
 import ProjectWASHMA from "./pages/ProjectWASHMA.tsx";
 import ProjectCommandZ from "./pages/ProjectCommandZ.tsx";
