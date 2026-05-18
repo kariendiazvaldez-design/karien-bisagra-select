@@ -393,6 +393,7 @@ const markdownComponents = {
     );
     const m = text.match(/Fase\s*(\d+)/i);
     const id = m ? `fase-${m[1]}` : undefined;
+    const isPhase = !!m;
     return (
       <h2
         id={id}
@@ -400,10 +401,12 @@ const markdownComponents = {
         style={{
           fontFamily: "Lexend, sans-serif",
           color: OLIVE,
-          marginTop: 40,
+          marginTop: isPhase ? 64 : 40,
           marginBottom: 14,
-          fontSize: 22,
+          fontSize: isPhase ? 28 : 22,
           lineHeight: 1.3,
+          borderTop: isPhase ? `1px solid ${OLIVE}4D` : undefined,
+          paddingTop: isPhase ? 16 : undefined,
         }}
       >
         {children}
