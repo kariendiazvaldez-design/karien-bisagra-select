@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ChevronLeft, ChevronRight, Image as ImageIcon, Film, Play } from "lucide-react";
+import { projects } from "@/data/projects";
 
 export interface ProjectDetailProps {
+  id?: string;
   title: string;
   description: string;
   client: string;
@@ -547,6 +549,7 @@ const markdownComponents = {
 };
 
 const ProjectDetail = ({
+  id,
   title,
   description,
   client,
@@ -557,6 +560,12 @@ const ProjectDetail = ({
   content,
   heroImage,
 }: ProjectDetailProps) => {
+  const nextProject = useMemo(() => {
+    if (!id) return projects[0];
+    const i = projects.findIndex((p) => p.id === id);
+    if (i === -1) return projects[0];
+    return projects[(i + 1) % projects.length];
+  }, [id]);
   useEffect(() => {
     const id = "lexend-font-link";
     if (!document.getElementById(id)) {
@@ -645,12 +654,13 @@ const ProjectDetail = ({
         }}
       >
         <div className="max-w-5xl mx-auto px-6 md:px-16 h-14 flex items-center justify-between">
-          <span
+          <Link
+            to="/"
             className="truncate"
-            style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A" }}
+            style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A", textDecoration: "none" }}
           >
-            {title}
-          </span>
+            Karien.xyz
+          </Link>
           <Link
             to="/lado-a"
             style={{ color: OLIVE, fontSize: 14, fontFamily: "Lexend, sans-serif" }}
@@ -803,10 +813,10 @@ const ProjectDetail = ({
         )}
       </article>
 
-      {/* Volver */}
+      {/* Siguiente caso */}
       <div className="max-w-3xl mx-auto px-6 md:px-16 py-16 flex justify-center">
         <Link
-          to="/lado-a"
+          to={`/portafolio/${nextProject.id}`}
           style={{
             border: `1px solid ${OLIVE}`,
             color: OLIVE,
@@ -816,7 +826,7 @@ const ProjectDetail = ({
             background: "transparent",
           }}
         >
-          ← Volver al portafolio
+          Siguiente caso: {nextProject.title.split(":")[0].split("/")[0].trim()} →
         </Link>
       </div>
     </div>
