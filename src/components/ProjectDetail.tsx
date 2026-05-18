@@ -18,20 +18,32 @@ export interface ProjectDetailProps {
 
 const OLIVE = "#6B7A3E";
 const BG = "#FAFAF7";
+const QUOTE_BG = "#F3F4EE";
 
-const Chip = ({ children }: { children: React.ReactNode }) => (
-  <span
-    className="inline-flex items-center whitespace-nowrap text-xs"
-    style={{
-      border: `1px solid ${OLIVE}`,
-      color: OLIVE,
-      background: "transparent",
-      borderRadius: 999,
-      padding: "4px 12px",
-    }}
-  >
-    {children}
-  </span>
+const MetaChip = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex flex-col">
+    <span
+      style={{
+        fontFamily: "Lexend, sans-serif",
+        fontSize: 10,
+        color: "#999",
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        marginBottom: 2,
+      }}
+    >
+      {label}
+    </span>
+    <span
+      style={{
+        fontFamily: "Lexend, sans-serif",
+        fontSize: 13,
+        color: OLIVE,
+      }}
+    >
+      {value}
+    </span>
+  </div>
 );
 
 const PlaceholderBlock = ({
@@ -44,19 +56,19 @@ const PlaceholderBlock = ({
   const isVideo = kind === "VIDEO";
   const Icon = kind === "VIDEO" ? Play : kind === "GIF" ? Film : ImageIcon;
   return (
-    <figure className="my-10">
+    <figure className="my-10 md:my-12 md:-mx-[110px]">
       <div
         className="w-full flex items-center justify-center"
         style={{
           background: "#E8E8E8",
-          height: isVideo ? 400 : 360,
+          height: isVideo ? 480 : 400,
         }}
       >
         <Icon size={48} color="#999" strokeWidth={1.5} />
       </div>
       <figcaption
         className="mt-3 text-center"
-        style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 14 }}
+        style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 13 }}
       >
         {kind}: {label}
       </figcaption>
@@ -64,33 +76,175 @@ const PlaceholderBlock = ({
   );
 };
 
+const ImagePairBlock = ({
+  labels,
+}: {
+  labels: string[];
+}) => (
+  <figure className="my-10 md:my-12 md:-mx-[110px] grid grid-cols-1 md:grid-cols-2 gap-4">
+    {labels.map((label, i) => (
+      <div key={i}>
+        <div
+          className="w-full flex items-center justify-center"
+          style={{ background: "#E8E8E8", height: 400 }}
+        >
+          <ImageIcon size={40} color="#999" strokeWidth={1.5} />
+        </div>
+        <div
+          className="mt-3 text-center"
+          style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 13 }}
+        >
+          IMAGE: {label}
+        </div>
+      </div>
+    ))}
+  </figure>
+);
+
 // Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...]
 const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO):\s*([^\]]+)\]/g;
+// Detect a metrics-style markdown table: rows like "| value | label |"
+// Heuristic: a block where every line starts with "|" and has exactly 2 cells, no header separator.
+const METRICS_TABLE_RE = /(?:^|\n)((?:\|[^\n]+\|\s*\n?){2,})/g;
 
-function splitContent(content: string) {
-  const parts: Array<
-    | { type: "md"; value: string }
-    | { type: "placeholder"; kind: "IMAGE" | "GIF" | "VIDEO"; label: string }
-  > = [];
+type Part =
+  | { type: "md"; value: string }
+  | { type: "placeholder"; kind: "IMAGE" | "GIF" | "VIDEO"; label: string }
+  | { type: "image-pair"; labels: string[] }
+  | { type: "metrics"; items: Array<{ value: string; label: string }> };
+
+function parseMetricsTable(block: string): Array<{ value: string; label: string }> | null {
+  const lines = block.trim().split("\n").map((l) => l.trim()).filter(Boolean);
+  if (lines.length < 2) return null;
+  const items: Array<{ value: string; label: string }> = [];
+  for (const line of lines) {
+    if (!line.startsWith("|")) return null;
+    const cells = line.split("|").map((c) => c.trim()).filter((c) => c.length > 0);
+    if (cells.length !== 2) return null;
+    if (/^-+$/.test(cells[0])) return null; // header separator
+    items.push({ value: cells[0], label: cells[1] });
+  }
+  return items.length >= 2 ? items : null;
+}
+
+function splitContent(content: string): Part[] {
+  const parts: Part[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
   PLACEHOLDER_RE.lastIndex = 0;
+
+  const placeholders: Array<{ index: number; length: number; kind: any; label: string }> = [];
   while ((match = PLACEHOLDER_RE.exec(content)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push({ type: "md", value: content.slice(lastIndex, match.index) });
-    }
-    parts.push({
-      type: "placeholder",
-      kind: match[1] as "IMAGE" | "GIF" | "VIDEO",
+    placeholders.push({
+      index: match.index,
+      length: match[0].length,
+      kind: match[1],
       label: match[2].trim(),
     });
-    lastIndex = match.index + match[0].length;
+  }
+
+  // Walk through, collapsing consecutive IMAGE placeholders (only whitespace between) into pairs
+  let i = 0;
+  while (i < placeholders.length) {
+    const p = placeholders[i];
+    if (p.index > lastIndex) {
+      parts.push({ type: "md", value: content.slice(lastIndex, p.index) });
+    }
+    const next = placeholders[i + 1];
+    const between = next ? content.slice(p.index + p.length, next.index) : "";
+    if (
+      next &&
+      p.kind === "IMAGE" &&
+      next.kind === "IMAGE" &&
+      /^\s*$/.test(between)
+    ) {
+      parts.push({ type: "image-pair", labels: [p.label, next.label] });
+      lastIndex = next.index + next.length;
+      i += 2;
+    } else {
+      parts.push({ type: "placeholder", kind: p.kind, label: p.label });
+      lastIndex = p.index + p.length;
+      i += 1;
+    }
   }
   if (lastIndex < content.length) {
     parts.push({ type: "md", value: content.slice(lastIndex) });
   }
-  return parts;
+
+  // Second pass: within md parts, extract metrics-style tables
+  const final: Part[] = [];
+  for (const part of parts) {
+    if (part.type !== "md") {
+      final.push(part);
+      continue;
+    }
+    const text = part.value;
+    let cursor = 0;
+    let m: RegExpExecArray | null;
+    METRICS_TABLE_RE.lastIndex = 0;
+    while ((m = METRICS_TABLE_RE.exec(text)) !== null) {
+      const block = m[1];
+      const items = parseMetricsTable(block);
+      if (!items) continue;
+      const blockStart = m.index + (m[0].length - block.length);
+      if (blockStart > cursor) {
+        final.push({ type: "md", value: text.slice(cursor, blockStart) });
+      }
+      final.push({ type: "metrics", items });
+      cursor = m.index + m[0].length;
+    }
+    if (cursor < text.length) {
+      final.push({ type: "md", value: text.slice(cursor) });
+    }
+  }
+  return final;
 }
+
+const MetricsBand = ({ items }: { items: Array<{ value: string; label: string }> }) => (
+  <div
+    className="my-12 md:-mx-[110px]"
+    style={{
+      background: QUOTE_BG,
+      borderRadius: 12,
+      padding: "48px 32px",
+    }}
+  >
+    <div
+      className="grid gap-8"
+      style={{
+        gridTemplateColumns: `repeat(auto-fit, minmax(160px, 1fr))`,
+      }}
+    >
+      {items.map((m, i) => (
+        <div key={i}>
+          <div
+            style={{
+              fontFamily: "Lexend, sans-serif",
+              fontWeight: 700,
+              fontSize: 42,
+              color: OLIVE,
+              lineHeight: 1.1,
+            }}
+          >
+            {m.value}
+          </div>
+          <div
+            style={{
+              fontFamily: "Lexend, sans-serif",
+              fontSize: 12,
+              color: "#666",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              marginTop: 8,
+            }}
+          >
+            {m.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 const markdownComponents = {
   h2: ({ children }: any) => (
@@ -99,9 +253,10 @@ const markdownComponents = {
       style={{
         fontFamily: "Lexend, sans-serif",
         color: OLIVE,
-        marginTop: 48,
-        marginBottom: 16,
-        fontSize: 28,
+        marginTop: 40,
+        marginBottom: 14,
+        fontSize: 22,
+        lineHeight: 1.3,
       }}
     >
       {children}
@@ -113,9 +268,10 @@ const markdownComponents = {
       style={{
         fontFamily: "Lexend, sans-serif",
         color: "#1A1A1A",
-        marginTop: 32,
-        marginBottom: 12,
-        fontSize: 20,
+        marginTop: 28,
+        marginBottom: 10,
+        fontSize: 18,
+        lineHeight: 1.3,
       }}
     >
       {children}
@@ -125,8 +281,8 @@ const markdownComponents = {
     <p
       style={{
         fontFamily: "Lexend, sans-serif",
-        fontSize: 16,
-        lineHeight: 1.8,
+        fontSize: 15,
+        lineHeight: 1.7,
         color: "#333",
         marginBottom: 16,
       }}
@@ -136,14 +292,17 @@ const markdownComponents = {
   ),
   blockquote: ({ children }: any) => (
     <blockquote
+      className="md:-mx-[90px]"
       style={{
         borderLeft: `3px solid ${OLIVE}`,
-        background: "#F3F4EE",
-        padding: "16px 24px",
+        background: QUOTE_BG,
+        padding: "20px 28px",
         fontStyle: "italic",
-        margin: "24px 0",
+        margin: "28px 0",
         color: "#333",
         fontFamily: "Lexend, sans-serif",
+        fontSize: 16,
+        lineHeight: 1.6,
       }}
     >
       {children}
@@ -153,8 +312,8 @@ const markdownComponents = {
     <ul
       style={{
         fontFamily: "Lexend, sans-serif",
-        fontSize: 16,
-        lineHeight: 1.9,
+        fontSize: 15,
+        lineHeight: 1.8,
         color: "#333",
         paddingLeft: 24,
         marginBottom: 16,
@@ -168,8 +327,8 @@ const markdownComponents = {
     <ol
       style={{
         fontFamily: "Lexend, sans-serif",
-        fontSize: 16,
-        lineHeight: 1.9,
+        fontSize: 15,
+        lineHeight: 1.8,
         color: "#333",
         paddingLeft: 24,
         marginBottom: 16,
@@ -185,11 +344,11 @@ const markdownComponents = {
       return (
         <pre
           style={{
-            background: "#F3F4EE",
+            background: QUOTE_BG,
             padding: 16,
             overflowX: "auto",
             fontFamily: "monospace",
-            fontSize: 14,
+            fontSize: 13,
           }}
         >
           <code>{children}</code>
@@ -263,8 +422,11 @@ const ProjectDetail = ({
           borderBottom: "1px solid #E8E8E8",
         }}
       >
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <span style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A" }}>
+        <div className="max-w-5xl mx-auto px-6 md:px-16 h-14 flex items-center justify-between">
+          <span
+            className="truncate"
+            style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A" }}
+          >
             {title}
           </span>
           <Link
@@ -276,64 +438,72 @@ const ProjectDetail = ({
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* HERO con overlay y título superpuesto */}
       <header>
         <div
-          className="w-full flex items-center justify-center"
+          className="relative w-full"
           style={{
-            height: 480,
+            minHeight: 480,
             background: heroImage ? undefined : "#D9D9D9",
             backgroundImage: heroImage ? `url(${heroImage})` : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          {!heroImage && (
-            <span style={{ color: "#B0B0B0", fontSize: 16, fontFamily: "Lexend, sans-serif" }}>
-              Hero: {title}
-            </span>
-          )}
+          {/* Overlay gradient */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 70%)",
+            }}
+          />
+          {/* Título bottom-left */}
+          <div className="absolute inset-0 flex items-end">
+            <h1
+              style={{
+                fontFamily: "Lexend, sans-serif",
+                fontWeight: 700,
+                color: "#fff",
+                padding: 40,
+                fontSize: 28,
+                lineHeight: 1.2,
+                letterSpacing: "-0.01em",
+              }}
+              className="md:!text-[36px]"
+            >
+              {title}
+            </h1>
+          </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 mt-8">
-          <h1
-            style={{
-              fontFamily: "Lexend, sans-serif",
-              fontWeight: 600,
-              fontSize: 40,
-              color: "#1A1A1A",
-              marginBottom: 20,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {title}
-          </h1>
+        {/* Chips de metadata DEBAJO del hero */}
+        <div className="max-w-5xl mx-auto px-6 md:px-16 mt-8">
           <div
-            className="flex gap-2 overflow-x-auto pb-2"
-            style={{ scrollbarWidth: "thin" }}
+            className="flex flex-wrap gap-x-8 gap-y-4 items-start"
+            style={{ borderBottom: "1px solid #E8E8E8", paddingBottom: 24 }}
           >
-            <Chip>{client}</Chip>
-            <Chip>{year}</Chip>
-            {role.map((r) => (
-              <Chip key={`r-${r}`}>{r}</Chip>
-            ))}
-            {projectType.map((t) => (
-              <Chip key={`t-${t}`}>{t}</Chip>
-            ))}
+            <MetaChip label="Cliente" value={client} />
+            <div className="hidden md:block self-stretch" style={{ width: 1, background: "#E0E0E0" }} />
+            <MetaChip label="Año" value={year} />
+            <div className="hidden md:block self-stretch" style={{ width: 1, background: "#E0E0E0" }} />
+            <MetaChip label="Rol" value={role.join(" · ")} />
+            <div className="hidden md:block self-stretch" style={{ width: 1, background: "#E0E0E0" }} />
+            <MetaChip label="Tipo" value={projectType.join(" · ")} />
           </div>
         </div>
       </header>
 
       {/* DESCRIPCIÓN CORTA */}
-      <section className="px-6 py-16">
+      <section className="px-6 md:px-16 pt-10 pb-6">
         <p
           style={{
             fontFamily: "Lexend, sans-serif",
-            fontSize: 18,
+            fontSize: 16,
             color: "#444",
             maxWidth: 720,
             margin: "0 auto",
-            lineHeight: 1.7,
+            lineHeight: 1.65,
           }}
         >
           {description}
@@ -341,20 +511,33 @@ const ProjectDetail = ({
       </section>
 
       {/* CUERPO */}
-      <article className="max-w-3xl mx-auto px-6 pb-12">
-        {parts.map((part, i) =>
-          part.type === "md" ? (
-            <ReactMarkdown
-              key={i}
-              remarkPlugins={[remarkGfm]}
-              components={markdownComponents as any}
-            >
-              {part.value}
-            </ReactMarkdown>
-          ) : (
-            <PlaceholderBlock key={i} kind={part.kind} label={part.label} />
-          ),
-        )}
+      <article
+        className="mx-auto px-6 md:px-16 pb-12 relative"
+        style={{ maxWidth: 680 }}
+      >
+        {parts.map((part, i) => {
+          if (part.type === "md") {
+            return (
+              <ReactMarkdown
+                key={i}
+                remarkPlugins={[remarkGfm]}
+                components={markdownComponents as any}
+              >
+                {part.value}
+              </ReactMarkdown>
+            );
+          }
+          if (part.type === "placeholder") {
+            return <PlaceholderBlock key={i} kind={part.kind} label={part.label} />;
+          }
+          if (part.type === "image-pair") {
+            return <ImagePairBlock key={i} labels={part.labels} />;
+          }
+          if (part.type === "metrics") {
+            return <MetricsBand key={i} items={part.items} />;
+          }
+          return null;
+        })}
 
         {/* Herramientas */}
         {tools.length > 0 && (
@@ -362,7 +545,7 @@ const ProjectDetail = ({
             <h3
               style={{
                 fontFamily: "Lexend, sans-serif",
-                fontSize: 14,
+                fontSize: 13,
                 color: "#666",
                 textTransform: "uppercase",
                 letterSpacing: "0.12em",
@@ -393,7 +576,7 @@ const ProjectDetail = ({
       </article>
 
       {/* Volver */}
-      <div className="max-w-3xl mx-auto px-6 py-16 flex justify-center">
+      <div className="max-w-3xl mx-auto px-6 md:px-16 py-16 flex justify-center">
         <Link
           to="/lado-a"
           style={{
@@ -412,49 +595,10 @@ const ProjectDetail = ({
   );
 };
 
-/**
- * Renders a metrics grid. Use within `content` is not markdown-friendly,
- * so this is exported for callers who want to compose pages with metrics.
- */
 export const ProjectMetrics = ({
   items,
 }: {
   items: Array<{ value: string; label: string }>;
-}) => (
-  <div
-    className="grid gap-8 my-12"
-    style={{
-      gridTemplateColumns: `repeat(${Math.min(items.length, 4)}, minmax(0, 1fr))`,
-    }}
-  >
-    {items.map((m) => (
-      <div key={m.label}>
-        <div
-          style={{
-            fontFamily: "Lexend, sans-serif",
-            fontWeight: 700,
-            fontSize: 48,
-            color: OLIVE,
-            lineHeight: 1.1,
-          }}
-        >
-          {m.value}
-        </div>
-        <div
-          style={{
-            fontFamily: "Lexend, sans-serif",
-            fontSize: 14,
-            color: "#666",
-            textTransform: "uppercase",
-            letterSpacing: "0.12em",
-            marginTop: 8,
-          }}
-        >
-          {m.label}
-        </div>
-      </div>
-    ))}
-  </div>
-);
+}) => <MetricsBand items={items} />;
 
 export default ProjectDetail;
