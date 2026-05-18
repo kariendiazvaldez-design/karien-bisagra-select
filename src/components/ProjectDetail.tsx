@@ -101,18 +101,30 @@ const ImagePairBlock = ({
   </figure>
 );
 
-// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...], [CAROUSEL: ...]
-const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO|CAROUSEL):\s*([^\]]+)\]/g;
+// Parse content: split by [IMAGE: ...], [GIF: ...], [VIDEO: ...], [CAROUSEL: ...], [INDEX: id|label]
+const PLACEHOLDER_RE = /\[(IMAGE|GIF|VIDEO|CAROUSEL|INDEX):\s*([^\]]+)\]/g;
 // Detect a metrics-style markdown table: rows like "| value | label |"
 // Heuristic: a block where every line starts with "|" and has exactly 2 cells, no header separator.
 const METRICS_TABLE_RE = /(?:^|\n)((?:\|[^\n]+\|\s*\n?){2,})/g;
+const INDEX_COMMENT_RE = /<!--\s*INDEX:\s*([^>]+?)\s*-->/g;
+
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 type Part =
   | { type: "md"; value: string }
   | { type: "placeholder"; kind: "IMAGE" | "GIF" | "VIDEO"; label: string }
   | { type: "image-pair"; labels: string[] }
   | { type: "carousel"; label: string }
+  | { type: "index-anchor"; id: string; label: string }
   | { type: "metrics"; items: Array<{ value: string; label: string }> };
+
 
 function parseMetricsTable(block: string): Array<{ value: string; label: string }> | null {
   const lines = block.trim().split("\n").map((l) => l.trim()).filter(Boolean);
