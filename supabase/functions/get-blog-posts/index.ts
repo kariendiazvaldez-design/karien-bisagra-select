@@ -46,6 +46,7 @@ Deno.serve(async (req) => {
         title: getPlainText(p.Title?.title || []),
         slug: getPlainText(p.Slug?.rich_text || []),
         category: p.Category?.select?.name || '',
+        tipo: p.Tipo?.select?.name || '',
         excerpt: getPlainText(p.Excerpt?.rich_text || []),
         date: page.created_time || '',
       };
