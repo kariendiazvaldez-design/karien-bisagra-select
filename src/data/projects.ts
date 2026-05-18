@@ -2,6 +2,7 @@ import type { ProjectDetailProps } from "@/components/ProjectDetail";
 import { innovaContent } from "./projects/innova-content";
 import { washmaContent } from "./projects/washma-content";
 import { commandZContent } from "./projects/commandz-content";
+import { patriaCContent } from "./projects/patriac-content";
 
 export interface Project extends ProjectDetailProps {
   id: string;
@@ -62,4 +63,17 @@ export const commandZ: Project = {
   content: commandZContent,
 };
 
-export const projects: Project[] = [innovaPlus, washma, commandZ];
+export const patriaC: Project = {
+  id: "patria-c",
+  title: "Patria C: acompañar a juventudes y liderazgo territorial",
+  description:
+    "Coordinación integral y diseño de experiencia de academia ciudadana remota para 150 líderes jóvenes de todas las regiones del Perú. Tres módulos formativos, seguimiento personalizado por cohorte y NPS de 91%.",
+  client: "Patria C · PeruTeQuiero · Mosaico Lab",
+  year: "2023",
+  role: ["Project Manager", "Learning Experience"],
+  projectType: ["B2C", "Learning Experience Design", "Gestión de programas"],
+  tools: ["Miro", "Notion", "Zoom", "Whatsapp Business", "Facilitación virtual"],
+  content: patriaCContent,
+};
+
+export const projects: Project[] = [innovaPlus, washma, commandZ, patriaC];
