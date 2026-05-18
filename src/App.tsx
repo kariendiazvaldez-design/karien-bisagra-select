@@ -9,7 +9,6 @@ import LadoB from "./pages/LadoB.tsx";
 
 import BlogPost from "./pages/BlogPost.tsx";
 import Blog from "./pages/Blog.tsx";
-import Jardin from "./pages/Jardin.tsx";
 import GardenPost from "./pages/GardenPost.tsx";
 import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
 import ProjectWASHMA from "./pages/ProjectWASHMA.tsx";
