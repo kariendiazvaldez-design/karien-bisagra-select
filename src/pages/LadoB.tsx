@@ -5,15 +5,18 @@ import { supabase } from "@/integrations/supabase/client";
 
 const BG = "#F2EFE8";
 const TERRACOTA = "#C4622D";
+const TERRACOTA_SOFT = "#F5E6E0";
 const TEXT = "#1C1A17";
 const DIVIDER = "#E8E8E8";
+const IMG_PH = "#E0D8D0";
+const IMG_PH_DARK = "#B5571F";
 
-const TIPO_OPTS = ["Todo", "Nota", "Recomendación", "Log"];
-const CHIPS_HERO = [
-  "Diseño de servicios",
-  "UX Research",
-  "Facilitación",
-  "Transformación digital",
+const TIPO_OPTS = [
+  "Todos los formatos",
+  "Apuntes",
+  "Diario&Pensamientos",
+  "Reseñas",
+  "Log",
 ];
 
 type GardenPost = {
@@ -44,11 +47,23 @@ const fmtDate = (d: string) => {
   }
 };
 
-const tipoOf = (p: GardenPost): "nota" | "recomendacion" | "log" => {
+type Kind = "nota" | "recomendacion" | "log";
+
+const tipoOf = (p: GardenPost): Kind => {
   const t = (p.tipo || "").toLowerCase();
   if (t.includes("log")) return "log";
-  if (t.includes("recom")) return "recomendacion";
+  if (t.includes("recom") || t.includes("reseñ") || t.includes("resen")) return "recomendacion";
   return "nota";
+};
+
+const matchesTipoFilter = (p: GardenPost, filter: string) => {
+  if (filter === "Todos los formatos") return true;
+  const t = (p.tipo || "").toLowerCase();
+  if (filter === "Apuntes") return t.includes("apunte") || t.includes("nota");
+  if (filter === "Diario&Pensamientos") return t.includes("diario") || t.includes("pensam");
+  if (filter === "Reseñas") return t.includes("reseñ") || t.includes("resen") || t.includes("recom");
+  if (filter === "Log") return t.includes("log");
+  return true;
 };
 
 // ---------- NAVBAR ----------
@@ -98,32 +113,15 @@ const Hero = () => (
         Foto
       </div>
       <div className="flex-1 text-center md:text-left">
-        <h1 className="font-caveat" style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 12 }}>
+        <h1 className="font-caveat" style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 16 }}>
           Karien.
         </h1>
-        <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 560 }}>
-          Diseñadora de servicios. Comunicadora de formación. Curiosa por vocación.
+        <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 580, whiteSpace: "pre-line" }}>
+          {"Lectora. Viajera. Nostálgica. Olvidadiza. Compañera de Falkor, perro Dragón\nQuiero escribir para recordar y para hacerme una casita fija mientras exploro todo lo que puedo."}
         </p>
-        <div className="flex items-center justify-center md:justify-start gap-2 mb-5 font-quicksand" style={{ fontSize: 14, color: TEXT }}>
+        <div className="flex items-center justify-center md:justify-start gap-2 font-quicksand" style={{ fontSize: 14, color: TEXT }}>
           <MapPin size={14} style={{ color: TERRACOTA }} />
           <span>Chiclayo · Lima · Remoto</span>
-        </div>
-        <div className="flex flex-wrap justify-center md:justify-start gap-2">
-          {CHIPS_HERO.map((c) => (
-            <span
-              key={c}
-              className="font-quicksand"
-              style={{
-                fontSize: 13,
-                padding: "6px 14px",
-                borderRadius: 999,
-                border: `1px solid ${TERRACOTA}`,
-                color: TERRACOTA,
-              }}
-            >
-              {c}
-            </span>
-          ))}
         </div>
       </div>
     </div>
@@ -131,7 +129,7 @@ const Hero = () => (
 );
 
 // ---------- FILTER CHIPS ----------
-const FilterChips = ({
+const FilterRow = ({
   options,
   active,
   onSelect,
@@ -140,34 +138,28 @@ const FilterChips = ({
   active: string;
   onSelect: (v: string) => void;
 }) => (
-  <div
-    className="flex gap-2 overflow-x-auto md:flex-wrap"
-    style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
-  >
-    <style>{`.no-bar::-webkit-scrollbar{display:none}`}</style>
-    <div className="flex gap-2 md:flex-wrap no-bar">
-      {options.map((opt) => {
-        const isActive = active === opt;
-        return (
-          <button
-            key={opt}
-            onClick={() => onSelect(opt)}
-            className="font-quicksand whitespace-nowrap transition-colors"
-            style={{
-              fontSize: 13,
-              padding: "6px 14px",
-              borderRadius: 999,
-              border: `1px solid ${TERRACOTA}`,
-              background: isActive ? TERRACOTA : "transparent",
-              color: isActive ? "#FFFFFF" : TERRACOTA,
-              flexShrink: 0,
-            }}
-          >
-            {opt}
-          </button>
-        );
-      })}
-    </div>
+  <div className="flex gap-1.5 overflow-x-auto no-bar" style={{ scrollbarWidth: "none" } as React.CSSProperties}>
+    {options.map((opt) => {
+      const isActive = active === opt;
+      return (
+        <button
+          key={opt}
+          onClick={() => onSelect(opt)}
+          className="font-quicksand whitespace-nowrap transition-colors"
+          style={{
+            fontSize: 12,
+            padding: "4px 14px",
+            borderRadius: 999,
+            border: isActive ? `1px solid ${TERRACOTA}` : "1px solid transparent",
+            background: isActive ? TERRACOTA_SOFT : "transparent",
+            color: isActive ? TERRACOTA : "#999",
+            flexShrink: 0,
+          }}
+        >
+          {opt}
+        </button>
+      );
+    })}
   </div>
 );
 
@@ -187,17 +179,24 @@ const Chip = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
+const ImgPlaceholder = ({ h, bg = IMG_PH }: { h: number; bg?: string }) => (
+  <div style={{ width: "100%", height: h, background: bg, borderRadius: 2 }} />
+);
+
 const NotaCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="p-6 flex flex-col gap-3"
-    style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4, minHeight: 200 }}
+    className="p-5 flex flex-col gap-3 h-full"
+    style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
-    <span style={{ fontSize: 24 }}>{maturityIcon(p.maturity)}</span>
-    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 20, lineHeight: 1.25 }}>{p.nombre}</h3>
+    <ImgPlaceholder h={200} />
+    <div className="flex items-center gap-2">
+      <span style={{ fontSize: 22 }}>{maturityIcon(p.maturity)}</span>
+      <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 20, lineHeight: 1.25 }}>{p.nombre}</h3>
+    </div>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "#555", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
     {p.temas.length > 0 && (
-      <div className="flex flex-wrap gap-1.5 mt-1">
+      <div className="flex flex-wrap gap-1.5">
         {p.temas.slice(0, 4).map((t) => <Chip key={t}>{t}</Chip>)}
       </div>
     )}
@@ -208,21 +207,17 @@ const NotaCard = ({ p }: { p: GardenPost }) => (
 const RecCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-2"
+    className="p-5 flex flex-col gap-2 h-full"
     style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
+    <ImgPlaceholder h={160} />
     {p.category && (
-      <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase" }}>
+      <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginTop: 4 }}>
         {p.category}
       </p>
     )}
     <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3 }}>{p.nombre}</h3>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "#777", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
-    {p.temas.length > 0 && (
-      <div className="flex flex-wrap gap-1.5 mt-1">
-        {p.temas.slice(0, 3).map((t) => <Chip key={t}>{t}</Chip>)}
-      </div>
-    )}
     {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
   </Link>
 );
@@ -230,9 +225,10 @@ const RecCard = ({ p }: { p: GardenPost }) => (
 const LogCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="p-4 flex flex-col gap-2 justify-between"
+    className="p-4 flex flex-col gap-2 h-full"
     style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4, minHeight: 120 }}
   >
+    <ImgPlaceholder h={80} bg={IMG_PH_DARK} />
     <p className="font-caveat" style={{ fontSize: 18, lineHeight: 1 }}>{fmtDate(p.date) || "—"}</p>
     <p
       className="font-quicksand"
@@ -251,31 +247,25 @@ const LogCard = ({ p }: { p: GardenPost }) => (
 );
 
 // ---------- BENTO ----------
-const bentoSpanClass = (kind: "nota" | "recomendacion" | "log") => {
+const bentoSpanClass = (kind: Kind) => {
   if (kind === "nota") return "col-span-1 md:col-span-2 md:row-span-2";
   if (kind === "recomendacion") return "col-span-1 md:row-span-2";
   return "col-span-1";
 };
 
 const Bento = ({ posts }: { posts: GardenPost[] }) => (
-  <div
-    className="grid gap-4"
-    style={{ gridTemplateColumns: "1fr", gridAutoRows: "minmax(120px, auto)" }}
-  >
+  <>
     <style>{`
-      @media (min-width: 768px) {
-        .bento-grid { grid-template-columns: repeat(2, 1fr) !important; }
-      }
-      @media (min-width: 1024px) {
-        .bento-grid { grid-template-columns: repeat(4, 1fr) !important; }
-      }
+      .bento-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: minmax(120px, auto); }
+      @media (min-width: 768px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1024px) { .bento-grid { grid-template-columns: repeat(4, 1fr); } }
+      .no-bar::-webkit-scrollbar { display: none; }
     `}</style>
-    <div className="bento-grid grid gap-4 col-span-1" style={{ gridTemplateColumns: "1fr", gridAutoRows: "minmax(120px, auto)" }}>
+    <div className="bento-grid">
       {posts.map((p) => {
         const kind = tipoOf(p);
-        const cls = bentoSpanClass(kind);
         return (
-          <div key={p.id} className={cls}>
+          <div key={p.id} className={bentoSpanClass(kind)}>
             {kind === "nota" && <NotaCard p={p} />}
             {kind === "recomendacion" && <RecCard p={p} />}
             {kind === "log" && <LogCard p={p} />}
@@ -283,11 +273,11 @@ const Bento = ({ posts }: { posts: GardenPost[] }) => (
         );
       })}
     </div>
-  </div>
+  </>
 );
 
 const BentoSkeleton = () => (
-  <div className="bento-grid grid gap-4" style={{ gridTemplateColumns: "1fr", gridAutoRows: "minmax(120px, auto)" }}>
+  <div className="bento-grid">
     {[
       "col-span-1 md:col-span-2 md:row-span-2",
       "col-span-1 md:row-span-2",
@@ -324,24 +314,19 @@ function useGardenPosts() {
 // ---------- PAGE ----------
 const LadoB = () => {
   const { posts, loading } = useGardenPosts();
-  const [tipo, setTipo] = useState("Todo");
-  const [tema, setTema] = useState("Todo");
+  const [tipo, setTipo] = useState("Todos los formatos");
+  const [tema, setTema] = useState("Todos");
 
   const temas = useMemo(() => {
-    const s = new Set<string>(["Todo"]);
+    const s = new Set<string>();
     posts.forEach((p) => p.temas.forEach((t) => t && s.add(t)));
-    return Array.from(s);
+    return ["Todos", ...Array.from(s)];
   }, [posts]);
 
   const filtered = useMemo(() => {
     return posts.filter((p) => {
-      const kind = tipoOf(p);
-      const tipoOk =
-        tipo === "Todo" ||
-        (tipo === "Nota" && kind === "nota") ||
-        (tipo === "Recomendación" && kind === "recomendacion") ||
-        (tipo === "Log" && kind === "log");
-      const temaOk = tema === "Todo" || p.temas.includes(tema);
+      const tipoOk = matchesTipoFilter(p, tipo);
+      const temaOk = tema === "Todos" || p.temas.includes(tema);
       return tipoOk && temaOk;
     });
   }, [posts, tipo, tema]);
@@ -354,9 +339,9 @@ const LadoB = () => {
 
       <section id="jardin" className="px-6 md:px-12 py-12">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col gap-3 mb-8">
-            <FilterChips options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
-            <FilterChips options={temas} active={tema} onSelect={setTema} />
+          <div className="flex flex-col gap-2 mb-8">
+            <FilterRow options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
+            <FilterRow options={temas} active={tema} onSelect={setTema} />
           </div>
 
           {loading ? (
