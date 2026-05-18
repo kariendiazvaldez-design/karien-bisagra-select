@@ -531,9 +531,9 @@ const LadoA = () => {
       <section className="px-6 md:px-20 py-24 md:py-32 bg-[#1C1A17] text-background">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-soft mb-4">Contacto</p>
-          <h2 className="font-extralight text-4xl md:text-6xl text-background mb-6">¿Trabajamos juntos?</h2>
+          <h2 className="font-extralight text-4xl md:text-6xl text-background mb-6">¿Un proyecto juntxs?</h2>
           <p className="text-base text-muted-foreground mb-12 max-w-xl mx-auto">
-            Disponible para proyectos de diseño de servicios, facilitación y consultoría en transformación digital.
+            Interesada en proyectos de diseño de servicios o de aprendizaje. También en facilitación y en retos de el lado humano de la transformación digital.
           </p>
           <div className="flex flex-col items-center max-w-sm mx-auto mb-16">
             {[
