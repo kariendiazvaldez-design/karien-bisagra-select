@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ChevronLeft, ChevronRight, Image as ImageIcon, Film, Play } from "lucide-react";
+import { projects } from "@/data/projects";
 
 export interface ProjectDetailProps {
+  id?: string;
   title: string;
   description: string;
   client: string;
