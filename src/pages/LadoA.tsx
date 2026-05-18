@@ -512,7 +512,7 @@ const LadoA = () => {
               rel="noreferrer"
               className="inline-block bg-a-accent text-background px-5 py-2.5 hover:bg-a-accent-mid transition-colors"
             >
-              Ver CV →
+              Perfil profesional →
             </a>
           </div>
           <div className="order-1 md:order-2">
