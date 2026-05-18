@@ -47,11 +47,12 @@ const fmtDate = (d: string) => {
   }
 };
 
-type Kind = "nota" | "recomendacion" | "log";
+type Kind = "nota" | "recomendacion" | "log" | "diario";
 
 const tipoOf = (p: GardenPost): Kind => {
   const t = (p.tipo || "").toLowerCase();
   if (t.includes("log")) return "log";
+  if (t.includes("diario") || t.includes("pensam")) return "diario";
   if (t.includes("recom") || t.includes("reseñ") || t.includes("resen")) return "recomendacion";
   return "nota";
 };
