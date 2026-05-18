@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { sanityClient, urlFor } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
+import { supabase } from "@/integrations/supabase/client";
+
+type NotionPost = {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  excerpt: string;
+  date: string;
+};
 
 import { projects as portfolioProjects } from "@/data/projects";
 
@@ -131,12 +141,45 @@ const LadoA = () => {
     }).catch(() => {});
   }, []);
 
+  const [notionPosts, setNotionPosts] = useState<NotionPost[] | null>(null);
+  const [notionLoading, setNotionLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase.functions
+      .invoke("get-blog-posts", { method: "POST" })
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("get-blog-posts error", error);
+          setNotionPosts([]);
+        } else {
+          setNotionPosts(Array.isArray(data?.posts) ? data.posts : []);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setNotionLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const projects = sanityProjects ?? PROJECTS.map((p) => ({
     ...p, slug: null, mainImage: null, excerpt: p.desc,
   }));
-  const posts = sanityPosts ?? POSTS.map((p) => ({
-    ...p, slug: null, category: p.cat, excerpt: p.desc, publishedAt: p.date,
-  }));
+
+  const dynamicCategories = useMemo(() => {
+    const set = new Set<string>();
+    (notionPosts || []).forEach((p) => p.category && set.add(p.category));
+    return ["Todas", ...Array.from(set)];
+  }, [notionPosts]);
+
+  const filteredPosts = useMemo(() => {
+    if (!notionPosts) return [];
+    if (activeCat === "Todas" || activeCat === "Todos") return notionPosts;
+    return notionPosts.filter((p) => p.category === activeCat);
+  }, [notionPosts, activeCat]);
 
   const scrollToProjects = () => {
     document.getElementById("proyectos")?.scrollIntoView({ behavior: "smooth" });
@@ -322,8 +365,8 @@ const LadoA = () => {
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Aprendizajes</p>
           <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando</h2>
           <div className="flex flex-wrap gap-2 mb-12">
-            {CATEGORIES.map((cat) => {
-              const active = activeCat === cat;
+            {dynamicCategories.map((cat) => {
+              const active = activeCat === cat || (cat === "Todas" && activeCat === "Todos");
               return (
                 <button
                   key={cat}
@@ -338,37 +381,54 @@ const LadoA = () => {
               );
             })}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
-            {posts.map((post: any, i: number) => {
-              const inner = (
-                <>
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
-                    {post.category || post.cat}
-                  </p>
-                  <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                    {post.excerpt || post.desc}
-                  </p>
-                  <p className="text-xs text-a-accent-soft">
-                    {post.publishedAt && typeof post.publishedAt === "string" && post.publishedAt.includes("-")
-                      ? new Date(post.publishedAt).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
-                      : post.publishedAt || post.date}
-                  </p>
-                </>
-              );
-              const className = `block py-6 md:py-0 ${i < posts.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`;
-              const style = { borderBottomWidth: i < posts.length - 1 ? "0.5px" : undefined } as any;
-              return post.slug ? (
-                <Link key={post._id || post.title} to={`/lado-a/blog/${post.slug}`} className={className} style={style}>
-                  {inner}
-                </Link>
-              ) : (
-                <article key={post.title} className={className} style={style}>
-                  {inner}
-                </article>
-              );
-            })}
-          </div>
+
+          {notionLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="py-6 md:py-0 animate-pulse">
+                  <div className="h-3 w-24 bg-[#E8E8E8] mb-3" />
+                  <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
+                  <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
+                  <div className="h-3 w-5/6 bg-[#E8E8E8] mb-4" />
+                  <div className="h-3 w-20 bg-[#E8E8E8]" />
+                </div>
+              ))}
+            </div>
+          ) : filteredPosts.length === 0 ? (
+            <p className="text-center text-muted-foreground py-12">Nada publicado aún</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
+              {filteredPosts.map((post, i) => {
+                const inner = (
+                  <>
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
+                      {post.category}
+                    </p>
+                    <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
+                    <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
+                      {post.excerpt}
+                    </p>
+                    <p className="text-xs text-a-accent-soft">
+                      {post.date && post.date.includes("-")
+                        ? new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
+                        : post.date}
+                    </p>
+                  </>
+                );
+                const className = `block py-6 md:py-0 ${i < filteredPosts.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`;
+                const style = { borderBottomWidth: i < filteredPosts.length - 1 ? "0.5px" : undefined } as any;
+                return post.slug ? (
+                  <Link key={post.id} to={`/lado-a/blog/${post.slug}`} className={className} style={style}>
+                    {inner}
+                  </Link>
+                ) : (
+                  <article key={post.id} className={className} style={style}>
+                    {inner}
+                  </article>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
