@@ -103,20 +103,29 @@ const HoverWord = ({
   children: React.ReactNode;
   src: string;
   onHover: (src: string | null) => void;
-}) => (
-  <span
-    onMouseEnter={() => onHover(src)}
-    onMouseLeave={() => onHover(null)}
-    className="cursor-pointer"
-    style={{
-      textDecoration: "underline dotted",
-      textDecorationColor: "#8C9970",
-      textUnderlineOffset: "4px",
-    }}
-  >
-    {children}
-  </span>
-);
+}) => {
+  const handleTap = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    onHover(src);
+    window.setTimeout(() => onHover(null), 1800);
+  };
+  return (
+    <span
+      onMouseEnter={() => onHover(src)}
+      onMouseLeave={() => onHover(null)}
+      onTouchStart={handleTap}
+      onClick={handleTap}
+      className="cursor-pointer"
+      style={{
+        textDecoration: "underline dotted",
+        textDecorationColor: "#E8DCC4",
+        textUnderlineOffset: "4px",
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
 const LadoA = () => {
   const [hoverImg, setHoverImg] = useState<string | null>(null);
