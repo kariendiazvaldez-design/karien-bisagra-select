@@ -361,7 +361,7 @@ const LadoB = () => {
               color: "#1C1A17",
             }}
           >
-            Notas, ideas y lo que me gusta
+            Apuntes, ideas e intereses
           </h2>
 
           <div className="flex flex-col gap-4 mb-10">
