@@ -249,8 +249,17 @@ const LadoA = () => {
       )}
 
       {/* HERO */}
-      <section className="lado-a-hero relative min-h-screen flex items-center justify-center px-6 md:px-20 pt-16 text-center">
-        <div className="w-full max-w-[680px] mx-auto">
+      <section
+        className="lado-a-hero relative min-h-screen flex items-center justify-center px-6 md:px-20 pt-16 text-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1621610087641-f3e6fbe7a3d5?fm=jpg&q=60&w=3000&auto=format&fit=crop')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0" style={{ backgroundColor: "rgba(26, 26, 17, 0.75)" }} />
+        <div className="relative w-full max-w-[680px] mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-8">
             Diseño de servicios · Transformación digital
           </p>
