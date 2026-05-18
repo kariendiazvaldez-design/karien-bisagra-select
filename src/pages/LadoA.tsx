@@ -374,7 +374,7 @@ const LadoA = () => {
       <section id="blog" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Aprendizajes</p>
-          <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando</h2>
+          <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando:</h2>
           <div className="mb-4">
             <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
               Temas
