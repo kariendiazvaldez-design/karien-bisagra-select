@@ -1,6 +1,7 @@
 import type { ProjectDetailProps } from "@/components/ProjectDetail";
 import { innovaContent } from "./projects/innova-content";
 import { washmaContent } from "./projects/washma-content";
+import { commandZContent } from "./projects/commandz-content";
 
 export interface Project extends ProjectDetailProps {
   id: string;
@@ -48,4 +49,17 @@ export const washma: Project = {
   content: washmaContent,
 };
 
-export const projects: Project[] = [innovaPlus, washma];
+export const commandZ: Project = {
+  id: "command-z",
+  title: "Command Z: del podcast al sistema de aprendizaje",
+  description:
+    "Cómo construí el archivo digital de Command Z: extracción de datos con Python, categorización temática de +150 episodios y diseño de producto en Base44 para acompañar al oyente con rutas de aprendizaje.",
+  client: "Command Z Podcast · Layshi Curbelo",
+  year: "2026",
+  role: ["Arquitectura de Contenidos", "UX Research"],
+  projectType: ["Arquitectura de información", "Investigación aplicada", "Producto digital"],
+  tools: ["Python", "Spotify API", "Base44", "Google Colab", "Claude"],
+  content: commandZContent,
+};
+
+export const projects: Project[] = [innovaPlus, washma, commandZ];
