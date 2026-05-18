@@ -24,10 +24,10 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         filter: {
-          property: 'published',
+          property: 'Published',
           checkbox: { equals: true },
         },
-        sorts: [{ property: 'date', direction: 'descending' }],
+        sorts: [{ timestamp: 'created_time', direction: 'descending' }],
       }),
     });
 
@@ -43,11 +43,11 @@ Deno.serve(async (req) => {
       const p = page.properties || {};
       return {
         id: page.id,
-        title: getPlainText(p.Title?.title || p.title?.title || []),
-        slug: getPlainText(p.slug?.rich_text || []),
-        category: p.category?.select?.name || '',
-        excerpt: getPlainText(p.excerpt?.rich_text || []),
-        date: p.date?.date?.start || '',
+        title: getPlainText(p.Title?.title || []),
+        slug: getPlainText(p.Slug?.rich_text || []),
+        category: p.Category?.select?.name || '',
+        excerpt: getPlainText(p.Excerpt?.rich_text || []),
+        date: page.created_time || '',
       };
     });
 
