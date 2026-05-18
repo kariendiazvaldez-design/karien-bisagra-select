@@ -549,6 +549,7 @@ const markdownComponents = {
 };
 
 const ProjectDetail = ({
+  id,
   title,
   description,
   client,
@@ -559,6 +560,12 @@ const ProjectDetail = ({
   content,
   heroImage,
 }: ProjectDetailProps) => {
+  const nextProject = useMemo(() => {
+    if (!id) return projects[0];
+    const i = projects.findIndex((p) => p.id === id);
+    if (i === -1) return projects[0];
+    return projects[(i + 1) % projects.length];
+  }, [id]);
   useEffect(() => {
     const id = "lexend-font-link";
     if (!document.getElementById(id)) {
