@@ -117,7 +117,7 @@ const Hero = () => (
           Karien.
         </h1>
         <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 580, whiteSpace: "pre-line" }}>
-          {"Lectora. Viajera. Nostálgica. Olvidadiza. Compañera de Falkor, perro Dragón\nQuiero escribir para recordar y para hacerme una casita fija mientras exploro todo lo que puedo."}
+          {"Lectora. Viajera. Nostálgica. Olvidadiza. Compañera de Falkor, perro dragón.\nQuiero escribir para recordar y para hacer una casita fija mientras exploro todo lo que puedo."}
         </p>
         <div className="flex items-center justify-center md:justify-start gap-2 font-quicksand" style={{ fontSize: 14, color: TEXT }}>
           <MapPin size={14} style={{ color: TERRACOTA }} />
