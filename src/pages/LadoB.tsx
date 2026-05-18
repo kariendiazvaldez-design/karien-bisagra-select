@@ -253,16 +253,10 @@ const LogCard = ({ l }: { l: LogEntry }) => (
 );
 
 const LadoB = () => {
-  const [tab, setTab] = useState<Tab>("Todo");
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const filtered = GARDEN_ENTRIES.filter((e) => {
-    if (tab === "Todo") return true;
-    if (tab === "Notas") return e.kind === "nota";
-    if (tab === "Recomendaciones") return e.kind === "recomendacion";
-    if (tab === "Log") return e.kind === "log";
-    return true;
-  });
+  const { posts, loading } = useGardenPosts();
+  const { tipo, setTipo, mat, setMat, tema, setTema, temas, filtered } = useGardenFilters(posts);
+  const visible = filtered.slice(0, 6);
 
   return (
     <div className="lado-b font-quicksand min-h-screen" style={{ background: "#FAFAF8", color: "#1C1A17" }}>
