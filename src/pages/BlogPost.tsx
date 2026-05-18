@@ -156,11 +156,14 @@ const renderBlocks = (blocks: Block[]) => {
   return out;
 };
 
+type RelatedPost = { id: string; slug: string; title: string; category?: string; date?: string };
+
 const BlogPost = () => {
   const { slug } = useParams();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [related, setRelated] = useState<RelatedPost[]>([]);
 
   useEffect(() => {
     if (!slug) return;
@@ -184,6 +187,23 @@ const BlogPost = () => {
     };
   }, [slug]);
 
+  useEffect(() => {
+    let cancelled = false;
+    supabase.functions.invoke("get-blog-posts", { body: {} }).then(({ data }) => {
+      if (cancelled) return;
+      const list: RelatedPost[] = data?.posts || [];
+      setRelated(list.filter((p) => p.slug && p.slug !== slug).slice(0, 3));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  const categories = (post?.category || "")
+    .split(",")
+    .map((c) => c.trim())
+    .filter(Boolean);
+
   return (
     <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]" style={{ borderBottomWidth: "0.5px" }}>
@@ -193,13 +213,13 @@ const BlogPost = () => {
         </div>
       </nav>
 
-      <article className="mx-auto px-6 md:px-8 pt-32 pb-24" style={{ maxWidth: 680 }}>
+      <article className="mx-auto px-6 md:px-8 pt-32 pb-12" style={{ maxWidth: 680 }}>
         {loading ? (
           <div className="animate-pulse">
-            <div className="h-3 w-24 bg-[#E8E8E8] mb-4" />
             <div className="h-10 w-full bg-[#E8E8E8] mb-4" />
             <div className="h-10 w-3/4 bg-[#E8E8E8] mb-8" />
-            <div className="h-3 w-32 bg-[#E8E8E8] mb-10" />
+            <div className="h-3 w-32 bg-[#E8E8E8] mb-4" />
+            <div className="h-6 w-48 bg-[#E8E8E8] mb-10" />
             <div className="h-4 w-full bg-[#E8E8E8] mb-3" />
             <div className="h-4 w-full bg-[#E8E8E8] mb-3" />
             <div className="h-4 w-5/6 bg-[#E8E8E8]" />
@@ -208,11 +228,6 @@ const BlogPost = () => {
           <p className="text-center text-muted-foreground py-16">Entrada no encontrada</p>
         ) : (
           <>
-            {post.category && (
-              <p style={{ fontSize: 11, letterSpacing: "0.25em", textTransform: "uppercase", color: OLIVE, fontWeight: 500, marginBottom: 16 }}>
-                {post.category}
-              </p>
-            )}
             <h1 style={{ fontFamily: "Lexend, sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5vw, 48px)", lineHeight: 1.15, letterSpacing: "-0.02em", color: "#1A1A1A", marginBottom: 16 }}>
               {post.title}
             </h1>
@@ -221,23 +236,74 @@ const BlogPost = () => {
                 {new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" })}
               </p>
             )}
+            {categories.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-10">
+                {categories.map((c) => (
+                  <span
+                    key={c}
+                    style={{
+                      fontSize: 12,
+                      padding: "4px 10px",
+                      border: `1px solid ${OLIVE}`,
+                      color: OLIVE,
+                      borderRadius: 999,
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            )}
             {post.excerpt && (
               <p style={{ fontSize: 16, color: "#666", lineHeight: 1.6, marginBottom: 40 }}>{post.excerpt}</p>
             )}
             <div>{renderBlocks(post.blocks || [])}</div>
-
-            <div className="mt-16">
-              <Link
-                to="/blog"
-                className="inline-block px-5 py-2.5 text-sm transition-colors"
-                style={{ border: `1px solid ${OLIVE}`, color: OLIVE }}
-              >
-                ← Volver al blog
-              </Link>
-            </div>
           </>
         )}
       </article>
+
+      {!loading && !error && post && related.length > 0 && (
+        <section className="mx-auto px-6 md:px-8 pb-24" style={{ maxWidth: 880 }}>
+          <hr style={{ border: 0, borderTop: "1px solid #E8E8E8", marginBottom: 40 }} />
+          <h2 style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: OLIVE, marginBottom: 24 }}>
+            Seguir leyendo
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {related.map((r) => (
+              <Link
+                key={r.id}
+                to={`/blog/${r.slug}`}
+                className="block group"
+                style={{ border: "1px solid #E8E8E8", padding: 20, transition: "border-color 0.2s" }}
+              >
+                {r.category && (
+                  <p style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: OLIVE, marginBottom: 10 }}>
+                    {r.category.split(",")[0].trim()}
+                  </p>
+                )}
+                <h3 style={{ fontFamily: "Lexend, sans-serif", fontWeight: 600, fontSize: 17, lineHeight: 1.3, color: "#1A1A1A", marginBottom: 12 }}>
+                  {r.title}
+                </h3>
+                {r.date && (
+                  <p style={{ fontSize: 12, color: "#999" }}>
+                    {new Date(r.date).toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" })}
+                  </p>
+                )}
+              </Link>
+            ))}
+          </div>
+          <div className="mt-12">
+            <Link
+              to="/blog"
+              className="inline-block px-5 py-2.5 text-sm transition-colors"
+              style={{ border: `1px solid ${OLIVE}`, color: OLIVE }}
+            >
+              ← Volver al blog
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
