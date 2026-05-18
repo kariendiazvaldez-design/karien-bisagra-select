@@ -9,6 +9,7 @@ import LadoB from "./pages/LadoB.tsx";
 import CaseStudy from "./pages/CaseStudy.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import ProjectINNOVA from "./pages/ProjectINNOVA.tsx";
+import ProjectWASHMA from "./pages/ProjectWASHMA.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
