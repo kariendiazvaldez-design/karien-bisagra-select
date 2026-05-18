@@ -654,12 +654,13 @@ const ProjectDetail = ({
         }}
       >
         <div className="max-w-5xl mx-auto px-6 md:px-16 h-14 flex items-center justify-between">
-          <span
+          <Link
+            to="/"
             className="truncate"
-            style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A" }}
+            style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A", textDecoration: "none" }}
           >
-            {title}
-          </span>
+            Karien.xyz
+          </Link>
           <Link
             to="/lado-a"
             style={{ color: OLIVE, fontSize: 14, fontFamily: "Lexend, sans-serif" }}
