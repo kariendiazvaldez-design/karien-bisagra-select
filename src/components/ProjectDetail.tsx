@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Image as ImageIcon, Film, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Image as ImageIcon, Film, Play } from "lucide-react";
 
 export interface ProjectDetailProps {
   title: string;
