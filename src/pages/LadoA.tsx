@@ -460,7 +460,7 @@ const LadoA = () => {
                 const className = `block py-6 md:py-0 ${i < filteredPosts.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`;
                 const style = { borderBottomWidth: i < filteredPosts.length - 1 ? "0.5px" : undefined } as any;
                 return post.slug ? (
-                  <Link key={post.id} to={`/lado-a/blog/${post.slug}`} className={className} style={style}>
+                  <Link key={post.id} to={`/blog/${post.slug}`} className={className} style={style}>
                     {inner}
                   </Link>
                 ) : (
