@@ -242,10 +242,10 @@ const LadoA = () => {
         <img
           src={hoverImg}
           alt=""
-          className="hidden md:block fixed pointer-events-none z-50 transition-opacity duration-300"
+          className="fixed pointer-events-none z-50 transition-opacity duration-300"
           style={{
-            left: cursor.x + 24,
-            top: cursor.y + 24,
+            left: Math.min(cursor.x + 24, (typeof window !== "undefined" ? window.innerWidth : 1000) - 240),
+            top: Math.min(cursor.y + 24, (typeof window !== "undefined" ? window.innerHeight : 800) - 240),
             width: 220,
             height: "auto",
             opacity: 1,
