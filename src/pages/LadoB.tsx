@@ -379,6 +379,38 @@ const LadoB = () => {
           )}
         </div>
       </section>
+
+      <section id="exploraciones" className="px-6 md:px-12" style={{ paddingTop: 64, paddingBottom: 64 }}>
+        <div className="max-w-6xl mx-auto">
+          <p
+            className="font-quicksand"
+            style={{ fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}
+          >
+            Exploraciones:
+          </p>
+          <h2 className="font-quicksand" style={{ fontSize: 28, fontWeight: 700, color: TEXT, marginBottom: 16 }}>
+            Lugares donde se mueve mi corazón estos días
+          </h2>
+          <div style={{ borderTop: `1px solid ${DIVIDER}`, marginBottom: 32 }} />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { title: "Club de lectura", text: "Un año de conversaciones compartidas." },
+              { title: "Encuadernación cartonera", text: "Tallercitos para dar cuerpo a los libros, con lo que hay." },
+              { title: "Viajes con Falkor", text: "Un perro blanco, zapatillas y la cámara" },
+            ].map((c) => (
+              <div key={c.title} className="flex flex-col gap-3">
+                <div style={{ width: "100%", aspectRatio: "4 / 3", background: "#D9D9D9", borderRadius: 8 }} />
+                <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, color: TEXT }}>{c.title}</h3>
+                <p className="font-quicksand" style={{ fontSize: 13, color: "#777", lineHeight: 1.5 }}>{c.text}</p>
+                <a href="#" className="font-quicksand" style={{ fontSize: 13, color: TERRACOTA, fontWeight: 600 }}>
+                  Ver más →
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
