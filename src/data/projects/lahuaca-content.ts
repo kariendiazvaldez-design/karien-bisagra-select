@@ -30,7 +30,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: el concepto no se transmitió completo; faltó staff y señalética. El modelo necesitaba más diseño de experiencia, no solo de contenido.*
 
-[IMAGE: Foto edición I — Casa de la Cultura](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303923/LHI_1_hamlmf.gif)
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303923/LHI_1_hamlmf.gif | Edición I — Casa de la Cultura]
 
 ### Edición II · 2019
 **DDC – Sala Chornancap · Liderazgo femenino y patrimonio ancestral**
