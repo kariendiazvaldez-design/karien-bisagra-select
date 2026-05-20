@@ -30,6 +30,7 @@ type GardenPost = {
   slug: string;
   temas: string[];
   tipo: string;
+  coverUrl?: string;
 };
 
 const maturityIcon = (m: string) => {
