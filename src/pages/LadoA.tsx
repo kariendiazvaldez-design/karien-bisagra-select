@@ -25,11 +25,13 @@ const PROJECT_SUBTITLES: Record<string, string> = {
 };
 const PROJECT_ORDER = ["innova-plus", "command-z", "washma", "patria-c", "la-huaca"];
 
-const NAV_LINKS = [
+const NAV_LINKS: { label: string; href: string; to?: string }[] = [
   { label: "Proyectos", href: "#proyectos" },
-  { label: "Blog", href: "#blog" },
+  { label: "Blog", href: "/blog", to: "/blog" },
   { label: "Sobre mí", href: "#sobre-mi" },
 ];
+
+const WHATSAPP_URL = "https://wa.me/51927822614?text=" + encodeURIComponent("Hola, vengo de tu web!");
 
 const PROJECTS = [
   {
@@ -214,11 +216,17 @@ const LadoA = () => {
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
           <Link to="/" className="font-medium text-foreground">Karien.xyz</Link>
           <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
-            {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} className="hover:text-a-accent transition-colors">
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              l.to ? (
+                <Link key={l.label} to={l.to} className="hover:text-a-accent transition-colors">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} className="hover:text-a-accent transition-colors">
+                  {l.label}
+                </a>
+              )
+            )}
           </div>
           <Link to="/lado-b" className="hidden md:inline text-sm text-a-accent-soft hover:text-a-accent transition-colors">
             Lado B →
@@ -233,11 +241,17 @@ const LadoA = () => {
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-[#D4CFC5] px-6 py-4 flex flex-col gap-3" style={{ borderTopWidth: "0.5px" }}>
-            {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              l.to ? (
+                <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
+                  {l.label}
+                </a>
+              )
+            )}
             <Link to="/lado-b" className="text-a-accent-soft">Lado B →</Link>
           </div>
         )}
@@ -697,6 +711,7 @@ const LadoA = () => {
           </p>
           <div className="flex flex-col items-center max-w-sm mx-auto mb-16">
             {[
+              { label: "WhatsApp", href: WHATSAPP_URL },
               { label: "LinkedIn", href: "#" },
               { label: "Instagram", href: "https://www.instagram.com/karien.xyz/" },
             ].map((l, i, arr) => (

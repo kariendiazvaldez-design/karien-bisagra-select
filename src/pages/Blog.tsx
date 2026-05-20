@@ -360,9 +360,11 @@ const Blog = () => {
             className="blog-identity-inner mx-auto"
             style={{ maxWidth: 1100, display: "flex", alignItems: "center", gap: 32 }}
           >
-            <div
+            <img
               className="blog-identity-photo"
-              style={{ width: 64, height: 64, background: "#E8E8E8", borderRadius: 8, flexShrink: 0 }}
+              src="https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913217/1_kmkeqj.png"
+              alt="Karien Díaz"
+              style={{ width: 64, height: 64, borderRadius: 8, flexShrink: 0, objectFit: "cover" }}
             />
             <div className="blog-identity-text" style={{ flex: 1 }}>
               <p style={{ fontFamily: "Lexend, sans-serif", fontWeight: 700, fontSize: 15, color: "#1A1A1A", marginBottom: 6 }}>
@@ -377,7 +379,7 @@ const Blog = () => {
               style={{ display: "flex", flexDirection: "column", gap: 10, flexShrink: 0 }}
             >
               <Link
-                to="/lado-a"
+                to="/lado-a#proyectos"
                 style={{
                   fontFamily: "Lexend, sans-serif",
                   fontSize: 13,
@@ -390,8 +392,10 @@ const Blog = () => {
               >
                 Ver portafolio →
               </Link>
-              <Link
-                to="/lado-a#contacto"
+              <a
+                href={"https://wa.me/51927822614?text=" + encodeURIComponent("Hola, vengo de tu web!")}
+                target="_blank"
+                rel="noreferrer"
                 style={{
                   fontFamily: "Lexend, sans-serif",
                   fontSize: 13,
@@ -403,7 +407,7 @@ const Blog = () => {
                 }}
               >
                 ¿Trabajamos juntxs? →
-              </Link>
+              </a>
             </div>
           </div>
         </footer>
