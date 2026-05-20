@@ -241,11 +241,17 @@ const LadoA = () => {
         </div>
         {menuOpen && (
           <div className="md:hidden border-t border-[#D4CFC5] px-6 py-4 flex flex-col gap-3" style={{ borderTopWidth: "0.5px" }}>
-            {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              l.to ? (
+                <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
+                  {l.label}
+                </a>
+              )
+            )}
             <Link to="/lado-b" className="text-a-accent-soft">Lado B →</Link>
           </div>
         )}
