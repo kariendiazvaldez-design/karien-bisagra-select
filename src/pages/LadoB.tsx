@@ -275,7 +275,7 @@ const HandcraftCard = ({ p }: { p: GardenPost }) => (
     className="p-4 flex flex-col gap-2 h-full"
     style={{ background: "#C9963A", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    <Cover url={p.coverUrl} h={100} bg="rgba(0,0,0,0.15)" alt={p.nombre} />
+    <Cover url={p.coverUrl} h={120} bg="rgba(0,0,0,0.15)" alt={p.nombre} />
     <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.25 }}>{p.nombre}</h3>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
   </Link>
