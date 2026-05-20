@@ -50,7 +50,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 ### Edición II · 2019
 **DDC – Sala Chornancap · Liderazgo femenino y patrimonio ancestral**
 
-~1,200 asistentes en dos días. Lleno total ambas jornadas. Alcance digital multiplicado por tres. Al terminar, los asistentes preguntaban cuándo sería la próxima edición, el servicio había generado demanda de sí mismo.
+~1,200 asistentes en dos días. Lleno total ambas jornadas. Alcance digital multiplicado por tres. Al terminar, los asistentes preguntaban cuándo sería la próxima edición, el servicio había demanda ;).
 
 *Aprendizaje: la coordinación horizontal funciona; el programa colaborativo genera pertenencia.*
 
