@@ -46,9 +46,9 @@ Al cerrar el ciclo, produje un blueprint de servicio completo: fases, actores, t
 
 ## Blueprint y arquetipos
 
-[IMAGE: Preview del service blueprint INNOVA+ 2025]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779255336/Captura_de_pantalla_2026-05-19_232056_b6poka.png]
 
-[IMAGE: Preview de los 4 arquetipos de empresa]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif]
 
 ## Lo que cambió
 
@@ -76,7 +76,7 @@ Al cerrar el ciclo, produje un blueprint de servicio completo: fases, actores, t
 
 | 97% | Interés en Red Nacional I+D+i |
 
-[IMAGE: Fotos grupales de participantes — clausura 2025]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256369/Innova_humanos_db4sfw.gif]
 
 ## Lo que aprendí
 
