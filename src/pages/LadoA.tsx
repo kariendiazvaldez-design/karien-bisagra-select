@@ -711,6 +711,7 @@ const LadoA = () => {
           </p>
           <div className="flex flex-col items-center max-w-sm mx-auto mb-16">
             {[
+              { label: "WhatsApp", href: WHATSAPP_URL },
               { label: "LinkedIn", href: "#" },
               { label: "Instagram", href: "https://www.instagram.com/karien.xyz/" },
             ].map((l, i, arr) => (
