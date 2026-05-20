@@ -346,6 +346,10 @@ const LadoA = () => {
               "command-z":
                 "Arquitectura de información y producto digital para convertir el archivo de un podcast en rutas de aprendizaje navegables.",
             };
+            const PROJECT_IMAGES: Record<string, string> = {
+              "innova-plus":
+                "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
+            };
             const GROUPS: { label: string; ids: string[]; cols: string; wrapper?: string }[] = [
               {
                 label: "Diseño de servicios educativos",
@@ -396,7 +400,16 @@ const LadoA = () => {
                                 borderRadius: 10,
                               }}
                             >
-                              <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
+                              {PROJECT_IMAGES[id] ? (
+                                <img
+                                  src={PROJECT_IMAGES[id]}
+                                  alt={p.title}
+                                  className="w-full h-full object-cover"
+                                  style={{ minHeight: 120 }}
+                                />
+                              ) : (
+                                <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
+                              )}
                               <div className="flex flex-col" style={{ padding: 14 }}>
                                 <p
                                   className="uppercase"
