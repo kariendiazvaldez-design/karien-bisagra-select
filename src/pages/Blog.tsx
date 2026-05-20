@@ -14,11 +14,23 @@ type NotionPost = {
 
 const TIPOS = ["Todos", "Blog", "Reseñas", "Apuntes"];
 
+const CAT_COLOR: Record<string, string> = {
+  "Service Design": "#6B7A3E",
+  "Research": "#4A6580",
+  "Diseño": "#C49A2A",
+  "Tecnología": "#B5603A",
+  "Educación": "#7B2D3E",
+};
+const getCatColor = (c: string) => CAT_COLOR[c] ?? "#888888";
+
+const PAGE_SIZE = 10;
+
 const Blog = () => {
   const [posts, setPosts] = useState<NotionPost[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTipo, setActiveTipo] = useState("Todos");
   const [activeCat, setActiveCat] = useState("Todos");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,11 +68,19 @@ const Blog = () => {
     });
   }, [posts, activeTipo, activeCat]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [activeTipo, activeCat]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
   const renderFilterBtn = (label: string, active: boolean, onClick: () => void) => (
     <button
       key={label}
       onClick={onClick}
-      className="px-4 py-2 text-sm transition-colors"
+      className="px-4 py-2 text-sm transition-colors whitespace-nowrap"
       style={{
         border: "1px solid #6B7A3E",
         backgroundColor: active ? "#6B7A3E" : "transparent",
@@ -70,6 +90,8 @@ const Blog = () => {
       {label}
     </button>
   );
+
+  const goTo = (p: number) => setPage(Math.min(Math.max(1, p), totalPages));
 
   return (
     <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
@@ -102,31 +124,35 @@ const Blog = () => {
           Apuntes, reseñas y reflexiones
         </p>
 
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="blog-filter-row mb-3">
           {TIPOS.map((t) => renderFilterBtn(t, activeTipo === t, () => setActiveTipo(t)))}
         </div>
-        <div className="flex flex-wrap gap-2 mb-10">
+        <div className="blog-filter-row mb-10">
           {categories.map((c) => renderFilterBtn(c, activeCat === c, () => setActiveCat(c)))}
         </div>
 
         {loading ? (
-          <div style={{ columnCount: 3, columnGap: 24 }} className="masonry-loading">
+          <div className="blog-masonry">
             {[0, 1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
                 className="animate-pulse"
                 style={{
                   breakInside: "avoid",
-                  marginBottom: 24,
-                  paddingBottom: 24,
-                  borderBottom: "1px solid #E8E8E8",
+                  background: "#FFFFFF",
+                  border: "0.5px solid #E8E8E8",
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  marginBottom: 20,
                 }}
               >
-                <div className="h-3 w-20 bg-[#E8E8E8] mb-3" />
-                <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
-                <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
-                <div className="h-3 w-5/6 bg-[#E8E8E8] mb-2" />
-                <div className="h-3 w-20 bg-[#E8E8E8]" />
+                <div style={{ height: 3, background: "#E8E8E8" }} />
+                <div style={{ padding: 20 }}>
+                  <div className="h-3 w-20 bg-[#E8E8E8] mb-3" />
+                  <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
+                  <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
+                  <div className="h-3 w-5/6 bg-[#E8E8E8]" />
+                </div>
               </div>
             ))}
           </div>
@@ -136,80 +162,90 @@ const Blog = () => {
           </p>
         ) : (
           <div className="blog-masonry">
-            {filtered.map((post) => {
+            {paginated.map((post) => {
+              const accent = getCatColor(post.category);
+              const formattedDate =
+                post.date && post.date.includes("-")
+                  ? new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
+                  : post.date;
               const inner = (
-                <>
-                  {post.tipo && (
-                    <p
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    border: "0.5px solid #E8E8E8",
+                    borderRadius: 10,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div style={{ height: 3, background: accent }} />
+                  <div style={{ padding: 20 }}>
+                    {post.tipo && (
+                      <p
+                        className="uppercase"
+                        style={{
+                          fontFamily: "Lexend, sans-serif",
+                          fontSize: 10,
+                          letterSpacing: "0.12em",
+                          color: "#aaa",
+                          marginBottom: 4,
+                        }}
+                      >
+                        {post.tipo}
+                      </p>
+                    )}
+                    {post.category && (
+                      <p
+                        className="uppercase"
+                        style={{
+                          fontFamily: "Lexend, sans-serif",
+                          fontSize: 10,
+                          letterSpacing: "0.12em",
+                          fontWeight: 600,
+                          color: accent,
+                          marginBottom: 10,
+                        }}
+                      >
+                        {post.category}
+                      </p>
+                    )}
+                    <h3
                       style={{
                         fontFamily: "Lexend, sans-serif",
-                        fontSize: 10,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: "#999",
-                        marginBottom: 4,
+                        fontWeight: 700,
+                        fontSize: 15,
+                        color: "#1A1A1A",
+                        lineHeight: 1.4,
+                        marginBottom: 10,
                       }}
                     >
-                      {post.tipo}
-                    </p>
-                  )}
-                  {post.category && (
-                    <p
-                      style={{
-                        fontFamily: "Lexend, sans-serif",
-                        fontSize: 10,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: "#6B7A3E",
-                        marginBottom: 8,
-                      }}
+                      {post.title}
+                    </h3>
+                    {post.excerpt && (
+                      <p
+                        style={{
+                          fontSize: 12,
+                          color: "#777",
+                          lineHeight: 1.7,
+                          marginBottom: 16,
+                        }}
+                      >
+                        {post.excerpt}
+                      </p>
+                    )}
+                    <div
+                      className="flex items-center justify-between"
+                      style={{ fontSize: 11 }}
                     >
-                      {post.category}
-                    </p>
-                  )}
-                  <h3
-                    style={{
-                      fontFamily: "Lexend, sans-serif",
-                      fontWeight: 700,
-                      fontSize: 16,
-                      color: "#1A1A1A",
-                      lineHeight: 1.3,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {post.title}
-                  </h3>
-                  {post.excerpt && (
-                    <p
-                      style={{
-                        fontFamily: "Lexend, sans-serif",
-                        fontSize: 14,
-                        color: "#555",
-                        lineHeight: 1.55,
-                        marginBottom: 12,
-                      }}
-                    >
-                      {post.excerpt}
-                    </p>
-                  )}
-                  {post.date && (
-                    <p style={{ fontSize: 13, color: "#6B7A3E" }}>
-                      {post.date.includes("-")
-                        ? new Date(post.date).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "long",
-                          })
-                        : post.date}
-                    </p>
-                  )}
-                </>
+                      <span style={{ color: "#aaa" }}>{formattedDate}</span>
+                      <span style={{ color: accent }}>Leer →</span>
+                    </div>
+                  </div>
+                </div>
               );
               const wrapperStyle: React.CSSProperties = {
                 breakInside: "avoid",
                 display: "block",
-                marginBottom: 24,
-                paddingBottom: 24,
-                borderBottom: "1px solid #E8E8E8",
+                marginBottom: 20,
               };
               return post.slug ? (
                 <Link key={post.id} to={`/blog/${post.slug}`} style={wrapperStyle}>
@@ -224,10 +260,140 @@ const Blog = () => {
           </div>
         )}
 
+        {!loading && filtered.length > 0 && totalPages > 1 && (
+          <>
+            {/* Paginación desktop */}
+            <nav className="blog-pagination-desktop flex items-center justify-center gap-2 mt-8 flex-wrap">
+              <button
+                onClick={() => goTo(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 4,
+                  color: "#6B7A3E",
+                  background: "transparent",
+                  opacity: currentPage === 1 ? 0.4 : 1,
+                }}
+              >
+                ←
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                const active = p === currentPage;
+                return (
+                  <button
+                    key={p}
+                    onClick={() => goTo(p)}
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: 4,
+                      background: active ? "#6B7A3E" : "transparent",
+                      color: active ? "#FFFFFF" : "#6B7A3E",
+                      fontWeight: active ? 600 : 400,
+                    }}
+                  >
+                    {p}
+                  </button>
+                );
+              })}
+              <button
+                onClick={() => goTo(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 4,
+                  color: "#6B7A3E",
+                  background: "transparent",
+                  opacity: currentPage === totalPages ? 0.4 : 1,
+                }}
+              >
+                →
+              </button>
+            </nav>
+
+            {/* Paginación mobile */}
+            <nav className="blog-pagination-mobile flex items-center justify-center gap-3 mt-8">
+              <button
+                onClick={() => goTo(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 4,
+                  color: "#6B7A3E",
+                  background: "transparent",
+                  opacity: currentPage === 1 ? 0.4 : 1,
+                }}
+              >
+                ←
+              </button>
+              <span style={{ color: "#6B7A3E", fontSize: 14 }}>
+                {currentPage} / {totalPages}
+              </span>
+              <button
+                onClick={() => goTo(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 4,
+                  color: "#6B7A3E",
+                  background: "transparent",
+                  opacity: currentPage === totalPages ? 0.4 : 1,
+                }}
+              >
+                →
+              </button>
+            </nav>
+          </>
+        )}
+
+        {/* Footer pequeño */}
+        <footer
+          className="blog-mini-footer mt-12"
+          style={{
+            borderTop: "1px solid #E8E8E8",
+            padding: "32px 0",
+          }}
+        >
+          <div className="blog-mini-footer-inner flex items-center justify-center">
+            <Link to="/sobre-mi" style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#888" }}>
+              Sobre mí
+            </Link>
+            <span style={{ color: "#888", fontSize: 13 }} className="blog-mini-footer-sep">·</span>
+            <Link to="/lado-a" style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#888" }}>
+              Portafolio
+            </Link>
+            <span style={{ color: "#888", fontSize: 13 }} className="blog-mini-footer-sep">·</span>
+            <Link to="/lado-a#contacto" style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#888" }}>
+              ¿Trabajamos juntxs?
+            </Link>
+          </div>
+        </footer>
+
         <style>{`
-          .blog-masonry { column-count: 1; column-gap: 24px; }
+          .blog-masonry { column-count: 1; column-gap: 20px; }
           @media (min-width: 640px) { .blog-masonry { column-count: 2; } }
           @media (min-width: 1024px) { .blog-masonry { column-count: 3; } }
+
+          .blog-filter-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+          .blog-filter-row::-webkit-scrollbar { display: none; }
+
+          .blog-pagination-mobile { display: none; }
+          @media (max-width: 639px) {
+            .blog-pagination-desktop { display: none; }
+            .blog-pagination-mobile { display: flex; }
+          }
+
+          .blog-mini-footer-inner { gap: 12px; flex-direction: row; }
+          @media (max-width: 639px) {
+            .blog-mini-footer-inner { flex-direction: column; gap: 12px; }
+            .blog-mini-footer-sep { display: none; }
+          }
         `}</style>
       </section>
     </div>
