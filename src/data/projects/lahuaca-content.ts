@@ -11,13 +11,11 @@ Chiclayo tiene uno de los patrimonios arqueológicos más ricos del continente. 
 
 La respuesta fue un festival como sistema: una feria de emprendimientos como motor económico, una programación artística como experiencia, y un espacio patrimonial como ancla territorial. Los tres canales funcionaban en paralelo, ninguno sin los otros dos.
 
-[IMAGE: Customer journey del asistente — placeholder Miro]
-
 ## El ecosistema de stakeholders
 
 La sostenibilidad no dependía del presupuesto, que era mínimo, sino de que el ecosistema estuviera bien articulado. Esa fue la apuesta y también el aprendizaje más duro.
 
-[IMAGE: Stakeholder map — placeholder Miro]
+[IMAGE: Tres ediciones del festival](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303626/LHI_Covers_njegy7.gif)
 
 <!-- INDEX: Las ediciones -->
 
@@ -32,9 +30,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: el concepto no se transmitió completo; faltó staff y señalética. El modelo necesitaba más diseño de experiencia, no solo de contenido.*
 
-[IMAGE: Foto edición I — Casa de la Cultura]
-
-[IMAGE: Afiche edición I]
+[IMAGE: Foto edición I — Casa de la Cultura](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303923/LHI_1_hamlmf.gif)
 
 ### Edición II · 2019
 **DDC – Sala Chornancap · Liderazgo femenino y patrimonio ancestral**
@@ -43,9 +39,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: la coordinación horizontal funciona; el programa colaborativo genera pertenencia.*
 
-[IMAGE: Foto edición II — lleno total]
-
-[GIF: Afiches de la edición II]
+[IMAGE: Foto edición II — lleno total](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779304772/LHI_2_bqmzvf.gif)
 
 ### Edición III · 2019
 **Ecomuseo de Túcume · Nueva museología y comunidad**
@@ -54,9 +48,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: simplificar para perfeccionar; cada espacio nuevo es un rediseño, no una replicación.*
 
-[IMAGE: Foto edición III — Ecomuseo de Túcume]
-
-[IMAGE: Afiche edición III]
+[IMAGE: Foto edición III — Ecomuseo de Túcume](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779305308/LHI_3_qfr2lc.gif)
 
 <!-- INDEX: Edición II en detalle -->
 
@@ -70,11 +62,7 @@ La respuesta llegó de la mano de Carmen Pintado, quien llevaba años trabajando
 
 **Research inicial:** el equipo visitó el Museo Brüning antes de diseñar la identidad visual. La ilustración de la Señora de Chornancap, diseñada tras una visita con el arqueólogo Carlos Wester, no fue decoración: fue el artefacto que tradujo el brief en algo que la gente pudiera reconocer y desear.
 
-[IMAGE: Ilustración Señora de Chornancap]
-
 **Mecánica de participación — La Zona Chornancap:** los asistentes completaban actividades para acumular pallares moche, réplicas de objetos rituales, y canjearlos por una foto con la Sacerdotisa y su séquito. No era solo una atracción: era una forma de hacer que la gente se detuviera, aprendiera y construyera un recuerdo físico del encuentro con ese patrimonio.
-
-[IMAGE: Foto Zona Chornancap — gamificación en vivo]
 
 ## Resultados acumulados
 

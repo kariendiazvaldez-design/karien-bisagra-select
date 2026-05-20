@@ -91,6 +91,7 @@ export const laHuaca: Project = {
   projectType: ["Gestión cultural", "Desarrollo territorial", "Investigación aplicada"],
   tools: ["Customer journey", "Ecosystem mapping", "Stakeholder mapping", "Facilitación presencial"],
   content: laHuacaContent,
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
 };
 
 export const projects: Project[] = [innovaPlus, washma, commandZ, patriaC, laHuaca];
