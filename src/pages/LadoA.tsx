@@ -400,7 +400,16 @@ const LadoA = () => {
                                 borderRadius: 10,
                               }}
                             >
-                              <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
+                              {PROJECT_IMAGES[id] ? (
+                                <img
+                                  src={PROJECT_IMAGES[id]}
+                                  alt={p.title}
+                                  className="w-full h-full object-cover"
+                                  style={{ minHeight: 120 }}
+                                />
+                              ) : (
+                                <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
+                              )}
                               <div className="flex flex-col" style={{ padding: 14 }}>
                                 <p
                                   className="uppercase"
