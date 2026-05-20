@@ -245,7 +245,7 @@ const ResenaCard = ({ p }: { p: GardenPost }) => (
     className="p-5 flex flex-col gap-2 h-full"
     style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
-    <div style={{ width: "100%", aspectRatio: "4 / 5", background: IMG_PH, borderRadius: 2 }} />
+    <Cover url={p.coverUrl} aspectRatio="4 / 5" alt={p.nombre} />
     {p.category && (
       <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginTop: 4 }}>
         {p.category}
