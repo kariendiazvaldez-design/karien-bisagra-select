@@ -216,11 +216,17 @@ const LadoA = () => {
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
           <Link to="/" className="font-medium text-foreground">Karien.xyz</Link>
           <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
-            {NAV_LINKS.map((l) => (
-              <a key={l.label} href={l.href} className="hover:text-a-accent transition-colors">
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              l.to ? (
+                <Link key={l.label} to={l.to} className="hover:text-a-accent transition-colors">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.label} href={l.href} className="hover:text-a-accent transition-colors">
+                  {l.label}
+                </a>
+              )
+            )}
           </div>
           <Link to="/lado-b" className="hidden md:inline text-sm text-a-accent-soft hover:text-a-accent transition-colors">
             Lado B →
