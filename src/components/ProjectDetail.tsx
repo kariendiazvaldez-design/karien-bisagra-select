@@ -442,7 +442,7 @@ const markdownComponents = {
     return (
       <h2
         id={id}
-        className="font-bold scroll-mt-24"
+        className="font-bold scroll-mt-24 text-4xl"
         style={{
           fontFamily: "Lexend, sans-serif",
           color: OLIVE,
