@@ -302,87 +302,127 @@ const LadoA = () => {
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Portafolio</p>
           <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos:</h2>
           {(() => {
-            const ordered = PROJECT_ORDER
-              .map((id) => portfolioProjects.find((p) => p.id === id))
-              .filter((p): p is NonNullable<typeof p> => !!p);
+            const PROJECT_DESCRIPTIONS: Record<string, string> = {
+              "innova-plus":
+                "Ejecuté la primera edición. Rediseñé la segunda. Iteración metodológica para 22 empresas peruanas.",
+              "patria-c":
+                "Academia ciudadana remota para 150 líderes jóvenes de todas las regiones del Perú.",
+              "washma":
+                "Cinco años acompañando a mujeres artesanas kañaris: identidad, capacidades e infraestructura productiva.",
+              "la-huaca":
+                "Festival cultural en espacios patrimoniales de Lambayeque. Activación territorial con alianzas como infraestructura.",
+              "command-z":
+                "Arquitectura de información y producto digital para convertir el archivo de un podcast en rutas de aprendizaje navegables.",
+            };
+            const GROUPS: { label: string; ids: string[]; cols: string; wrapper?: string }[] = [
+              {
+                label: "Diseño de servicios educativos",
+                ids: ["innova-plus", "patria-c"],
+                cols: "grid-cols-1 md:grid-cols-2",
+              },
+              {
+                label: "Territorios y comunidades",
+                ids: ["washma", "la-huaca"],
+                cols: "grid-cols-1 md:grid-cols-2",
+              },
+              {
+                label: "Sistemas de conocimiento",
+                ids: ["command-z"],
+                cols: "grid-cols-1",
+                wrapper: "md:max-w-[50%] md:mx-auto",
+              },
+            ];
+            const findProject = (id: string) => portfolioProjects.find((p) => p.id === id);
             return (
-              <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
-                {ordered.map((p, idx) => {
-                  let colClasses = "md:col-span-2";
-                  if (idx === 3) colClasses = "md:col-span-2 md:col-start-2";
-                  if (idx === 4) colClasses = "md:col-span-2 md:col-start-4";
-                  return (
-                    <Link
-                      key={p.id}
-                      to={`/portafolio/${p.id}`}
-                      className={`group flex flex-col bg-background border border-[#E8E8E8] overflow-hidden hover:bg-[#F5F2EB] transition-colors ${colClasses}`}
-                      style={{ borderRadius: 8 }}
+              <div className="flex flex-col">
+                {GROUPS.map((group, gi) => (
+                  <div key={group.label} style={{ marginTop: gi === 0 ? 0 : 40 }}>
+                    <p
+                      className="uppercase"
+                      style={{
+                        fontSize: 10,
+                        letterSpacing: "0.12em",
+                        color: "#888",
+                        marginBottom: 8,
+                      }}
                     >
-                      <div
-                        className="w-full bg-[#D9D9D9]"
-                        style={{ height: 200 }}
-                      />
-                      <div className="p-4 flex flex-col flex-1">
-                        <p
-                          className="uppercase mb-2"
-                          style={{
-                            fontFamily: "Lexend, sans-serif",
-                            fontSize: 10,
-                            letterSpacing: "0.12em",
-                            color: "#999",
-                          }}
-                        >
-                          {p.projectType[0]}
-                        </p>
-                        <h3
-                          style={{
-                            fontFamily: "Lexend, sans-serif",
-                            fontWeight: 700,
-                            fontSize: 16,
-                            color: "#1A1A1A",
-                            lineHeight: 1.3,
-                            marginBottom: 6,
-                          }}
-                        >
-                          {p.title}
-                        </h3>
-                        <p
-                          style={{
-                            fontFamily: "Lexend, sans-serif",
-                            fontSize: 13,
-                            fontStyle: "italic",
-                            color: "#6B7A3E",
-                            marginBottom: 10,
-                          }}
-                        >
-                          {PROJECT_SUBTITLES[p.id]}
-                        </p>
-                        <p
-                          className="line-clamp-2"
-                          style={{
-                            fontFamily: "Lexend, sans-serif",
-                            fontSize: 13,
-                            color: "#666",
-                            lineHeight: 1.5,
-                            marginBottom: 14,
-                          }}
-                        >
-                          {p.description}
-                        </p>
-                        <span
-                          className="mt-auto"
-                          style={{
-                            fontFamily: "Lexend, sans-serif",
-                            fontSize: 13,
-                            color: "#6B7A3E",
-                          }}
-                        >
-                          Ver caso →
-                        </span>
+                      {group.label}
+                    </p>
+                    <div style={{ borderTop: "1px solid #E8E8E8", marginBottom: 16 }} />
+                    <div className={group.wrapper ?? ""}>
+                      <div className={`grid ${group.cols} gap-2`}>
+                        {group.ids.map((id) => {
+                          const p = findProject(id);
+                          if (!p) return null;
+                          return (
+                            <Link
+                              key={id}
+                              to={`/portafolio/${id}`}
+                              className="group grid bg-background overflow-hidden hover:bg-[#F5F2EB] transition-colors grid-cols-1 md:grid-cols-[100px_1fr]"
+                              style={{
+                                border: "0.5px solid #E8E8E8",
+                                borderRadius: 10,
+                              }}
+                            >
+                              <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
+                              <div className="flex flex-col" style={{ padding: 14 }}>
+                                <p
+                                  className="uppercase"
+                                  style={{
+                                    fontFamily: "Lexend, sans-serif",
+                                    fontSize: 10,
+                                    letterSpacing: "0.12em",
+                                    color: "#8A9A5A",
+                                    marginBottom: 6,
+                                  }}
+                                >
+                                  {p.projectType[0]}
+                                </p>
+                                <h3
+                                  style={{
+                                    fontFamily: "Lexend, sans-serif",
+                                    fontWeight: 700,
+                                    fontSize: 13,
+                                    color: "#1A1A1A",
+                                    lineHeight: 1.35,
+                                    marginBottom: 6,
+                                  }}
+                                >
+                                  {p.title}
+                                </h3>
+                                <p
+                                  style={{
+                                    fontFamily: "Lexend, sans-serif",
+                                    fontSize: 11,
+                                    color: "#777",
+                                    lineHeight: 1.5,
+                                    marginBottom: 10,
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 3,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {PROJECT_DESCRIPTIONS[id]}
+                                </p>
+                                <span
+                                  className="mt-auto"
+                                  style={{
+                                    fontFamily: "Lexend, sans-serif",
+                                    fontSize: 11,
+                                    color: "#8A9A5A",
+                                  }}
+                                >
+                                  Ver caso →
+                                </span>
+                              </div>
+                            </Link>
+                          );
+                        })}
                       </div>
-                    </Link>
-                  );
-                })}
+                    </div>
+                  </div>
+                ))}
               </div>
             );
           })()}
