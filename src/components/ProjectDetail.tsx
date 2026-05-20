@@ -61,10 +61,17 @@ const PlaceholderBlock = ({
   const Icon = kind === "VIDEO" ? Play : kind === "GIF" ? Film : ImageIcon;
   const [url, ...captionRest] = label.split("|").map((s) => s.trim());
   const caption = captionRest.join(" | ");
+  const isGif = kind === "GIF" || /\.gif(\?|$)/i.test(url);
   if (isUrl(url)) {
     return (
       <figure className="my-10 md:my-12 md:-mx-[110px]">
-        <img src={url} alt={caption || kind} className="w-full h-auto block" loading="lazy" />
+        <img
+          src={url}
+          alt={caption || kind}
+          className="h-auto block mx-auto"
+          style={{ width: isGif ? "80%" : "100%" }}
+          loading="lazy"
+        />
         {caption && (
           <figcaption
             className="mt-3 text-center"
