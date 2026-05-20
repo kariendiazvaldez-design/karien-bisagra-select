@@ -284,9 +284,7 @@ const LadoA = () => {
           <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
             <HoverWord src={HOVER_IMG_2} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Busco traducir lo complejo en{" "}
-            <HoverWord src={HOVER_IMG_3} onHover={handleHover}>experiencias concretas</HoverWord>{" "}
-            que equipos y organizaciones pueden hacer funcionar.
+            Facilito procesos, investigo experiencias y construyo aprendizajes con equipos y organizaciones.
           </p>
           <button
             onClick={scrollToProjects}
