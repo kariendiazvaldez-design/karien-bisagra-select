@@ -422,7 +422,7 @@ const LadoB = () => {
         </div>
       </section>
 
-      <section id="exploraciones" className="px-6 md:px-12" style={{ paddingTop: 64, paddingBottom: 64 }}>
+      <section id="exploraciones" className="px-6 md:px-12" style={{ paddingTop: 48, paddingBottom: 48 }}>
         <div className="max-w-6xl mx-auto">
           <p
             className="font-quicksand"
