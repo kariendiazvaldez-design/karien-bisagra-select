@@ -5,7 +5,7 @@ Command Z es el podcast de Layshi Curbelo: más de 150 episodios sobre diseño, 
 
 Layshi, muy generosamente, abrió las puertas del podcast para una pasantía. Mi misión era específica: tomar lo que ya existía y convertirlo en algo navegable y útil. Esto evolucionó a la creación de un nuevo producto, que conecte con los oyentes y explore cómo aportarles valor.
 
-[IMAGE: Interfaz principal del producto en Base44]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779257937/CommandZ_1_r0wei4.gif | Interfaz principal del producto en Base44]
 
 ## El usuario
 
@@ -23,13 +23,13 @@ El encargo original era más acotado: ordenar lo que existía. Pero el problema 
 
 Conecté la API pública de Spotify for Developers con un script en Python (Google Colab) para extraer metadatos de cada episodio: título, fecha, duración, idioma, enlace. No soy programadora, pero sabía qué información necesitaba y cómo conseguirla.
 
-[GIF: Script corriendo en Google Colab — extracción via Spotify API]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779258363/CommandZ_2_wyw0pm.gif | Script corriendo en Google Colab — extracción via Spotify API]
 
 ### 2. Cruce e investigación manual
 
 La base de Spotify cubrió el 60% de los invitados. El restante requirió investigación episodio por episodio: bios, redes, perfiles. Este paso reveló algo importante: la calidad del archivo dependía de la calidad del criterio editorial, no solo de los datos disponibles.
 
-[IMAGE: Fotos de entrevistados — galería]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779258396/Captura_de_pantalla_2026-05-20_012352_ffsnqj.png | Fotos de entrevistados — galería]
 
 ### 3. Categorización temática: el trabajo más interpretativo
 
@@ -37,13 +37,13 @@ Con el corpus completo, la pregunta era: ¿cómo agrupa un diseñador latinoamer
 
 > Las rutas de aprendizaje no son listas de reproducción. Son caminos con intención: Fundamentos → Proceso y Aplicación → Estrategia y Liderazgo. La diferencia entre una playlist y una ruta es que la ruta tiene una hipótesis sobre quién eres y a dónde quieres llegar.
 
-[GIF: Sistema de categorías navegándose]
+
 
 ### 4. Construcción del producto en Base44
 
 Una biblioteca navegable con filtros por categoría, idioma y buscador. Cada episodio tiene ficha propia con resumen, bio del invitado, player de Spotify embebido, aprendizajes clave, reto de aplicación y comentarios.
 
-[GIF: App Base44 con filtros y biblioteca navegable]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779258694/CommandZ_3_kwwon7.gif | App Base44 con filtros y biblioteca navegable]
 
 ### 5. Estrategia de validación
 
@@ -58,7 +58,7 @@ La arquitectura temática refleja cómo interpreté el conocimiento del podcast,
 | 3 | Perfiles de usuario con caminos diferenciados |
 | 1 | App funcional lista para validación |
 
-[GIF: Pantalla vertical de la app — vista mobile]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779257937/CommandZ_1_r0wei4.gif | Pantalla vertical de la app — vista mobile]
 
 ## Lo que aprendí
 
