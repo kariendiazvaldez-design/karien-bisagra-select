@@ -15,7 +15,7 @@ La respuesta fue un festival como sistema: una feria de emprendimientos como mot
 
 La sostenibilidad no dependía del presupuesto, que era mínimo, sino de que el ecosistema estuviera bien articulado. Esa fue la apuesta y también el aprendizaje más duro.
 
-[IMAGE: Tres ediciones del festival](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303626/LHI_Covers_njegy7.gif)
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303626/LHI_Covers_njegy7.gif | Tres ediciones del festival]
 
 <!-- INDEX: Las ediciones -->
 
