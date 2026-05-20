@@ -30,9 +30,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: el concepto no se transmitió completo; faltó staff y señalética. El modelo necesitaba más diseño de experiencia, no solo de contenido.*
 
-[IMAGE: Foto edición I — Casa de la Cultura]
-
-[IMAGE: Afiche edición I]
+[IMAGE: Foto edición I — Casa de la Cultura](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303923/LHI_1_hamlmf.gif)
 
 ### Edición II · 2019
 **DDC – Sala Chornancap · Liderazgo femenino y patrimonio ancestral**
@@ -41,9 +39,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: la coordinación horizontal funciona; el programa colaborativo genera pertenencia.*
 
-[IMAGE: Foto edición II — lleno total]
-
-[GIF: Afiches de la edición II]
+[IMAGE: Foto edición II — lleno total](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779304772/LHI_2_bqmzvf.gif)
 
 ### Edición III · 2019
 **Ecomuseo de Túcume · Nueva museología y comunidad**
@@ -52,9 +48,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: simplificar para perfeccionar; cada espacio nuevo es un rediseño, no una replicación.*
 
-[IMAGE: Foto edición III — Ecomuseo de Túcume]
-
-[IMAGE: Afiche edición III]
+[IMAGE: Foto edición III — Ecomuseo de Túcume](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779305308/LHI_3_qfr2lc.gif)
 
 <!-- INDEX: Edición II en detalle -->
 
