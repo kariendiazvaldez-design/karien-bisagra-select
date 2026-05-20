@@ -346,6 +346,10 @@ const LadoA = () => {
               "command-z":
                 "Arquitectura de información y producto digital para convertir el archivo de un podcast en rutas de aprendizaje navegables.",
             };
+            const PROJECT_IMAGES: Record<string, string> = {
+              "innova-plus":
+                "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
+            };
             const GROUPS: { label: string; ids: string[]; cols: string; wrapper?: string }[] = [
               {
                 label: "Diseño de servicios educativos",
