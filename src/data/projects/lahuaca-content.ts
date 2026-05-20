@@ -39,7 +39,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: la coordinación horizontal funciona; el programa colaborativo genera pertenencia.*
 
-[IMAGE: Foto edición II — lleno total](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779304772/LHI_2_bqmzvf.gif)
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779304772/LHI_2_bqmzvf.gif | Edición II — lleno total]
 
 ### Edición III · 2019
 **Ecomuseo de Túcume · Nueva museología y comunidad**
