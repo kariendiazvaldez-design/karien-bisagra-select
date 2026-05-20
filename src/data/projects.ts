@@ -82,7 +82,7 @@ export const patriaC: Project = {
 
 export const laHuaca: Project = {
   id: "la-huaca",
-  title: "La Huaca Independiente: diseñé un servicio cultural sin saber que eso era lo que hacía",
+  title: "La Huaca Independiente: diseñé un festival como servicio vigente en 03 ediciones.",
   description:
     "Tres ediciones de un festival cultural en espacios patrimoniales de Lambayeque. Un modelo de activación territorial que combinaba feria de emprendimientos, programación artística y patrimonio como ancla, sin presupuesto propio pero con ecosistema de alianzas como infraestructura.",
   client: "DDC Lambayeque",
