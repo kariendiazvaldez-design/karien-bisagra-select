@@ -350,7 +350,7 @@ function useGardenPosts() {
 // ---------- PAGE ----------
 const LadoB = () => {
   const { posts, loading } = useGardenPosts();
-  const [tipo, setTipo] = useState("Todos los formatos");
+  const [tipo, setTipo] = useState("Todos");
   const [tema, setTema] = useState("Todos");
 
   const temas = useMemo(() => {
