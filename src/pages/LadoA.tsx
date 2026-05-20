@@ -25,11 +25,13 @@ const PROJECT_SUBTITLES: Record<string, string> = {
 };
 const PROJECT_ORDER = ["innova-plus", "command-z", "washma", "patria-c", "la-huaca"];
 
-const NAV_LINKS = [
+const NAV_LINKS: { label: string; href: string; to?: string }[] = [
   { label: "Proyectos", href: "#proyectos" },
-  { label: "Blog", href: "#blog" },
+  { label: "Blog", href: "/blog", to: "/blog" },
   { label: "Sobre mí", href: "#sobre-mi" },
 ];
+
+const WHATSAPP_URL = "https://wa.me/51927822614?text=" + encodeURIComponent("Hola, vengo de tu web!");
 
 const PROJECTS = [
   {
