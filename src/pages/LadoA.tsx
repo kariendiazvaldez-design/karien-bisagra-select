@@ -283,8 +283,8 @@ const LadoA = () => {
           </h1>
           <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
-            <HoverWord src={HOVER_IMG_2} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_3} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
+            diseñadora de servicios en la práctica.{"\n"}
+            Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_2} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
           </p>
           <button
             onClick={scrollToProjects}
@@ -292,6 +292,24 @@ const LadoA = () => {
           >
             Ver proyectos →
           </button>
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0"
+            style={{ marginTop: 12 }}
+          >
+            <a
+              href="#contacto"
+              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
+            >
+              ¿Hacemos algo juntxs?
+            </a>
+            <span className="hidden sm:inline" style={{ color: "#8A9A5A", fontSize: 13 }}>·</span>
+            <Link
+              to="/blog"
+              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
+            >
+              Ir al blog →
+            </Link>
+          </div>
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "#E8E4DA" }}>↓</div>
       </section>
@@ -483,58 +501,141 @@ const LadoA = () => {
             </div>
           </div>
 
-          {notionLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
-              {[0, 1, 2].map((i) => (
-                <div key={i} className="py-6 md:py-0 animate-pulse">
-                  <div className="h-3 w-24 bg-[#E8E8E8] mb-3" />
-                  <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
-                  <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
-                  <div className="h-3 w-5/6 bg-[#E8E8E8] mb-4" />
-                  <div className="h-3 w-20 bg-[#E8E8E8]" />
+          {(() => {
+            const CAT_COLOR: Record<string, string> = {
+              "Service Design": "#6B7A3E",
+              "Research": "#8A9A5A",
+              "Diseño": "#C49A2A",
+              "Tecnología": "#7A8A6A",
+              "Educación": "#9AAA7A",
+            };
+            const getCatColor = (c: string) => CAT_COLOR[c] ?? "#E8E8E8";
+            const limitedPosts = filteredPosts.slice(0, 4);
+
+            if (notionLoading) {
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 20 }}>
+                  {[0, 1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="animate-pulse"
+                      style={{
+                        background: "#FFFFFF",
+                        border: "0.5px solid #E8E8E8",
+                        borderRadius: 10,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div style={{ height: 3, background: "#E8E8E8" }} />
+                      <div style={{ padding: 20 }}>
+                        <div className="h-3 w-24 bg-[#E8E8E8] mb-3" />
+                        <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
+                        <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
+                        <div className="h-3 w-5/6 bg-[#E8E8E8]" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : filteredPosts.length === 0 ? (
-            <p className="text-center text-muted-foreground py-12">Nada publicado aún</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-8">
-              {filteredPosts.map((post, i) => {
-                const inner = (
-                  <>
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-a-accent-mid font-medium mb-2">
-                      {post.category}
-                    </p>
-                    <h3 className="font-medium text-[15px] mb-2">{post.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-                    <p className="text-xs text-a-accent-soft">
-                      {post.date && post.date.includes("-")
-                        ? new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
-                        : post.date}
-                    </p>
-                  </>
-                );
-                const className = `block py-6 md:py-0 ${i < filteredPosts.length - 1 ? "border-b md:border-b-0" : ""} border-[#D4CFC5]`;
-                const style = { borderBottomWidth: i < filteredPosts.length - 1 ? "0.5px" : undefined } as any;
-                return post.slug ? (
-                  <Link key={post.id} to={`/blog/${post.slug}`} className={className} style={style}>
-                    {inner}
-                  </Link>
-                ) : (
-                  <article key={post.id} className={className} style={style}>
-                    {inner}
-                  </article>
-                );
-              })}
-            </div>
-          )}
+              );
+            }
+            if (limitedPosts.length === 0) {
+              return <p className="text-center text-muted-foreground py-12">Nada publicado aún</p>;
+            }
+            return (
+              <div
+                className="grid grid-cols-1 md:grid-cols-2"
+                style={{ gap: 20, rowGap: 20 }}
+              >
+                {limitedPosts.map((post) => {
+                  const lineColor = getCatColor(post.category);
+                  const formattedDate =
+                    post.date && post.date.includes("-")
+                      ? new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
+                      : post.date;
+                  const inner = (
+                    <div
+                      style={{
+                        background: "#FFFFFF",
+                        border: "0.5px solid #E8E8E8",
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div style={{ height: 3, background: lineColor }} />
+                      <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>
+                        <p
+                          className="uppercase"
+                          style={{
+                            fontSize: 10,
+                            letterSpacing: "0.18em",
+                            color: "#8A9A5A",
+                            marginBottom: 10,
+                          }}
+                        >
+                          {post.category}
+                        </p>
+                        <h3
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontWeight: 700,
+                            fontSize: 15,
+                            lineHeight: 1.4,
+                            color: "#1A1A1A",
+                            marginBottom: 10,
+                          }}
+                        >
+                          {post.title}
+                        </h3>
+                        <p
+                          style={{
+                            fontSize: 12,
+                            color: "#777",
+                            lineHeight: 1.7,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            marginBottom: 16,
+                          }}
+                        >
+                          {post.excerpt}
+                        </p>
+                        <div
+                          className="mt-auto flex items-center justify-between"
+                          style={{ fontSize: 11 }}
+                        >
+                          <span style={{ color: "#aaa" }}>{formattedDate}</span>
+                          <span style={{ color: "#8A9A5A" }}>Leer →</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                  return post.slug ? (
+                    <Link key={post.id} to={`/blog/${post.slug}`}>
+                      {inner}
+                    </Link>
+                  ) : (
+                    <div key={post.id}>{inner}</div>
+                  );
+                })}
+              </div>
+            );
+          })()}
 
           <div className="mt-12 text-center">
             <Link
               to="/blog"
-              className="inline-block bg-a-accent text-background px-6 py-2.5 hover:bg-a-accent-mid transition-colors"
+              className="inline-block transition-colors"
+              style={{
+                border: "1px solid #8A9A5A",
+                color: "#8A9A5A",
+                padding: "10px 24px",
+                background: "transparent",
+                borderRadius: 4,
+              }}
             >
               Ver más →
             </Link>
