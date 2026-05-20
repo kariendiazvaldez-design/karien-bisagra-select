@@ -221,7 +221,6 @@ const LogCard = ({ p }: { p: GardenPost }) => (
     className="p-4 flex flex-col gap-2 h-full"
     style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    {p.coverUrl && <Cover url={p.coverUrl} h={90} bg="rgba(0,0,0,0.15)" alt={p.nombre} />}
     <p className="font-caveat" style={{ fontSize: 18, lineHeight: 1 }}>{fmtDate(p.date) || "—"}</p>
     <p
       className="font-quicksand"
@@ -245,7 +244,7 @@ const ResenaCard = ({ p }: { p: GardenPost }) => (
     className="p-5 flex flex-col gap-2 h-full"
     style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
-    <Cover url={p.coverUrl} aspectRatio="4 / 5" alt={p.nombre} />
+    <Cover url={p.coverUrl} h={180} alt={p.nombre} />
     {p.category && (
       <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginTop: 4 }}>
         {p.category}
@@ -276,7 +275,7 @@ const HandcraftCard = ({ p }: { p: GardenPost }) => (
     className="p-4 flex flex-col gap-2 h-full"
     style={{ background: "#C9963A", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    <Cover url={p.coverUrl} h={100} bg="rgba(0,0,0,0.15)" alt={p.nombre} />
+    <Cover url={p.coverUrl} h={120} bg="rgba(0,0,0,0.15)" alt={p.nombre} />
     <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.25 }}>{p.nombre}</h3>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
   </Link>
@@ -288,7 +287,7 @@ const MiosotisCard = ({ p }: { p: GardenPost }) => (
     className="p-5 flex flex-col gap-2 h-full"
     style={{ background: "#7B2D3E", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    {p.coverUrl && <Cover url={p.coverUrl} h={120} bg="rgba(255,255,255,0.1)" alt={p.nombre} />}
+    
     <h3 className="font-caveat" style={{ fontSize: 24, fontStyle: "italic", lineHeight: 1.15 }}>{p.nombre}</h3>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "rgba(255,255,255,0.85)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
     {p.date && <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
@@ -312,6 +311,8 @@ const bentoSpanClass = (kind: Kind) => {
   if (kind === "resena") return "col-span-1 md:row-span-2";
   if (kind === "apuntes") return "col-span-1 md:col-span-2";
   if (kind === "miosotis") return "col-span-1 md:col-span-2";
+  if (kind === "log") return "col-span-1";
+  if (kind === "handcraft") return "col-span-1";
   return "col-span-1";
 };
 
@@ -402,7 +403,7 @@ const LadoB = () => {
       <Hero />
       <div style={{ borderTop: `1px solid ${DIVIDER}` }} />
 
-      <section id="jardin" className="px-6 md:px-12 py-12">
+      <section id="jardin" className="px-6 md:px-12" style={{ paddingTop: 48, paddingBottom: 48 }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col gap-2 mb-8">
             <FilterRow options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
@@ -421,7 +422,7 @@ const LadoB = () => {
         </div>
       </section>
 
-      <section id="exploraciones" className="px-6 md:px-12" style={{ paddingTop: 64, paddingBottom: 64 }}>
+      <section id="exploraciones" className="px-6 md:px-12" style={{ paddingTop: 48, paddingBottom: 48 }}>
         <div className="max-w-6xl mx-auto">
           <p
             className="font-quicksand"
