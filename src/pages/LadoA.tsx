@@ -297,32 +297,51 @@ const LadoA = () => {
           </h1>
           <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
-            diseñadora de servicios en la práctica.{"\n"}
+            <HoverWord src={HOVER_IMG_3} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
             Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_2} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
           </p>
-          <button
-            onClick={scrollToProjects}
-            className="inline-block bg-a-accent text-background px-6 py-2.5 hover:bg-a-accent-mid transition-colors"
-          >
-            Ver proyectos →
-          </button>
-          <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0"
-            style={{ marginTop: 12 }}
-          >
-            <a
-              href="#contacto"
-              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
-            >
-              ¿Hacemos algo juntxs?
-            </a>
-            <span className="hidden sm:inline" style={{ color: "#8A9A5A", fontSize: 13 }}>·</span>
-            <Link
-              to="/blog"
-              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
-            >
-              Ir al blog →
-            </Link>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-[520px] mx-auto">
+            {[
+              { label: "Ver proyectos →", onClick: scrollToProjects },
+              { label: "Ir al blog →", to: "/blog" },
+              { label: "Sobre mí →", href: "#sobre-mi" },
+            ].map((item) => {
+              const style: React.CSSProperties = {
+                background: "#C9A24A",
+                color: "#1A1A11",
+                padding: "14px 16px",
+                fontSize: 14,
+                fontWeight: 500,
+                textAlign: "center",
+                borderRadius: 4,
+                transition: "background 0.2s",
+              };
+              const onEnter = (e: React.MouseEvent<HTMLElement>) => {
+                (e.currentTarget as HTMLElement).style.background = "#B58F38";
+              };
+              const onLeave = (e: React.MouseEvent<HTMLElement>) => {
+                (e.currentTarget as HTMLElement).style.background = "#C9A24A";
+              };
+              if (item.to) {
+                return (
+                  <Link key={item.label} to={item.to} style={style} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+                    {item.label}
+                  </Link>
+                );
+              }
+              if (item.href) {
+                return (
+                  <a key={item.label} href={item.href} style={style} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+                    {item.label}
+                  </a>
+                );
+              }
+              return (
+                <button key={item.label} onClick={item.onClick} style={style} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+                  {item.label}
+                </button>
+              );
+            })}
           </div>
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "#E8E4DA" }}>↓</div>
