@@ -345,26 +345,66 @@ const Blog = () => {
           </>
         )}
 
-        {/* Footer pequeño */}
+        {/* Footer con identidad */}
         <footer
-          className="blog-mini-footer mt-12"
+          className="blog-identity-footer mt-16"
           style={{
             borderTop: "1px solid #E8E8E8",
-            padding: "32px 0",
+            background: "#FAFAF7",
+            padding: "48px 24px",
+            marginLeft: "calc(50% - 50vw)",
+            marginRight: "calc(50% - 50vw)",
           }}
         >
-          <div className="blog-mini-footer-inner flex items-center justify-center">
-            <Link to="/sobre-mi" style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#888" }}>
-              Sobre mí
-            </Link>
-            <span style={{ color: "#888", fontSize: 13 }} className="blog-mini-footer-sep">·</span>
-            <Link to="/lado-a" style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#888" }}>
-              Portafolio
-            </Link>
-            <span style={{ color: "#888", fontSize: 13 }} className="blog-mini-footer-sep">·</span>
-            <Link to="/lado-a#contacto" style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#888" }}>
-              ¿Trabajamos juntxs?
-            </Link>
+          <div
+            className="blog-identity-inner mx-auto"
+            style={{ maxWidth: 1100, display: "flex", alignItems: "center", gap: 32 }}
+          >
+            <div
+              className="blog-identity-photo"
+              style={{ width: 64, height: 64, background: "#E8E8E8", borderRadius: 8, flexShrink: 0 }}
+            />
+            <div className="blog-identity-text" style={{ flex: 1 }}>
+              <p style={{ fontFamily: "Lexend, sans-serif", fontWeight: 700, fontSize: 15, color: "#1A1A1A", marginBottom: 6 }}>
+                Karien Díaz
+              </p>
+              <p style={{ fontFamily: "Lexend, sans-serif", fontSize: 13, color: "#666", lineHeight: 1.7, maxWidth: 400 }}>
+                Diseñadora de servicios y comunicadora. Trabajo en la intersección entre personas, procesos y tecnología, con organizaciones que quieren que las cosas funcionen mejor para quienes las usan.
+              </p>
+            </div>
+            <div
+              className="blog-identity-ctas"
+              style={{ display: "flex", flexDirection: "column", gap: 10, flexShrink: 0 }}
+            >
+              <Link
+                to="/lado-a"
+                style={{
+                  fontFamily: "Lexend, sans-serif",
+                  fontSize: 13,
+                  padding: "10px 20px",
+                  borderRadius: 6,
+                  background: "#6B7A3E",
+                  color: "#FFFFFF",
+                  textAlign: "center",
+                }}
+              >
+                Ver portafolio →
+              </Link>
+              <Link
+                to="/lado-a#contacto"
+                style={{
+                  fontFamily: "Lexend, sans-serif",
+                  fontSize: 13,
+                  padding: "10px 20px",
+                  borderRadius: 6,
+                  border: "1px solid #6B7A3E",
+                  color: "#6B7A3E",
+                  textAlign: "center",
+                }}
+              >
+                ¿Trabajamos juntxs? →
+              </Link>
+            </div>
           </div>
         </footer>
 
