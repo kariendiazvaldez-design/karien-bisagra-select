@@ -244,20 +244,21 @@ const LadoA = () => {
       </nav>
 
       {/* Floating hover image */}
-      {hoverImg && (
-        <img
-          src={hoverImg}
-          alt=""
-          className="fixed pointer-events-none z-50 transition-opacity duration-300"
-          style={{
-            left: Math.min(cursor.x + 24, (typeof window !== "undefined" ? window.innerWidth : 1000) - 240),
-            top: Math.min(cursor.y + 24, (typeof window !== "undefined" ? window.innerHeight : 800) - 240),
-            width: 220,
-            height: "auto",
-            opacity: 1,
-          }}
-        />
-      )}
+      <img
+        src={hoverImg ?? undefined}
+        alt=""
+        aria-hidden="true"
+        className="fixed pointer-events-none z-50 transition-opacity duration-300"
+        style={{
+          left: Math.min(cursor.x + 24, (typeof window !== "undefined" ? window.innerWidth : 1000) - 240),
+          top: Math.min(cursor.y + 24, (typeof window !== "undefined" ? window.innerHeight : 800) - 240),
+          width: 220,
+          height: "auto",
+          opacity: hoverImg ? 1 : 0,
+          visibility: hoverImg ? "visible" : "hidden",
+        }}
+      />
+
 
       {/* HERO */}
       <section
