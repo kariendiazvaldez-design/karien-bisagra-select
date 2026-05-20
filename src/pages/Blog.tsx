@@ -433,6 +433,8 @@ const Blog = () => {
           @media (max-width: 639px) {
             .blog-mini-footer-inner { flex-direction: column; gap: 12px; }
             .blog-mini-footer-sep { display: none; }
+            .blog-identity-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .blog-identity-ctas { width: 100%; }
           }
         `}</style>
       </section>
