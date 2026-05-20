@@ -62,11 +62,7 @@ La respuesta llegó de la mano de Carmen Pintado, quien llevaba años trabajando
 
 **Research inicial:** el equipo visitó el Museo Brüning antes de diseñar la identidad visual. La ilustración de la Señora de Chornancap, diseñada tras una visita con el arqueólogo Carlos Wester, no fue decoración: fue el artefacto que tradujo el brief en algo que la gente pudiera reconocer y desear.
 
-[IMAGE: Ilustración Señora de Chornancap]
-
 **Mecánica de participación — La Zona Chornancap:** los asistentes completaban actividades para acumular pallares moche, réplicas de objetos rituales, y canjearlos por una foto con la Sacerdotisa y su séquito. No era solo una atracción: era una forma de hacer que la gente se detuviera, aprendiera y construyera un recuerdo físico del encuentro con ese patrimonio.
-
-[IMAGE: Foto Zona Chornancap — gamificación en vivo]
 
 ## Resultados acumulados
 
