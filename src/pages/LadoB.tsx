@@ -287,7 +287,7 @@ const MiosotisCard = ({ p }: { p: GardenPost }) => (
     className="p-5 flex flex-col gap-2 h-full"
     style={{ background: "#7B2D3E", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    {p.coverUrl && <Cover url={p.coverUrl} h={120} bg="rgba(255,255,255,0.1)" alt={p.nombre} />}
+    
     <h3 className="font-caveat" style={{ fontSize: 24, fontStyle: "italic", lineHeight: 1.15 }}>{p.nombre}</h3>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "rgba(255,255,255,0.85)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
     {p.date && <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
