@@ -283,8 +283,8 @@ const LadoA = () => {
           </h1>
           <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
-            <HoverWord src={HOVER_IMG_2} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_3} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
+            diseñadora de servicios en la práctica.{"\n"}
+            Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_2} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
           </p>
           <button
             onClick={scrollToProjects}
@@ -292,6 +292,24 @@ const LadoA = () => {
           >
             Ver proyectos →
           </button>
+          <div
+            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0"
+            style={{ marginTop: 12 }}
+          >
+            <a
+              href="#contacto"
+              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
+            >
+              ¿Hacemos algo juntxs?
+            </a>
+            <span className="hidden sm:inline" style={{ color: "#8A9A5A", fontSize: 13 }}>·</span>
+            <Link
+              to="/blog"
+              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
+            >
+              Ir al blog →
+            </Link>
+          </div>
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "#E8E4DA" }}>↓</div>
       </section>
