@@ -12,11 +12,12 @@ const IMG_PH = "#E0D8D0";
 const IMG_PH_DARK = "#B5571F";
 
 const TIPO_OPTS = [
-  "Todos los formatos",
-  "Apuntes",
-  "Diario&Pensamientos",
-  "Reseñas",
+  "Todos",
   "Log",
+  "Reseña",
+  "Apuntes",
+  "Handcraft",
+  "Miosotis",
 ];
 
 type GardenPost = {
@@ -47,23 +48,26 @@ const fmtDate = (d: string) => {
   }
 };
 
-type Kind = "nota" | "recomendacion" | "log" | "diario";
+type Kind = "log" | "resena" | "apuntes" | "handcraft" | "miosotis" | "other";
 
 const tipoOf = (p: GardenPost): Kind => {
   const t = (p.tipo || "").toLowerCase();
   if (t.includes("log")) return "log";
-  if (t.includes("diario") || t.includes("pensam")) return "diario";
-  if (t.includes("recom") || t.includes("reseñ") || t.includes("resen")) return "recomendacion";
-  return "nota";
+  if (t.includes("reseñ") || t.includes("resen")) return "resena";
+  if (t.includes("apunte") || t.includes("nota")) return "apuntes";
+  if (t.includes("handcraft") || t.includes("hand craft") || t.includes("artesan")) return "handcraft";
+  if (t.includes("miosotis") || t.includes("diario") || t.includes("pensam")) return "miosotis";
+  return "other";
 };
 
 const matchesTipoFilter = (p: GardenPost, filter: string) => {
-  if (filter === "Todos los formatos") return true;
-  const t = (p.tipo || "").toLowerCase();
-  if (filter === "Apuntes") return t.includes("apunte") || t.includes("nota");
-  if (filter === "Diario&Pensamientos") return t.includes("diario") || t.includes("pensam");
-  if (filter === "Reseñas") return t.includes("reseñ") || t.includes("resen") || t.includes("recom");
-  if (filter === "Log") return t.includes("log");
+  if (filter === "Todos") return true;
+  const k = tipoOf(p);
+  if (filter === "Log") return k === "log";
+  if (filter === "Reseña") return k === "resena";
+  if (filter === "Apuntes") return k === "apuntes";
+  if (filter === "Handcraft") return k === "handcraft";
+  if (filter === "Miosotis") return k === "miosotis";
   return true;
 };
 
@@ -184,52 +188,12 @@ const ImgPlaceholder = ({ h, bg = IMG_PH }: { h: number; bg?: string }) => (
   <div style={{ width: "100%", height: h, background: bg, borderRadius: 2 }} />
 );
 
-const NotaCard = ({ p }: { p: GardenPost }) => (
-  <Link
-    to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-3 h-full"
-    style={{ background: "#E8DCCF", color: TEXT, textDecoration: "none", borderRadius: 4 }}
-  >
-    <ImgPlaceholder h={200} />
-    <div className="flex items-center gap-2">
-      <span style={{ fontSize: 22 }}>{maturityIcon(p.maturity)}</span>
-      <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 20, lineHeight: 1.25 }}>{p.nombre}</h3>
-    </div>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "#555", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
-    {p.temas.length > 0 && (
-      <div className="flex flex-wrap gap-1.5">
-        {p.temas.slice(0, 4).map((t) => <Chip key={t}>{t}</Chip>)}
-      </div>
-    )}
-    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
-  </Link>
-);
-
-const RecCard = ({ p }: { p: GardenPost }) => (
-  <Link
-    to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-2 h-full"
-    style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
-  >
-    <ImgPlaceholder h={160} />
-    {p.category && (
-      <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginTop: 4 }}>
-        {p.category}
-      </p>
-    )}
-    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3 }}>{p.nombre}</h3>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "#777", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
-    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
-  </Link>
-);
-
 const LogCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
     className="p-4 flex flex-col gap-2 h-full"
-    style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4, minHeight: 120 }}
+    style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    <ImgPlaceholder h={80} bg={IMG_PH_DARK} />
     <p className="font-caveat" style={{ fontSize: 18, lineHeight: 1 }}>{fmtDate(p.date) || "—"}</p>
     <p
       className="font-quicksand"
@@ -247,32 +211,78 @@ const LogCard = ({ p }: { p: GardenPost }) => (
   </Link>
 );
 
-const DiarioCard = ({ p }: { p: GardenPost }) => (
+const ResenaCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-5 flex flex-col gap-2 h-full"
+    style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
+  >
+    <div style={{ width: "100%", aspectRatio: "4 / 5", background: IMG_PH, borderRadius: 2 }} />
+    {p.category && (
+      <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginTop: 4 }}>
+        {p.category}
+      </p>
+    )}
+    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#777", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
+    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+  </Link>
+);
+
+const ApuntesCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
     className="p-5 flex flex-col gap-3 h-full"
-    style={{ background: "#DCE5DA", color: TEXT, textDecoration: "none", borderRadius: 4 }}
+    style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
-    <ImgPlaceholder h={140} bg="#C7D3C4" />
-    <div className="flex items-center gap-2">
-      <span style={{ fontSize: 20 }}>{maturityIcon(p.maturity)}</span>
-      <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 17, lineHeight: 1.25 }}>{p.nombre}</h3>
-    </div>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#4a5a48", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
-    {p.temas.length > 0 && (
-      <div className="flex flex-wrap gap-1.5">
-        {p.temas.slice(0, 3).map((t) => <Chip key={t}>{t}</Chip>)}
-      </div>
-    )}
-    {p.date && <p style={{ color: TERRACOTA, fontSize: 12, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+    <ImgPlaceholder h={140} />
+    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 18, lineHeight: 1.25 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#666", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
+    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+  </Link>
+);
+
+const HandcraftCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-4 flex flex-col gap-2 h-full"
+    style={{ background: "#C9963A", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
+  >
+    <ImgPlaceholder h={100} bg="rgba(0,0,0,0.15)" />
+    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.25 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
+  </Link>
+);
+
+const MiosotisCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-5 flex flex-col gap-2 h-full"
+    style={{ background: "#7B2D3E", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
+  >
+    <h3 className="font-caveat" style={{ fontSize: 24, fontStyle: "italic", lineHeight: 1.15 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "rgba(255,255,255,0.85)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
+    {p.date && <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+  </Link>
+);
+
+const OtherCard = ({ p }: { p: GardenPost }) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className="p-5 flex flex-col gap-2 h-full"
+    style={{ background: "#F2EFE8", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
+  >
+    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.25 }}>{p.nombre}</h3>
+    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#666", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
+    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
   </Link>
 );
 
 // ---------- BENTO ----------
 const bentoSpanClass = (kind: Kind) => {
-  if (kind === "nota") return "col-span-1 md:col-span-2 md:row-span-2";
-  if (kind === "recomendacion") return "col-span-1 md:row-span-2";
-  if (kind === "diario") return "col-span-1 md:row-span-2";
+  if (kind === "resena") return "col-span-1 md:row-span-2";
+  if (kind === "apuntes") return "col-span-1 md:col-span-2";
+  if (kind === "miosotis") return "col-span-1 md:col-span-2";
   return "col-span-1";
 };
 
@@ -289,10 +299,12 @@ const Bento = ({ posts }: { posts: GardenPost[] }) => (
         const kind = tipoOf(p);
         return (
           <div key={p.id} className={bentoSpanClass(kind)}>
-            {kind === "nota" && <NotaCard p={p} />}
-            {kind === "recomendacion" && <RecCard p={p} />}
-            {kind === "diario" && <DiarioCard p={p} />}
             {kind === "log" && <LogCard p={p} />}
+            {kind === "resena" && <ResenaCard p={p} />}
+            {kind === "apuntes" && <ApuntesCard p={p} />}
+            {kind === "handcraft" && <HandcraftCard p={p} />}
+            {kind === "miosotis" && <MiosotisCard p={p} />}
+            {kind === "other" && <OtherCard p={p} />}
           </div>
         );
       })}
@@ -338,7 +350,7 @@ function useGardenPosts() {
 // ---------- PAGE ----------
 const LadoB = () => {
   const { posts, loading } = useGardenPosts();
-  const [tipo, setTipo] = useState("Todos los formatos");
+  const [tipo, setTipo] = useState("Todos");
   const [tema, setTema] = useState("Todos");
 
   const temas = useMemo(() => {
