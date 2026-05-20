@@ -34,8 +34,6 @@ En 2024 el diagnóstico era un trámite administrativo. En 2025 lo rediseñé co
 
 Redistribuí las cuatro sesiones de mentoría: la primera anclada al diagnóstico de entrada, dos intermedias acompañando los módulos, y la cuarta orientada al cierre. Las mentorías dejaron de ser complemento y se convirtieron en columna vertebral del acompañamiento. Fue el cambio que más impactó en la experiencia percibida: 4,56/5 de valoración.
 
-[GIF: Captura Padlet de seguimiento por cohorte]
-
 **Decisión 3 · Rediseñar el cierre como apertura de red**
 
 En 2024 la clausura cerraba vínculos que nadie había diseñado para sobrevivir. En 2025 la rediseñé como primer paso hacia una Red Nacional I+D+i: ejercicio colectivo de mapeo de intereses, compromisos y aportes posibles. El 97% de los asistentes manifestó interés en participar.
@@ -45,8 +43,6 @@ Al cerrar el ciclo, produje un blueprint de servicio completo: fases, actores, t
 ## Blueprint y arquetipos
 
 [IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779255336/Captura_de_pantalla_2026-05-19_232056_b6poka.png]
-
-[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif]
 
 ## Lo que cambió
 
@@ -74,7 +70,9 @@ Al cerrar el ciclo, produje un blueprint de servicio completo: fases, actores, t
 
 | 97% | Interés en Red Nacional I+D+i |
 
-[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256369/Innova_humanos_db4sfw.gif]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif | Inauguración 2025]
+
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256369/Innova_humanos_db4sfw.gif | Clausura 2025 — Fotos grupales]
 
 ## Lo que aprendí
 
