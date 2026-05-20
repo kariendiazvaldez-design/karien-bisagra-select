@@ -311,6 +311,8 @@ const bentoSpanClass = (kind: Kind) => {
   if (kind === "resena") return "col-span-1 md:row-span-2";
   if (kind === "apuntes") return "col-span-1 md:col-span-2";
   if (kind === "miosotis") return "col-span-1 md:col-span-2";
+  if (kind === "log") return "col-span-1";
+  if (kind === "handcraft") return "col-span-1";
   return "col-span-1";
 };
 
