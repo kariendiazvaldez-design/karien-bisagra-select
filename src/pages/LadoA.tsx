@@ -244,21 +244,20 @@ const LadoA = () => {
       </nav>
 
       {/* Floating hover image */}
-      <img
-        src={hoverImg ?? undefined}
-        alt=""
-        aria-hidden="true"
-        className="fixed pointer-events-none z-50 transition-opacity duration-300"
-        style={{
-          left: Math.min(cursor.x + 24, (typeof window !== "undefined" ? window.innerWidth : 1000) - 240),
-          top: Math.min(cursor.y + 24, (typeof window !== "undefined" ? window.innerHeight : 800) - 240),
-          width: 220,
-          height: "auto",
-          opacity: hoverImg ? 1 : 0,
-          visibility: hoverImg ? "visible" : "hidden",
-        }}
-      />
-
+      {hoverImg && (
+        <img
+          src={hoverImg}
+          alt=""
+          className="fixed pointer-events-none z-50 transition-opacity duration-300"
+          style={{
+            left: Math.min(cursor.x + 24, (typeof window !== "undefined" ? window.innerWidth : 1000) - 240),
+            top: Math.min(cursor.y + 24, (typeof window !== "undefined" ? window.innerHeight : 800) - 240),
+            width: 220,
+            height: "auto",
+            opacity: 1,
+          }}
+        />
+      )}
 
       {/* HERO */}
       <section
@@ -285,7 +284,9 @@ const LadoA = () => {
           <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
             <HoverWord src={HOVER_IMG_2} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Facilito procesos,&nbsp;investigo experiencias y construyo aprendizajes con equipos y organizaciones.
+            Busco traducir lo complejo en{" "}
+            <HoverWord src={HOVER_IMG_3} onHover={handleHover}>experiencias concretas</HoverWord>{" "}
+            que equipos y organizaciones pueden hacer funcionar.
           </p>
           <button
             onClick={scrollToProjects}
