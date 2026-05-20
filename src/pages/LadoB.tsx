@@ -104,19 +104,16 @@ const Navbar = () => {
 const Hero = () => (
   <section id="about" className="pt-28 md:pt-32 pb-12 px-6 md:px-12">
     <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-      <div
-        className="flex-shrink-0 flex items-center justify-center font-quicksand"
+      <img
+        src="https://res.cloudinary.com/dyh3wxppm/image/upload/v1779250462/21cd0020-2d88-48f5-b41f-b8a5ffd6a0eb.png"
+        alt="Karien"
+        className="flex-shrink-0 object-cover"
         style={{
           width: 200,
           height: 200,
           borderRadius: "50%",
-          background: "#D9D9D9",
-          color: "#7A7670",
-          fontSize: 14,
         }}
-      >
-        Foto
-      </div>
+      />
       <div className="flex-1 text-center md:text-left">
         <h1 className="font-caveat" style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 16 }}>
           Karien.

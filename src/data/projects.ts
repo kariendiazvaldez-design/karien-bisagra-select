@@ -29,6 +29,7 @@ export const innovaPlus: Project = {
     "Google Suite",
   ],
   content: innovaContent,
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779250719/_DSC1648_fdomqo.jpg",
 };
 
 export const washma: Project = {

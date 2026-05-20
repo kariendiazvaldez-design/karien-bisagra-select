@@ -8,13 +8,13 @@ En 2024 coordiné la ejecución del piloto: logística, seguimiento a empresas, 
 
 En 2025 asumí el diseño completo: metodología, rebranding, convocatoria, coordinación de mentores, facilitación de eventos presenciales y documentación para la edición siguiente. La segunda edición creció en escala, incorporó cofinanciamiento de las empresas participantes y operó con una alianza institucional nueva. Pero sobre todo, incorporó lo que la primera edición había enseñado.
 
-[IMAGE: Foto sesión inaugural o clausura Lima — composición horizontal]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779250719/_DSC1648_fdomqo.jpg]
 
 ## Lo que reveló la primera edición
 
 Al cerrar 2024, sistematicé lo observado durante el ciclo: feedback de sesiones, conversaciones con participantes, evaluación final, VOC. Tres patrones concentraban la mayor parte del ruido:
 
-[IMAGE: Captura Miro — síntesis de los 3 patrones identificados]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779253611/Gif_resumen_fupcgp.gif]
 
 **Heterogeneidad de madurez no gestionada.** Empresas con equipos de I+D formados convivían con empresas que recién nombraban un responsable. El mismo contenido y ritmo para todos generaba frustración en ambos extremos.
 
@@ -26,7 +26,7 @@ Esos tres patrones organizaron el rediseño de 2025. Cada decisión de diseño t
 
 ## Las tres decisiones de rediseño
 
-[GIF: Diapositivas de contenido del programa — síntesis visual en tres capas: Activación / Aprendizaje y comunidad / Cierre y proyección]
+[GIF: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779255051/Ejecuci%C3%B3n_Innova_xmeowr.gif]
 
 **Decisión 1 · Convertir el diagnóstico de entrada en el primer insumo de diseño**
 
@@ -46,9 +46,9 @@ Al cerrar el ciclo, produje un blueprint de servicio completo: fases, actores, t
 
 ## Blueprint y arquetipos
 
-[IMAGE: Preview del service blueprint INNOVA+ 2025]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779255336/Captura_de_pantalla_2026-05-19_232056_b6poka.png]
 
-[IMAGE: Preview de los 4 arquetipos de empresa]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif]
 
 ## Lo que cambió
 
@@ -76,7 +76,7 @@ Al cerrar el ciclo, produje un blueprint de servicio completo: fases, actores, t
 
 | 97% | Interés en Red Nacional I+D+i |
 
-[IMAGE: Fotos grupales de participantes — clausura 2025]
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256369/Innova_humanos_db4sfw.gif]
 
 ## Lo que aprendí
 
