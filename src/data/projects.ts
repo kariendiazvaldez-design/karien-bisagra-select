@@ -4,6 +4,7 @@ import { washmaContent } from "./projects/washma-content";
 import { commandZContent } from "./projects/commandz-content";
 import { patriaCContent } from "./projects/patriac-content";
 import { laHuacaContent } from "./projects/lahuaca-content";
+import commandZHero from "@/assets/commandz-hero.png";
 
 export interface Project extends ProjectDetailProps {
   id: string;
