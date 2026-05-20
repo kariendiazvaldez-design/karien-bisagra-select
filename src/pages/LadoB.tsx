@@ -48,23 +48,26 @@ const fmtDate = (d: string) => {
   }
 };
 
-type Kind = "nota" | "recomendacion" | "log" | "diario";
+type Kind = "log" | "resena" | "apuntes" | "handcraft" | "miosotis" | "other";
 
 const tipoOf = (p: GardenPost): Kind => {
   const t = (p.tipo || "").toLowerCase();
   if (t.includes("log")) return "log";
-  if (t.includes("diario") || t.includes("pensam")) return "diario";
-  if (t.includes("recom") || t.includes("reseñ") || t.includes("resen")) return "recomendacion";
-  return "nota";
+  if (t.includes("reseñ") || t.includes("resen")) return "resena";
+  if (t.includes("apunte") || t.includes("nota")) return "apuntes";
+  if (t.includes("handcraft") || t.includes("hand craft") || t.includes("artesan")) return "handcraft";
+  if (t.includes("miosotis") || t.includes("diario") || t.includes("pensam")) return "miosotis";
+  return "other";
 };
 
 const matchesTipoFilter = (p: GardenPost, filter: string) => {
-  if (filter === "Todos los formatos") return true;
-  const t = (p.tipo || "").toLowerCase();
-  if (filter === "Apuntes") return t.includes("apunte") || t.includes("nota");
-  if (filter === "Diario&Pensamientos") return t.includes("diario") || t.includes("pensam");
-  if (filter === "Reseñas") return t.includes("reseñ") || t.includes("resen") || t.includes("recom");
-  if (filter === "Log") return t.includes("log");
+  if (filter === "Todos") return true;
+  const k = tipoOf(p);
+  if (filter === "Log") return k === "log";
+  if (filter === "Reseña") return k === "resena";
+  if (filter === "Apuntes") return k === "apuntes";
+  if (filter === "Handcraft") return k === "handcraft";
+  if (filter === "Miosotis") return k === "miosotis";
   return true;
 };
 
