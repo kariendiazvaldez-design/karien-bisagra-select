@@ -58,7 +58,6 @@ La arquitectura temática refleja cómo interpreté el conocimiento del podcast,
 | 3 | Perfiles de usuario con caminos diferenciados |
 | 1 | App funcional lista para validación |
 
-[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779257937/CommandZ_1_r0wei4.gif | Pantalla vertical de la app — vista mobile]
 
 ## Lo que aprendí
 
