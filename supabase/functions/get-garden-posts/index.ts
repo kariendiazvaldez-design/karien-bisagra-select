@@ -51,6 +51,7 @@ Deno.serve(async (req) => {
         slug: getPlain(p.Slug?.rich_text || []),
         temas: (p.Temas?.multi_select || []).map((t: any) => t.name),
         tipo: p.Select?.select?.name || '',
+        coverUrl: p.URL?.url || '',
       };
     });
 
