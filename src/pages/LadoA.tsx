@@ -409,8 +409,9 @@ const LadoA = () => {
                                   src={PROJECT_IMAGES[id]}
                                   alt={p.title}
                                   className="w-full h-full object-cover"
-                                  style={{ minHeight: 120 }}
+                                  style={{ minHeight: 120, objectPosition: "left" }}
                                 />
+
                               ) : (
                                 <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
                               )}
