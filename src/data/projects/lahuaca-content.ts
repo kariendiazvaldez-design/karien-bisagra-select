@@ -67,7 +67,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 <!-- INDEX: Edición II en detalle -->
 
-## Hagamos zoom: la edición II como caso de diseño
+## Hagamos zoom: la edición II
 
 La Huaca II es el caso que mejor permite documentar proceso real, no solo resultados.
 
