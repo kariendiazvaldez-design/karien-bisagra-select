@@ -351,6 +351,8 @@ const LadoA = () => {
                 "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
               "command-z":
                 "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779259677/Captura_de_pantalla_2026-05-20_012733_b5ntfl.png",
+              "la-huaca":
+                "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
             };
             const GROUPS: { label: string; ids: string[]; cols: string; wrapper?: string }[] = [
               {
