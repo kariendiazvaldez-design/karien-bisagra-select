@@ -263,7 +263,7 @@ const ApuntesCard = ({ p }: { p: GardenPost }) => (
     className="p-5 flex flex-col gap-3 h-full"
     style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4 }}
   >
-    <ImgPlaceholder h={140} />
+    <Cover url={p.coverUrl} h={140} alt={p.nombre} />
     <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 18, lineHeight: 1.25 }}>{p.nombre}</h3>
     {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#666", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
     {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
