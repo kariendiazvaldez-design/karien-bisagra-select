@@ -48,7 +48,7 @@ Alta asistencia día 2. Primera validación del modelo: la combinación de feria
 
 *Aprendizaje: simplificar para perfeccionar; cada espacio nuevo es un rediseño, no una replicación.*
 
-[IMAGE: Foto edición III — Ecomuseo de Túcume](https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779305308/LHI_3_qfr2lc.gif)
+[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779305308/LHI_3_qfr2lc.gif | Edición III — Ecomuseo de Túcume]
 
 <!-- INDEX: Edición II en detalle -->
 
