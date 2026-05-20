@@ -12,11 +12,12 @@ const IMG_PH = "#E0D8D0";
 const IMG_PH_DARK = "#B5571F";
 
 const TIPO_OPTS = [
-  "Todos los formatos",
-  "Apuntes",
-  "Diario&Pensamientos",
-  "Reseñas",
+  "Todos",
   "Log",
+  "Reseña",
+  "Apuntes",
+  "Handcraft",
+  "Miosotis",
 ];
 
 type GardenPost = {
