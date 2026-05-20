@@ -221,7 +221,6 @@ const LogCard = ({ p }: { p: GardenPost }) => (
     className="p-4 flex flex-col gap-2 h-full"
     style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
   >
-    {p.coverUrl && <Cover url={p.coverUrl} h={90} bg="rgba(0,0,0,0.15)" alt={p.nombre} />}
     <p className="font-caveat" style={{ fontSize: 18, lineHeight: 1 }}>{fmtDate(p.date) || "—"}</p>
     <p
       className="font-quicksand"
