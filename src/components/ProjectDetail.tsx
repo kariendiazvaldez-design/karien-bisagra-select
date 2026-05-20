@@ -48,6 +48,8 @@ const MetaChip = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
+const isUrl = (s: string) => /^https?:\/\//i.test(s.trim());
+
 const PlaceholderBlock = ({
   kind,
   label,
@@ -57,6 +59,23 @@ const PlaceholderBlock = ({
 }) => {
   const isVideo = kind === "VIDEO";
   const Icon = kind === "VIDEO" ? Play : kind === "GIF" ? Film : ImageIcon;
+  const [url, ...captionRest] = label.split("|").map((s) => s.trim());
+  const caption = captionRest.join(" | ");
+  if (isUrl(url)) {
+    return (
+      <figure className="my-10 md:my-12 md:-mx-[110px]">
+        <img src={url} alt={caption || kind} className="w-full h-auto block" loading="lazy" />
+        {caption && (
+          <figcaption
+            className="mt-3 text-center"
+            style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 13 }}
+          >
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
   return (
     <figure className="my-10 md:my-12 md:-mx-[110px]">
       <div
@@ -84,22 +103,31 @@ const ImagePairBlock = ({
   labels: string[];
 }) => (
   <figure className="my-10 md:my-12 md:-mx-[110px] grid grid-cols-1 md:grid-cols-2 gap-4">
-    {labels.map((label, i) => (
-      <div key={i}>
-        <div
-          className="w-full flex items-center justify-center"
-          style={{ background: "#E8E8E8", height: 400 }}
-        >
-          <ImageIcon size={40} color="#999" strokeWidth={1.5} />
+    {labels.map((label, i) => {
+      const [url, ...captionRest] = label.split("|").map((s) => s.trim());
+      const caption = captionRest.join(" | ");
+      const url2 = isUrl(url);
+      return (
+        <div key={i}>
+          {url2 ? (
+            <img src={url} alt={caption || "image"} className="w-full h-auto block" loading="lazy" />
+          ) : (
+            <div
+              className="w-full flex items-center justify-center"
+              style={{ background: "#E8E8E8", height: 400 }}
+            >
+              <ImageIcon size={40} color="#999" strokeWidth={1.5} />
+            </div>
+          )}
+          <div
+            className="mt-3 text-center"
+            style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 13 }}
+          >
+            {url2 ? caption : `IMAGE: ${label}`}
+          </div>
         </div>
-        <div
-          className="mt-3 text-center"
-          style={{ color: "#999", fontFamily: "Lexend, sans-serif", fontSize: 13 }}
-        >
-          IMAGE: {label}
-        </div>
-      </div>
-    ))}
+      );
+    })}
   </figure>
 );
 
