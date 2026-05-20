@@ -284,7 +284,7 @@ const LadoA = () => {
           <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
             <HoverWord src={HOVER_IMG_2} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Facilito procesos, investigo experiencias y construyo aprendizajes con equipos y organizaciones.
+            Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_3} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
           </p>
           <button
             onClick={scrollToProjects}
