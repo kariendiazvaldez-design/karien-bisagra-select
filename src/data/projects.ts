@@ -4,6 +4,7 @@ import { washmaContent } from "./projects/washma-content";
 import { commandZContent } from "./projects/commandz-content";
 import { patriaCContent } from "./projects/patriac-content";
 import { laHuacaContent } from "./projects/lahuaca-content";
+import commandZHero from "@/assets/commandz-hero.png";
 
 export interface Project extends ProjectDetailProps {
   id: string;
@@ -63,7 +64,7 @@ export const commandZ: Project = {
   projectType: ["Arquitectura de información", "Investigación aplicada", "Producto digital"],
   tools: ["Python", "Spotify API", "Base44", "Google Colab", "Claude"],
   content: commandZContent,
-  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779257937/CommandZ_1_r0wei4.gif",
+  heroImage: commandZHero,
 };
 
 export const patriaC: Project = {
