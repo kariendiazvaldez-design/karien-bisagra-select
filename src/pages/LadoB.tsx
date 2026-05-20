@@ -403,7 +403,7 @@ const LadoB = () => {
       <Hero />
       <div style={{ borderTop: `1px solid ${DIVIDER}` }} />
 
-      <section id="jardin" className="px-6 md:px-12 py-12">
+      <section id="jardin" className="px-6 md:px-12" style={{ paddingTop: 48, paddingBottom: 48 }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col gap-2 mb-8">
             <FilterRow options={TIPO_OPTS} active={tipo} onSelect={setTipo} />
