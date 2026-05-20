@@ -63,6 +63,7 @@ export const commandZ: Project = {
   projectType: ["Arquitectura de información", "Investigación aplicada", "Producto digital"],
   tools: ["Python", "Spotify API", "Base44", "Google Colab", "Claude"],
   content: commandZContent,
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779257937/CommandZ_1_r0wei4.gif",
 };
 
 export const patriaC: Project = {
