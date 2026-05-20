@@ -186,6 +186,35 @@ const ImgPlaceholder = ({ h, bg = IMG_PH }: { h: number; bg?: string }) => (
   <div style={{ width: "100%", height: h, background: bg, borderRadius: 2 }} />
 );
 
+const Cover = ({
+  url,
+  h,
+  aspectRatio,
+  bg = IMG_PH,
+  alt = "",
+}: {
+  url?: string;
+  h?: number;
+  aspectRatio?: string;
+  bg?: string;
+  alt?: string;
+}) => {
+  const style: React.CSSProperties = {
+    width: "100%",
+    background: bg,
+    borderRadius: 2,
+    objectFit: "cover",
+    display: "block",
+  };
+  if (h) style.height = h;
+  if (aspectRatio) style.aspectRatio = aspectRatio;
+  return url ? (
+    <img src={url} alt={alt} style={style} loading="lazy" />
+  ) : (
+    <div style={style} />
+  );
+};
+
 const LogCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
