@@ -8,8 +8,6 @@ En 2024 coordiné la ejecución del piloto: logística, seguimiento a empresas, 
 
 En 2025 asumí el diseño completo: metodología, rebranding, convocatoria, coordinación de mentores, facilitación de eventos presenciales y documentación para la edición siguiente. La segunda edición creció en escala, incorporó cofinanciamiento de las empresas participantes y operó con una alianza institucional nueva. Pero sobre todo, incorporó lo que la primera edición había enseñado.
 
-[IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779250719/_DSC1648_fdomqo.jpg]
-
 ## Lo que reveló la primera edición
 
 Al cerrar 2024, sistematicé lo observado durante el ciclo: feedback de sesiones, conversaciones con participantes, evaluación final, VOC. Tres patrones concentraban la mayor parte del ruido:
