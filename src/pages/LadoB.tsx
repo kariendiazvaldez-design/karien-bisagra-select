@@ -434,22 +434,95 @@ const LadoB = () => {
           </h2>
           <div style={{ borderTop: `1px solid ${DIVIDER}`, marginBottom: 32 }} />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { title: "Club de lectura", text: "Un año de conversaciones compartidas." },
-              { title: "Encuadernación cartonera", text: "Tallercitos para dar cuerpo a los libros, con lo que hay." },
-              { title: "Viajes con Falkor", text: "Un perro blanco, zapatillas y la cámara" },
-            ].map((c) => (
-              <div key={c.title} className="flex flex-col gap-3">
-                <div style={{ width: "100%", aspectRatio: "4 / 3", background: "#D9D9D9", borderRadius: 8 }} />
-                <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, color: TEXT }}>{c.title}</h3>
-                <p className="font-quicksand" style={{ fontSize: 13, color: "#777", lineHeight: 1.5 }}>{c.text}</p>
-                <a href="#" className="font-quicksand" style={{ fontSize: 13, color: TERRACOTA, fontWeight: 600 }}>
-                  Ver más →
-                </a>
+          <style>{`
+            .notas-bento {
+              display: grid;
+              gap: 8px;
+              grid-template-columns: repeat(2, 1fr);
+              grid-auto-rows: 180px;
+            }
+            .notas-bento .nb-resena { grid-column: 1; grid-row: 1 / span 2; }
+            .notas-bento .nb-miosotis { grid-column: 2; grid-row: 1; }
+            .notas-bento .nb-diario-1 { grid-column: 2; grid-row: 2; }
+            .notas-bento .nb-handcraft { grid-column: 1 / span 2; grid-row: 3; }
+            .notas-bento .nb-diario-2 { display: none; }
+            .notas-bento .nb-blog { grid-column: 1 / span 2; grid-row: 4; height: 80px; }
+            @media (min-width: 768px) {
+              .notas-bento {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: 180px 180px 80px;
+              }
+              .notas-bento .nb-resena { grid-column: 1; grid-row: 1 / span 2; }
+              .notas-bento .nb-miosotis { grid-column: 2 / span 2; grid-row: 1; }
+              .notas-bento .nb-diario-1 { grid-column: 4; grid-row: 1; }
+              .notas-bento .nb-handcraft { grid-column: 2 / span 2; grid-row: 2; }
+              .notas-bento .nb-diario-2 { display: flex; grid-column: 4; grid-row: 2; }
+              .notas-bento .nb-blog { grid-column: 1 / span 4; grid-row: 3; height: auto; }
+            }
+            .nb-card { border-radius: 12px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+            .nb-card img.nb-cover { width: 100%; height: 100%; object-fit: cover; display: block; }
+            .nb-badge { display: inline-block; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; }
+          `}</style>
+
+          <div className="notas-bento">
+            {/* Reseña */}
+            <div className="nb-card nb-resena" style={{ background: "#D4A01722", border: "0.5px solid #D4A01766" }}>
+              <div style={{ flex: 1, overflow: "hidden" }}>
+                <div style={{ width: "100%", height: "100%", background: "#E8D9A8" }} />
               </div>
-            ))}
+              <div style={{ padding: 10 }}>
+                <span className="nb-badge font-quicksand" style={{ background: "#D4A01733", color: "#8A6A10", marginBottom: 6 }}>Reseña</span>
+                <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 13, color: TEXT, lineHeight: 1.3, marginTop: 6 }}>Un año de conversaciones compartidas.</h3>
+              </div>
+            </div>
+
+            {/* Miosotis */}
+            <div className="nb-card nb-miosotis" style={{ background: "#7B2D3E" }}>
+              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.25)" }} />
+              <div style={{ position: "relative", padding: 14, color: "#FAF0F2", display: "flex", flexDirection: "column", gap: 8, height: "100%" }}>
+                <span className="nb-badge font-quicksand" style={{ background: "rgba(255,255,255,0.18)", color: "#FAF0F2", alignSelf: "flex-start" }}>Miosotis</span>
+                <h3 className="font-caveat" style={{ fontSize: 26, lineHeight: 1.15, fontStyle: "italic" }}>Pequeños recuerdos sin orden.</h3>
+              </div>
+            </div>
+
+            {/* Diario 1 */}
+            <div className="nb-card nb-diario-1" style={{ background: "var(--background)", border: "0.5px solid hsl(var(--border))" }}>
+              <div style={{ flex: 1, background: "#E0D8D0" }} />
+              <div style={{ padding: 10 }}>
+                <span className="nb-badge font-quicksand" style={{ background: "transparent", color: TERRACOTA, border: `0.5px solid ${TERRACOTA}` }}>Diario</span>
+                <p className="font-quicksand" style={{ fontSize: 12, color: TEXT, marginTop: 6, lineHeight: 1.4 }}>Notas del día.</p>
+              </div>
+            </div>
+
+            {/* Handcraft */}
+            <div className="nb-card nb-handcraft" style={{ background: "#1C2B4A" }}>
+              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.2)" }} />
+              <div style={{ position: "relative", padding: 14, color: "#C8D8EE", display: "flex", flexDirection: "column", gap: 8, height: "100%" }}>
+                <span className="nb-badge font-quicksand" style={{ background: "rgba(255,255,255,0.15)", color: "#C8D8EE", alignSelf: "flex-start" }}>Handcraft</span>
+                <h3 className="font-quicksand" style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.25 }}>Tallercitos para dar cuerpo a los libros, con lo que hay.</h3>
+              </div>
+            </div>
+
+            {/* Diario 2 */}
+            <div className="nb-card nb-diario-2" style={{ background: "var(--background)", border: "0.5px solid hsl(var(--border))" }}>
+              <div style={{ flex: 1, background: "#E0D8D0" }} />
+              <div style={{ padding: 10 }}>
+                <span className="nb-badge font-quicksand" style={{ background: "transparent", color: TERRACOTA, border: `0.5px solid ${TERRACOTA}` }}>Diario</span>
+                <p className="font-quicksand" style={{ fontSize: 12, color: TEXT, marginTop: 6, lineHeight: 1.4 }}>Otro fragmento.</p>
+              </div>
+            </div>
+
+            {/* Blog */}
+            <a href="#" className="nb-card nb-blog" style={{ background: "#6B6B2A", textDecoration: "none" }}>
+              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)" }} />
+              <div style={{ position: "relative", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, height: "100%", color: "#E8E8C0" }}>
+                <span className="nb-badge font-quicksand" style={{ background: "rgba(255,255,255,0.15)", color: "#E8E8C0" }}>Blog</span>
+                <h3 className="font-quicksand" style={{ fontSize: 14, fontWeight: 700, textAlign: "center", flex: 1 }}>Lecturas largas y exploraciones de fondo</h3>
+                <span style={{ fontSize: 18 }}>→</span>
+              </div>
+            </a>
           </div>
+
         </div>
       </section>
     </div>
