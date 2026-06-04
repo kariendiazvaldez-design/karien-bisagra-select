@@ -316,6 +316,94 @@ const LadoA = () => {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "#E8E4DA" }}>↓</div>
       </section>
 
+      {/* STATUS SECTION */}
+      <section className="px-6 md:px-20 py-16 md:py-20" style={{ backgroundColor: "#FAFAF8" }}>
+        <div className="max-w-[520px] mx-auto">
+          <div className="flex items-center gap-2 mb-4">
+            <span
+              style={{
+                display: "inline-block",
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: "#4CAF50",
+                animation: "ladoa-green-pulse 2s ease-in-out infinite",
+              }}
+            />
+            <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6B6B2A", fontWeight: 500 }}>
+              En este momento estoy →
+            </span>
+          </div>
+
+          <div>
+            <div style={{ padding: "9px 0", borderBottom: "0.5px solid rgba(107,107,42,0.1)", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ color: "#6B6B2A" }}>–</span>
+              Diseñando servicios con BioActiva, un hub de innovación en I+D+i
+            </div>
+            <div style={{ padding: "9px 0", borderBottom: "0.5px solid rgba(107,107,42,0.1)", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ color: "#6B6B2A" }}>–</span>
+              Investigando cómo la transformación digital cambia los museos
+            </div>
+            <div style={{ padding: "9px 0", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ color: "#6B6B2A" }}>–</span>
+              Conectando miradas desde el team Sur Global y su revista Untold.ink
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center mt-6" style={{ gap: 10 }}>
+            <button
+              onClick={scrollToProjects}
+              style={{
+                background: "#7D2340",
+                color: "#FFFFFF",
+                borderRadius: 8,
+                padding: "9px 18px",
+                fontSize: 13,
+                fontFamily: "Lexend, sans-serif",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Ver proyectos ↓
+            </button>
+            <a
+              href="#contacto"
+              style={{
+                background: "transparent",
+                border: "0.5px solid #6B6B2A",
+                color: "#6B6B2A",
+                borderRadius: 8,
+                padding: "9px 18px",
+                fontSize: 13,
+                fontFamily: "Lexend, sans-serif",
+                transition: "background 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              ¿Colaboremos? →
+            </a>
+            <Link
+              to="/blog"
+              style={{
+                background: "transparent",
+                border: "0.5px solid #6B6B2A",
+                color: "#6B6B2A",
+                borderRadius: 8,
+                padding: "9px 18px",
+                fontSize: 13,
+                fontFamily: "Lexend, sans-serif",
+                transition: "background 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              Al blog →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* PROYECTOS */}
       <section id="proyectos" className="px-6 md:px-20 py-24 md:py-32">
         <div className="max-w-6xl mx-auto">
