@@ -282,7 +282,7 @@ const LadoA = () => {
 
       {/* HERO */}
       <section
-        className="lado-a-hero relative flex items-center justify-center px-6 md:px-20 pt-16 text-center"
+        className="lado-a-hero relative flex items-center justify-center px-6 md:px-20 pt-24 text-center"
         style={{
           minHeight: "80vh",
           backgroundImage:
