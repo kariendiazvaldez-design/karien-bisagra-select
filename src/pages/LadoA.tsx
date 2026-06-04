@@ -317,8 +317,8 @@ const LadoA = () => {
             className="mx-auto text-left mb-6"
             style={{
               maxWidth: 520,
-              backgroundColor: "rgba(107, 107, 42, 0.06)",
-              border: "0.5px solid rgba(107, 107, 42, 0.22)",
+              backgroundColor: "rgba(250, 250, 248, 0.12)",
+              border: "0.5px solid rgba(250, 250, 248, 0.25)",
               borderRadius: 8,
               padding: "14px 16px",
               animation: "ladoa-status-in 0.4s ease both",
@@ -336,7 +336,7 @@ const LadoA = () => {
                   animation: "ladoa-green-pulse 2s ease-in-out infinite",
                 }}
               />
-              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6B6B2A" }}>
+              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.6)" }}>
                 En este momento estoy →
               </span>
             </div>
@@ -345,19 +345,19 @@ const LadoA = () => {
                 listStyle: "none",
                 margin: 0,
                 paddingLeft: 12,
-                borderLeft: "1px solid rgba(107, 107, 42, 0.25)",
+                borderLeft: "1px solid rgba(255,255,255,0.2)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 6,
               }}
             >
-              <li style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.5 }}>
+              <li style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.5 }}>
                 Diseñando servicios con BioActiva, un hub de innovación en I+D+i
               </li>
-              <li style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.5 }}>
+              <li style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.5 }}>
                 Investigando cómo la transformación digital cambia los museos
               </li>
-              <li style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.5 }}>
+              <li style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.5 }}>
                 Conectando miradas desde el team Sur Global y su revista Untold.ink
               </li>
             </ul>
