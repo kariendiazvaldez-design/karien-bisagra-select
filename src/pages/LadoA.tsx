@@ -309,7 +309,7 @@ const LadoA = () => {
           <p className="text-base md:text-lg mb-8 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_3} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
             <HoverWord src={HOVER_IMG_1} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Facilito procesos, investigo experiencias y trabajo con equipos que quieren entender mejor antes de actuar.
+            Facilito procesos, investigo experiencias y trabajo con <HoverWord src={HOVER_IMG_2} onHover={handleHover}>equipos</HoverWord> que quieren entender mejor antes de actuar.
           </p>
 
           {/* STATUS BLOCK */}
@@ -364,7 +364,7 @@ const LadoA = () => {
           </div>
 
           {/* CTA BUTTONS */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center" style={{ gap: 10 }}>
             <button
               onClick={scrollToProjects}
               style={{
@@ -383,34 +383,34 @@ const LadoA = () => {
             <a
               href="#contacto"
               style={{
-                background: "transparent",
-                border: "0.5px solid rgba(0,0,0,0.2)",
-                color: "#4a4a3a",
+                background: "rgba(255,255,255,0.12)",
+                border: "0.5px solid rgba(255,255,255,0.35)",
+                color: "#FFFFFF",
                 borderRadius: 8,
                 padding: "8px 18px",
                 fontSize: 13,
                 fontFamily: "Lexend, sans-serif",
                 transition: "background 0.2s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.2)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
             >
               ¿Colaboremos? →
             </a>
             <Link
               to="/blog"
               style={{
-                background: "transparent",
-                border: "0.5px solid rgba(0,0,0,0.2)",
-                color: "#4a4a3a",
+                background: "rgba(255,255,255,0.12)",
+                border: "0.5px solid rgba(255,255,255,0.35)",
+                color: "#FFFFFF",
                 borderRadius: 8,
                 padding: "8px 18px",
                 fontSize: 13,
                 fontFamily: "Lexend, sans-serif",
                 transition: "background 0.2s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.2)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
             >
               Al blog →
             </Link>
