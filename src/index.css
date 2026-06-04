@@ -74,9 +74,3 @@
 }
 .animate-pulse-soft { animation: pulseSoft 2s ease-in-out infinite; }
 
-@keyframes pulseGreen {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.82); opacity: 0.45; }
-}
-.animate-pulse-green { animation: pulseGreen 2s ease-in-out infinite; }
-
