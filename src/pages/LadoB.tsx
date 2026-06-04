@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { MapPin, Menu, X } from "lucide-react";
+import { MapPin, Menu, X, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const BG = "#F2EFE8";
@@ -8,16 +8,14 @@ const TERRACOTA = "#C4622D";
 const TERRACOTA_SOFT = "#F5E6E0";
 const TEXT = "#1C1A17";
 const DIVIDER = "#E8E8E8";
-const IMG_PH = "#E0D8D0";
-const IMG_PH_DARK = "#B5571F";
 
 const TIPO_OPTS = [
   "Todos",
-  "Log",
   "Reseña",
-  "Apuntes",
-  "Handcraft",
   "Miosotis",
+  "Diario",
+  "Handcraft",
+  "Blog",
 ];
 
 type GardenPost = {
@@ -33,13 +31,6 @@ type GardenPost = {
   coverUrl?: string;
 };
 
-const maturityIcon = (m: string) => {
-  const k = (m || "").toLowerCase();
-  if (k.includes("brote")) return "🌿";
-  if (k.includes("fruto")) return "🍂";
-  return "🌱";
-};
-
 const fmtDate = (d: string) => {
   if (!d) return "";
   try {
@@ -49,26 +40,26 @@ const fmtDate = (d: string) => {
   }
 };
 
-type Kind = "log" | "resena" | "apuntes" | "handcraft" | "miosotis" | "other";
+type Slot = "resena" | "miosotis" | "diario" | "handcraft" | "blog";
 
-const tipoOf = (p: GardenPost): Kind => {
+const slotOf = (p: GardenPost): Slot | null => {
   const t = (p.tipo || "").toLowerCase();
-  if (t.includes("log")) return "log";
   if (t.includes("reseñ") || t.includes("resen")) return "resena";
-  if (t.includes("apunte") || t.includes("nota")) return "apuntes";
-  if (t.includes("handcraft") || t.includes("hand craft") || t.includes("artesan")) return "handcraft";
-  if (t.includes("miosotis") || t.includes("diario") || t.includes("pensam")) return "miosotis";
-  return "other";
+  if (t.includes("miosotis")) return "miosotis";
+  if (t.includes("handcraft") || t.includes("artesan")) return "handcraft";
+  if (t.includes("diario") || t.includes("log")) return "diario";
+  if (t.includes("blog") || t.includes("apunte") || t.includes("nota")) return "blog";
+  return null;
 };
 
 const matchesTipoFilter = (p: GardenPost, filter: string) => {
   if (filter === "Todos") return true;
-  const k = tipoOf(p);
-  if (filter === "Log") return k === "log";
+  const k = slotOf(p);
   if (filter === "Reseña") return k === "resena";
-  if (filter === "Apuntes") return k === "apuntes";
-  if (filter === "Handcraft") return k === "handcraft";
   if (filter === "Miosotis") return k === "miosotis";
+  if (filter === "Diario") return k === "diario";
+  if (filter === "Handcraft") return k === "handcraft";
+  if (filter === "Blog") return k === "blog";
   return true;
 };
 
@@ -166,193 +157,267 @@ const FilterRow = ({
   </div>
 );
 
-// ---------- CARDS ----------
-const Chip = ({ children }: { children: React.ReactNode }) => (
+// ---------- BENTO CARDS ----------
+const Badge = ({ label, color, bg }: { label: string; color: string; bg: string }) => (
   <span
     className="font-quicksand"
     style={{
-      fontSize: 11,
-      padding: "3px 8px",
+      fontSize: 10,
+      padding: "2px 8px",
       borderRadius: 999,
-      border: `1px solid ${TERRACOTA}`,
-      color: TERRACOTA,
+      background: bg,
+      color,
+      fontWeight: 600,
+      letterSpacing: "0.04em",
+      display: "inline-block",
+      width: "fit-content",
     }}
   >
-    {children}
+    {label}
   </span>
-);
-
-const ImgPlaceholder = ({ h, bg = IMG_PH }: { h: number; bg?: string }) => (
-  <div style={{ width: "100%", height: h, background: bg, borderRadius: 2 }} />
-);
-
-const Cover = ({
-  url,
-  h,
-  aspectRatio,
-  bg = IMG_PH,
-  alt = "",
-}: {
-  url?: string;
-  h?: number;
-  aspectRatio?: string;
-  bg?: string;
-  alt?: string;
-}) => {
-  const style: React.CSSProperties = {
-    width: "100%",
-    background: bg,
-    borderRadius: 2,
-    objectFit: "cover",
-    display: "block",
-  };
-  if (h) style.height = h;
-  if (aspectRatio) style.aspectRatio = aspectRatio;
-  return url ? (
-    <img src={url} alt={alt} style={style} loading="lazy" />
-  ) : (
-    <div style={style} />
-  );
-};
-
-const LogCard = ({ p }: { p: GardenPost }) => (
-  <Link
-    to={`/jardin/${p.slug}`}
-    className="p-4 flex flex-col gap-2 h-full"
-    style={{ background: TERRACOTA, color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
-  >
-    {p.coverUrl && <Cover url={p.coverUrl} h={90} bg="rgba(0,0,0,0.15)" alt={p.nombre} />}
-    <p className="font-caveat" style={{ fontSize: 18, lineHeight: 1 }}>{fmtDate(p.date) || "—"}</p>
-    <p
-      className="font-quicksand"
-      style={{
-        fontSize: 13,
-        lineHeight: 1.45,
-        display: "-webkit-box",
-        WebkitLineClamp: 2,
-        WebkitBoxOrient: "vertical",
-        overflow: "hidden",
-      }}
-    >
-      {p.excerpt || p.nombre}
-    </p>
-  </Link>
 );
 
 const ResenaCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-2 h-full"
-    style={{ background: "#FFFFFF", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
+    className="resena"
+    style={{
+      background: "#D4A01722",
+      border: "0.5px solid #D4A01766",
+      borderRadius: 12,
+      overflow: "hidden",
+      textDecoration: "none",
+      color: TEXT,
+      display: "flex",
+      flexDirection: "column",
+    }}
   >
-    <Cover url={p.coverUrl} aspectRatio="4 / 5" alt={p.nombre} />
-    {p.category && (
-      <p className="font-quicksand" style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginTop: 4 }}>
-        {p.category}
-      </p>
+    <div style={{ flex: 1, overflow: "hidden", background: "#D4A01733" }}>
+      {p.coverUrl && (
+        <img src={p.coverUrl} alt={p.nombre} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+      )}
+    </div>
+    <div style={{ padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
+      <Badge label="Reseña" color="#7A5A0E" bg="#D4A01744" />
+      <h3 className="font-quicksand" style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.25, color: TEXT, margin: 0 }}>
+        {p.nombre}
+      </h3>
+    </div>
+  </Link>
+);
+
+const OverlayCard = ({
+  p,
+  slotClass,
+  label,
+  baseBg,
+  textColor,
+  badgeBg,
+  badgeColor,
+}: {
+  p: GardenPost;
+  slotClass: string;
+  label: string;
+  baseBg: string;
+  textColor: string;
+  badgeBg: string;
+  badgeColor: string;
+}) => (
+  <Link
+    to={`/jardin/${p.slug}`}
+    className={slotClass}
+    style={{
+      position: "relative",
+      borderRadius: 12,
+      overflow: "hidden",
+      background: baseBg,
+      textDecoration: "none",
+      color: textColor,
+      display: "block",
+    }}
+  >
+    {p.coverUrl && (
+      <img
+        src={p.coverUrl}
+        alt={p.nombre}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        loading="lazy"
+      />
     )}
-    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.3 }}>{p.nombre}</h3>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#777", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
-    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        background: "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.4) 100%)",
+      }}
+    />
+    <div style={{ position: "relative", padding: 12, display: "flex", flexDirection: "column", gap: 6, height: "100%" }}>
+      <Badge label={label} color={badgeColor} bg={badgeBg} />
+      <h3 className="font-quicksand" style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.25, color: textColor, margin: 0 }}>
+        {p.nombre}
+      </h3>
+    </div>
   </Link>
 );
 
-const ApuntesCard = ({ p }: { p: GardenPost }) => (
+const DiarioCard = ({ p, slotClass }: { p: GardenPost; slotClass: string }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-3 h-full"
-    style={{ background: "#F3EDE8", color: TEXT, textDecoration: "none", borderRadius: 4 }}
+    className={slotClass}
+    style={{
+      background: "transparent",
+      border: `0.5px solid ${DIVIDER}`,
+      borderRadius: 12,
+      overflow: "hidden",
+      textDecoration: "none",
+      color: TEXT,
+      display: "flex",
+      flexDirection: "column",
+    }}
   >
-    <Cover url={p.coverUrl} h={140} alt={p.nombre} />
-    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 18, lineHeight: 1.25 }}>{p.nombre}</h3>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#666", lineHeight: 1.55, flex: 1 }}>{p.excerpt}</p>}
-    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+    <div style={{ flex: 1, overflow: "hidden", background: "#EAE6DE" }}>
+      {p.coverUrl && (
+        <img src={p.coverUrl} alt={p.nombre} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+      )}
+    </div>
+    <div style={{ padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
+      <Badge label="Diario" color={TERRACOTA} bg={TERRACOTA_SOFT} />
+      <h3 className="font-quicksand" style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.25, color: TERRACOTA, margin: 0 }}>
+        {p.nombre}
+      </h3>
+    </div>
   </Link>
 );
 
-const HandcraftCard = ({ p }: { p: GardenPost }) => (
+const BlogCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="p-4 flex flex-col gap-2 h-full"
-    style={{ background: "#C9963A", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
+    className="blog"
+    style={{
+      position: "relative",
+      borderRadius: 12,
+      overflow: "hidden",
+      background: "#6B6B2A",
+      textDecoration: "none",
+      color: "#E8E8C0",
+      display: "block",
+    }}
   >
-    <Cover url={p.coverUrl} h={100} bg="rgba(0,0,0,0.15)" alt={p.nombre} />
-    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.25 }}>{p.nombre}</h3>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 12, color: "rgba(255,255,255,0.8)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
-  </Link>
-);
-
-const MiosotisCard = ({ p }: { p: GardenPost }) => (
-  <Link
-    to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-2 h-full"
-    style={{ background: "#7B2D3E", color: "#FFFFFF", textDecoration: "none", borderRadius: 4 }}
-  >
-    {p.coverUrl && <Cover url={p.coverUrl} h={120} bg="rgba(255,255,255,0.1)" alt={p.nombre} />}
-    <h3 className="font-caveat" style={{ fontSize: 24, fontStyle: "italic", lineHeight: 1.15 }}>{p.nombre}</h3>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 14, color: "rgba(255,255,255,0.85)", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
-    {p.date && <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
-  </Link>
-);
-
-const OtherCard = ({ p }: { p: GardenPost }) => (
-  <Link
-    to={`/jardin/${p.slug}`}
-    className="p-5 flex flex-col gap-2 h-full"
-    style={{ background: "#F2EFE8", border: `1px solid ${DIVIDER}`, color: TEXT, textDecoration: "none", borderRadius: 4 }}
-  >
-    <h3 className="font-quicksand" style={{ fontWeight: 700, fontSize: 16, lineHeight: 1.25 }}>{p.nombre}</h3>
-    {p.excerpt && <p className="font-quicksand" style={{ fontSize: 13, color: "#666", lineHeight: 1.5, flex: 1 }}>{p.excerpt}</p>}
-    {p.date && <p style={{ color: TERRACOTA, fontSize: 13, marginTop: "auto" }} className="font-quicksand">{fmtDate(p.date)}</p>}
+    {p.coverUrl && (
+      <img
+        src={p.coverUrl}
+        alt={p.nombre}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        loading="lazy"
+      />
+    )}
+    <div style={{ position: "absolute", inset: 0, background: "rgba(107,107,42,0.78)" }} />
+    <div
+      style={{
+        position: "relative",
+        padding: "0 16px",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        gap: 16,
+      }}
+    >
+      <Badge label="Blog" color="#3A3A14" bg="#E8E8C0" />
+      <h3
+        className="font-quicksand"
+        style={{
+          flex: 1,
+          fontSize: 14,
+          fontWeight: 700,
+          lineHeight: 1.2,
+          color: "#E8E8C0",
+          margin: 0,
+          textAlign: "center",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {p.nombre}
+      </h3>
+      <ArrowRight size={18} style={{ color: "#E8E8C0", flexShrink: 0 }} />
+    </div>
   </Link>
 );
 
 // ---------- BENTO ----------
-const bentoSpanClass = (kind: Kind) => {
-  if (kind === "resena") return "col-span-1 md:row-span-2";
-  if (kind === "apuntes") return "col-span-1 md:col-span-2";
-  if (kind === "miosotis") return "col-span-1 md:col-span-2";
-  return "col-span-1";
+const Bento = ({ posts }: { posts: GardenPost[] }) => {
+  const resena = posts.find((p) => slotOf(p) === "resena");
+  const miosotis = posts.find((p) => slotOf(p) === "miosotis");
+  const handcraft = posts.find((p) => slotOf(p) === "handcraft");
+  const diarios = posts.filter((p) => slotOf(p) === "diario").slice(0, 2);
+  const blog = posts.find((p) => slotOf(p) === "blog");
+
+  return (
+    <>
+      <style>{`
+        .bento-v2 {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-auto-rows: 180px;
+          gap: 8px;
+        }
+        .bento-v2 .blog { grid-column: 1 / -1; height: 80px; }
+        @media (min-width: 768px) {
+          .bento-v2 {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 180px 180px 80px;
+            grid-auto-rows: auto;
+          }
+          .bento-v2 .resena   { grid-column: 1;         grid-row: 1 / span 2; height: auto; }
+          .bento-v2 .miosotis { grid-column: 2 / span 2; grid-row: 1; }
+          .bento-v2 .diario-1 { grid-column: 4;         grid-row: 1; }
+          .bento-v2 .handcraft{ grid-column: 2 / span 2; grid-row: 2; }
+          .bento-v2 .diario-2 { grid-column: 4;         grid-row: 2; }
+          .bento-v2 .blog     { grid-column: 1 / -1;   grid-row: 3; height: auto; }
+        }
+        .no-bar::-webkit-scrollbar { display: none; }
+      `}</style>
+      <div className="bento-v2">
+        {resena && <ResenaCard p={resena} />}
+        {miosotis && (
+          <OverlayCard
+            p={miosotis}
+            slotClass="miosotis"
+            label="Miosotis"
+            baseBg="#7B2D3E"
+            textColor="#FAF0F2"
+            badgeBg="rgba(250,240,242,0.2)"
+            badgeColor="#FAF0F2"
+          />
+        )}
+        {diarios[0] && <DiarioCard p={diarios[0]} slotClass="diario-1" />}
+        {handcraft && (
+          <OverlayCard
+            p={handcraft}
+            slotClass="handcraft"
+            label="Handcraft"
+            baseBg="#1C2B4A"
+            textColor="#C8D8EE"
+            badgeBg="rgba(200,216,238,0.2)"
+            badgeColor="#C8D8EE"
+          />
+        )}
+        {diarios[1] && <DiarioCard p={diarios[1]} slotClass="diario-2" />}
+        {blog && <BlogCard p={blog} />}
+      </div>
+    </>
+  );
 };
 
-const Bento = ({ posts }: { posts: GardenPost[] }) => (
-  <>
-    <style>{`
-      .bento-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: minmax(120px, auto); }
-      @media (min-width: 768px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
-      @media (min-width: 1024px) { .bento-grid { grid-template-columns: repeat(4, 1fr); } }
-      .no-bar::-webkit-scrollbar { display: none; }
-    `}</style>
-    <div className="bento-grid">
-      {posts.map((p) => {
-        const kind = tipoOf(p);
-        return (
-          <div key={p.id} className={bentoSpanClass(kind)}>
-            {kind === "log" && <LogCard p={p} />}
-            {kind === "resena" && <ResenaCard p={p} />}
-            {kind === "apuntes" && <ApuntesCard p={p} />}
-            {kind === "handcraft" && <HandcraftCard p={p} />}
-            {kind === "miosotis" && <MiosotisCard p={p} />}
-            {kind === "other" && <OtherCard p={p} />}
-          </div>
-        );
-      })}
-    </div>
-  </>
-);
-
 const BentoSkeleton = () => (
-  <div className="bento-grid">
-    {[
-      "col-span-1 md:col-span-2 md:row-span-2",
-      "col-span-1 md:row-span-2",
-      "col-span-1",
-      "col-span-1",
-      "col-span-1 md:col-span-2 md:row-span-2",
-      "col-span-1",
-    ].map((cls, i) => (
-      <div key={i} className={cls} style={{ background: "#EAE6DE", borderRadius: 4, minHeight: 120 }} />
-    ))}
+  <div className="bento-v2">
+    <div className="resena" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="miosotis" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="diario-1" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="handcraft" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="diario-2" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="blog" style={{ background: "#EAE6DE", borderRadius: 12 }} />
   </div>
 );
 
