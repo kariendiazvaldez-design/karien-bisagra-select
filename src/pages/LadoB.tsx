@@ -177,10 +177,31 @@ const Badge = ({ label, color, bg }: { label: string; color: string; bg: string 
   </span>
 );
 
+const Excerpt = ({ text, color = "#555", lines = 2 }: { text: string; color?: string; lines?: number }) => {
+  if (!text) return null;
+  return (
+    <p
+      className="font-quicksand"
+      style={{
+        fontSize: 11,
+        lineHeight: 1.4,
+        color,
+        margin: 0,
+        display: "-webkit-box",
+        WebkitLineClamp: lines,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+      }}
+    >
+      {text}
+    </p>
+  );
+};
+
 const ResenaCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="resena"
+    className="cell resena"
     style={{
       background: "#D4A01722",
       border: "0.5px solid #D4A01766",
@@ -202,6 +223,7 @@ const ResenaCard = ({ p }: { p: GardenPost }) => (
       <h3 className="font-quicksand" style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.25, color: TEXT, margin: 0 }}>
         {p.nombre}
       </h3>
+      <Excerpt text={p.excerpt} color="#6B5A2A" lines={2} />
     </div>
   </Link>
 );
@@ -225,7 +247,7 @@ const OverlayCard = ({
 }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className={slotClass}
+    className={`cell ${slotClass}`}
     style={{
       position: "relative",
       borderRadius: 12,
@@ -256,14 +278,15 @@ const OverlayCard = ({
       <h3 className="font-quicksand" style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.25, color: textColor, margin: 0 }}>
         {p.nombre}
       </h3>
+      <Excerpt text={p.excerpt} color={textColor} lines={2} />
     </div>
   </Link>
 );
 
-const DiarioCard = ({ p, slotClass }: { p: GardenPost; slotClass: string }) => (
+const DiarioCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className={slotClass}
+    className="cell diario"
     style={{
       background: "transparent",
       border: `0.5px solid ${DIVIDER}`,
@@ -292,7 +315,7 @@ const DiarioCard = ({ p, slotClass }: { p: GardenPost; slotClass: string }) => (
 const BlogCard = ({ p }: { p: GardenPost }) => (
   <Link
     to={`/jardin/${p.slug}`}
-    className="blog"
+    className="cell blog"
     style={{
       position: "relative",
       borderRadius: 12,
@@ -322,7 +345,7 @@ const BlogCard = ({ p }: { p: GardenPost }) => (
         gap: 16,
       }}
     >
-      <Badge label="Blog" color="#3A3A14" bg="#E8E8C0" />
+      <Badge label="Blog" color="#3A3A14" bg="#A0A060" />
       <h3
         className="font-quicksand"
         style={{
@@ -345,79 +368,83 @@ const BlogCard = ({ p }: { p: GardenPost }) => (
   </Link>
 );
 
-// ---------- BENTO ----------
-const Bento = ({ posts }: { posts: GardenPost[] }) => {
-  const resena = posts.find((p) => slotOf(p) === "resena");
-  const miosotis = posts.find((p) => slotOf(p) === "miosotis");
-  const handcraft = posts.find((p) => slotOf(p) === "handcraft");
-  const diarios = posts.filter((p) => slotOf(p) === "diario").slice(0, 2);
-  const blog = posts.find((p) => slotOf(p) === "blog");
-
-  return (
-    <>
-      <style>{`
-        .bento-v2 {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          grid-auto-rows: 180px;
-          gap: 8px;
-        }
-        .bento-v2 .blog { grid-column: 1 / -1; height: 80px; }
-        @media (min-width: 768px) {
-          .bento-v2 {
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: 180px 180px 80px;
-            grid-auto-rows: auto;
-          }
-          .bento-v2 .resena   { grid-column: 1;         grid-row: 1 / span 2; height: auto; }
-          .bento-v2 .miosotis { grid-column: 2 / span 2; grid-row: 1; }
-          .bento-v2 .diario-1 { grid-column: 4;         grid-row: 1; }
-          .bento-v2 .handcraft{ grid-column: 2 / span 2; grid-row: 2; }
-          .bento-v2 .diario-2 { grid-column: 4;         grid-row: 2; }
-          .bento-v2 .blog     { grid-column: 1 / -1;   grid-row: 3; height: auto; }
-        }
-        .no-bar::-webkit-scrollbar { display: none; }
-      `}</style>
-      <div className="bento-v2">
-        {resena && <ResenaCard p={resena} />}
-        {miosotis && (
-          <OverlayCard
-            p={miosotis}
-            slotClass="miosotis"
-            label="Miosotis"
-            baseBg="#7B2D3E"
-            textColor="#FAF0F2"
-            badgeBg="rgba(250,240,242,0.2)"
-            badgeColor="#FAF0F2"
-          />
-        )}
-        {diarios[0] && <DiarioCard p={diarios[0]} slotClass="diario-1" />}
-        {handcraft && (
-          <OverlayCard
-            p={handcraft}
-            slotClass="handcraft"
-            label="Handcraft"
-            baseBg="#1C2B4A"
-            textColor="#C8D8EE"
-            badgeBg="rgba(200,216,238,0.2)"
-            badgeColor="#C8D8EE"
-          />
-        )}
-        {diarios[1] && <DiarioCard p={diarios[1]} slotClass="diario-2" />}
-        {blog && <BlogCard p={blog} />}
-      </div>
-    </>
-  );
+// ---------- BENTO (dynamic feed) ----------
+const renderCard = (p: GardenPost) => {
+  const slot = slotOf(p);
+  switch (slot) {
+    case "resena":
+      return <ResenaCard key={p.id} p={p} />;
+    case "miosotis":
+      return (
+        <OverlayCard
+          key={p.id}
+          p={p}
+          slotClass="miosotis"
+          label="Miosotis"
+          baseBg="#7B2D3E"
+          textColor="#FAF0F2"
+          badgeBg="rgba(255,255,255,0.2)"
+          badgeColor="#FAF0F2"
+        />
+      );
+    case "handcraft":
+      return (
+        <OverlayCard
+          key={p.id}
+          p={p}
+          slotClass="handcraft"
+          label="Handcraft"
+          baseBg="#1C2B4A"
+          textColor="#C8D8EE"
+          badgeBg="rgba(139,163,199,0.35)"
+          badgeColor="#C8D8EE"
+        />
+      );
+    case "diario":
+      return <DiarioCard key={p.id} p={p} />;
+    case "blog":
+      return <BlogCard key={p.id} p={p} />;
+    default:
+      return null;
+  }
 };
+
+const Bento = ({ posts }: { posts: GardenPost[] }) => (
+  <>
+    <style>{`
+      .bento-v2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+        grid-auto-flow: dense;
+        gap: 8px;
+      }
+      .bento-v2 .cell      { grid-column: span 1; grid-row: span 1; }
+      .bento-v2 .resena    { grid-column: span 1; grid-row: span 2; }
+      .bento-v2 .miosotis  { grid-column: span 2; grid-row: span 1; }
+      .bento-v2 .handcraft { grid-column: span 2; grid-row: span 1; }
+      .bento-v2 .diario    { grid-column: span 1; grid-row: span 1; }
+      .bento-v2 .blog      { grid-column: span 2; grid-row: span 1; }
+      @media (min-width: 768px) {
+        .bento-v2 { grid-template-columns: repeat(4, 1fr); }
+        .bento-v2 .blog { grid-column: span 4; }
+      }
+      .no-bar::-webkit-scrollbar { display: none; }
+    `}</style>
+    <div className="bento-v2">
+      {posts.map(renderCard)}
+    </div>
+  </>
+);
 
 const BentoSkeleton = () => (
   <div className="bento-v2">
-    <div className="resena" style={{ background: "#EAE6DE", borderRadius: 12 }} />
-    <div className="miosotis" style={{ background: "#EAE6DE", borderRadius: 12 }} />
-    <div className="diario-1" style={{ background: "#EAE6DE", borderRadius: 12 }} />
-    <div className="handcraft" style={{ background: "#EAE6DE", borderRadius: 12 }} />
-    <div className="diario-2" style={{ background: "#EAE6DE", borderRadius: 12 }} />
-    <div className="blog" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="cell resena" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="cell miosotis" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="cell diario" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="cell handcraft" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="cell diario" style={{ background: "#EAE6DE", borderRadius: 12 }} />
+    <div className="cell blog" style={{ background: "#EAE6DE", borderRadius: 12 }} />
   </div>
 );
 
