@@ -92,6 +92,136 @@ const Navbar = () => {
   );
 };
 
+// ---------- STATUS BLOCK ----------
+const StatusBlock = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  const items = [
+    "Diseñando servicios con BioActiva, un hub de innovación en I+D+i",
+    "Investigando cómo la transformación digital cambia los museos",
+    "Conectando miradas desde el team Sur Global y su revista Untold.ink",
+  ];
+
+  return (
+    <div
+      style={{
+        background: "rgba(107, 107, 42, 0.06)",
+        border: "0.5px solid rgba(107, 107, 42, 0.22)",
+        borderRadius: 8,
+        padding: "14px 16px",
+        marginBottom: 16,
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? "translateY(0)" : "translateY(6px)",
+        transition: "opacity 0.4s ease, transform 0.4s ease",
+      }}
+    >
+      <div className="flex items-center gap-2" style={{ marginBottom: 10 }}>
+        <span
+          style={{
+            width: 7,
+            height: 7,
+            borderRadius: "50%",
+            background: "#4CAF50",
+            display: "inline-block",
+            animation: "pulseGreen 2s ease-in-out infinite",
+          }}
+        />
+        <span
+          className="font-lexend"
+          style={{
+            fontSize: 11,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: "#6B6B2A",
+            fontWeight: 500,
+          }}
+        >
+          En este momento estoy →
+        </span>
+      </div>
+      <div className="flex flex-col gap-2">
+        {items.map((item, i) => (
+          <div key={i} className="flex items-start gap-2">
+            <div
+              style={{
+                width: 2,
+                flexShrink: 0,
+                background: "rgba(107, 107, 42, 0.25)",
+                borderRadius: 1,
+                marginTop: 3,
+                alignSelf: "stretch",
+              }}
+            />
+            <span
+              className="font-lexend"
+              style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.4 }}
+            >
+              {item}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ---------- CTA BUTTONS ----------
+const CTAButtons = () => (
+  <div className="flex flex-wrap items-center gap-2" style={{ marginBottom: 16 }}>
+    <a
+      href="#jardin"
+      className="font-lexend inline-flex items-center"
+      style={{
+        background: "#6B6B2A",
+        color: "#fff",
+        borderRadius: 8,
+        padding: "8px 18px",
+        fontSize: 13,
+        textDecoration: "none",
+      }}
+    >
+      Ver proyectos ↓
+    </a>
+    <a
+      href="#"
+      className="font-lexend inline-flex items-center"
+      style={{
+        background: "transparent",
+        border: "0.5px solid rgba(0,0,0,0.2)",
+        color: "#4a4a3a",
+        borderRadius: 8,
+        padding: "8px 18px",
+        fontSize: 13,
+        textDecoration: "none",
+        transition: "background 0.2s ease",
+      }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.04)"; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+    >
+      ¿Colaboremos? →
+    </a>
+    <a
+      href="#jardin"
+      className="font-lexend inline-flex items-center"
+      style={{
+        background: "transparent",
+        border: "0.5px solid rgba(0,0,0,0.2)",
+        color: "#4a4a3a",
+        borderRadius: 8,
+        padding: "8px 18px",
+        fontSize: 13,
+        textDecoration: "none",
+        transition: "background 0.2s ease",
+      }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.04)"; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+    >
+      Al blog →
+    </a>
+  </div>
+);
+
 // ---------- HERO ----------
 const Hero = () => (
   <section id="about" className="pt-28 md:pt-32 pb-12 px-6 md:px-12">
@@ -113,6 +243,8 @@ const Hero = () => (
         <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 580, whiteSpace: "pre-line" }}>
           {"Lectora. Viajera. Nostálgica. Olvidadiza. Compañera de Falkor, perro dragón.\nQuiero escribir para recordar y para hacer una casita fija mientras exploro todo lo que puedo."}
         </p>
+        <StatusBlock />
+        <CTAButtons />
         <div className="flex items-center justify-center md:justify-start gap-2 font-quicksand" style={{ fontSize: 14, color: TEXT }}>
           <MapPin size={14} style={{ color: TERRACOTA }} />
           <span>Chiclayo · Lima · Remoto</span>
