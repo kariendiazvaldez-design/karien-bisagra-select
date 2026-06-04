@@ -312,66 +312,52 @@ const LadoA = () => {
             Facilito procesos, investigo experiencias y trabajo con <HoverWord src={HOVER_IMG_2} onHover={handleHover}>equipos</HoverWord> que quieren entender mejor antes de actuar.
           </p>
 
-          {/* STATUS BLOCK */}
-          <div
-            className="mx-auto text-left mb-6"
-            style={{
-              maxWidth: 520,
-              backgroundColor: "rgba(250, 250, 248, 0.12)",
-              border: "0.5px solid rgba(250, 250, 248, 0.25)",
-              borderRadius: 8,
-              padding: "14px 16px",
-              animation: "ladoa-status-in 0.4s ease both",
-              fontFamily: "Lexend, sans-serif",
-            }}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <span
-                style={{
-                  display: "inline-block",
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: "#4CAF50",
-                  animation: "ladoa-green-pulse 2s ease-in-out infinite",
-                }}
-              />
-              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.6)" }}>
-                En este momento estoy →
-              </span>
-            </div>
-            <ul
+        </div>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "#E8E4DA" }}>↓</div>
+      </section>
+
+      {/* STATUS SECTION */}
+      <section className="px-6 md:px-20 py-16 md:py-20" style={{ backgroundColor: "#FAFAF8" }}>
+        <div className="max-w-[520px] mx-auto">
+          <div className="flex items-center gap-2 mb-4">
+            <span
               style={{
-                listStyle: "none",
-                margin: 0,
-                paddingLeft: 12,
-                borderLeft: "1px solid rgba(255,255,255,0.2)",
-                display: "flex",
-                flexDirection: "column",
-                gap: 6,
+                display: "inline-block",
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: "#4CAF50",
+                animation: "ladoa-green-pulse 2s ease-in-out infinite",
               }}
-            >
-              <li style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.5 }}>
-                Diseñando servicios con BioActiva, un hub de innovación en I+D+i
-              </li>
-              <li style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.5 }}>
-                Investigando cómo la transformación digital cambia los museos
-              </li>
-              <li style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", lineHeight: 1.5 }}>
-                Conectando miradas desde el team Sur Global y su revista Untold.ink
-              </li>
-            </ul>
+            />
+            <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6B6B2A", fontWeight: 500 }}>
+              En este momento estoy →
+            </span>
           </div>
 
-          {/* CTA BUTTONS */}
-          <div className="flex flex-wrap items-center justify-center" style={{ gap: 10 }}>
+          <div>
+            <div style={{ padding: "9px 0", borderBottom: "0.5px solid rgba(107,107,42,0.1)", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ color: "#6B6B2A" }}>–</span>
+              Diseñando servicios con BioActiva, un hub de innovación en I+D+i
+            </div>
+            <div style={{ padding: "9px 0", borderBottom: "0.5px solid rgba(107,107,42,0.1)", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ color: "#6B6B2A" }}>–</span>
+              Investigando cómo la transformación digital cambia los museos
+            </div>
+            <div style={{ padding: "9px 0", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ color: "#6B6B2A" }}>–</span>
+              Conectando miradas desde el team Sur Global y su revista Untold.ink
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center mt-6" style={{ gap: 10 }}>
             <button
               onClick={scrollToProjects}
               style={{
-                background: "#6B6B2A",
+                background: "#7D2340",
                 color: "#FFFFFF",
                 borderRadius: 8,
-                padding: "8px 18px",
+                padding: "9px 18px",
                 fontSize: 13,
                 fontFamily: "Lexend, sans-serif",
                 border: "none",
@@ -383,40 +369,39 @@ const LadoA = () => {
             <a
               href="#contacto"
               style={{
-                background: "rgba(255,255,255,0.12)",
-                border: "0.5px solid rgba(255,255,255,0.35)",
-                color: "#FFFFFF",
+                background: "transparent",
+                border: "0.5px solid #6B6B2A",
+                color: "#6B6B2A",
                 borderRadius: 8,
-                padding: "8px 18px",
+                padding: "9px 18px",
                 fontSize: 13,
                 fontFamily: "Lexend, sans-serif",
                 transition: "background 0.2s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.2)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
               ¿Colaboremos? →
             </a>
             <Link
               to="/blog"
               style={{
-                background: "rgba(255,255,255,0.12)",
-                border: "0.5px solid rgba(255,255,255,0.35)",
-                color: "#FFFFFF",
+                background: "transparent",
+                border: "0.5px solid #6B6B2A",
+                color: "#6B6B2A",
                 borderRadius: 8,
-                padding: "8px 18px",
+                padding: "9px 18px",
                 fontSize: 13,
                 fontFamily: "Lexend, sans-serif",
                 transition: "background 0.2s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.2)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
               Al blog →
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-pulse text-xl" style={{ color: "#E8E4DA" }}>↓</div>
       </section>
 
       {/* PROYECTOS */}
