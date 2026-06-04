@@ -212,27 +212,34 @@ const LadoA = () => {
   return (
     <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]" style={{ borderBottomWidth: "0.5px" }}>
+      <nav
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{
+          backgroundColor: "rgba(250, 250, 248, 0.08)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+        }}
+      >
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
-          <Link to="/" className="font-medium text-foreground">Karien.xyz</Link>
-          <div className="hidden md:flex gap-8 text-sm text-muted-foreground">
+          <Link to="/" className="font-medium text-white">Karien.xyz</Link>
+          <div className="hidden md:flex gap-8 text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
             {NAV_LINKS.map((l) =>
               l.to ? (
-                <Link key={l.label} to={l.to} className="hover:text-a-accent transition-colors">
+                <Link key={l.label} to={l.to} className="hover:text-white transition-colors">
                   {l.label}
                 </Link>
               ) : (
-                <a key={l.label} href={l.href} className="hover:text-a-accent transition-colors">
+                <a key={l.label} href={l.href} className="hover:text-white transition-colors">
                   {l.label}
                 </a>
               )
             )}
           </div>
-          <Link to="/lado-b" className="hidden md:inline text-sm text-a-accent-soft hover:text-a-accent transition-colors">
+          <Link to="/lado-b" className="hidden md:inline text-sm hover:text-white transition-colors" style={{ color: "rgba(255,255,255,0.85)" }}>
             Lado B →
           </Link>
           <button
-            className="md:hidden text-xl"
+            className="md:hidden text-xl text-white"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menú"
           >
@@ -240,19 +247,19 @@ const LadoA = () => {
           </button>
         </div>
         {menuOpen && (
-          <div className="md:hidden border-t border-[#D4CFC5] px-6 py-4 flex flex-col gap-3" style={{ borderTopWidth: "0.5px" }}>
+          <div className="md:hidden px-6 py-4 flex flex-col gap-3" style={{ backgroundColor: "rgba(26, 26, 17, 0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
             {NAV_LINKS.map((l) =>
               l.to ? (
-                <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
+                <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)} className="text-white/85 hover:text-white transition-colors">
                   {l.label}
                 </Link>
               ) : (
-                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="text-muted-foreground">
+                <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)} className="text-white/85 hover:text-white transition-colors">
                   {l.label}
                 </a>
               )
             )}
-            <Link to="/lado-b" className="text-a-accent-soft">Lado B →</Link>
+            <Link to="/lado-b" className="text-white/85 hover:text-white transition-colors">Lado B →</Link>
           </div>
         )}
       </nav>
@@ -275,7 +282,7 @@ const LadoA = () => {
 
       {/* HERO */}
       <section
-        className="lado-a-hero relative flex items-center justify-center px-6 md:px-20 pt-16 text-center"
+        className="lado-a-hero relative flex items-center justify-center px-6 md:px-20 pt-24 text-center"
         style={{
           minHeight: "80vh",
           backgroundImage:
