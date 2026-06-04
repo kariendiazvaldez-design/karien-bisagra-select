@@ -15,26 +15,43 @@ Deno.serve(async (req) => {
     const NOTION_API_KEY = Deno.env.get('NOTION_API_KEY');
     if (!NOTION_API_KEY) throw new Error('NOTION_API_KEY is not configured');
 
-    const response = await fetch(`${GATEWAY_URL}/databases/${GARDEN_DB_ID}/query`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        'X-Connection-Api-Key': NOTION_API_KEY,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const allResults: any[] = [];
+    let hasMore = true;
+    let startCursor: string | undefined;
+    let data: any = { results: [] };
+
+    while (hasMore) {
+      const body: Record<string, unknown> = {
         filter: {
           property: 'Published',
           checkbox: { equals: true },
         },
         sorts: [{ property: 'Date', direction: 'descending' }],
-      }),
-    });
+        page_size: 100,
+      };
+      if (startCursor) body.start_cursor = startCursor;
 
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(`Notion API call failed [${response.status}]: ${JSON.stringify(data)}`);
+      const response = await fetch(`${GATEWAY_URL}/databases/${GARDEN_DB_ID}/query`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          'X-Connection-Api-Key': NOTION_API_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      data = await response.json();
+      if (!response.ok) {
+        throw new Error(`Notion API call failed [${response.status}]: ${JSON.stringify(data)}`);
+      }
+
+      allResults.push(...(data.results || []));
+      hasMore = !!data.has_more;
+      startCursor = data.next_cursor || undefined;
     }
+
+    data = { results: allResults };
 
     const getPlain = (rich: any[]) =>
       Array.isArray(rich) && rich.length > 0 ? rich.map((r) => r.plain_text).join('') : '';
