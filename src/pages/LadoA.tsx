@@ -295,33 +295,117 @@ const LadoA = () => {
           >
             Entender mejor,<br />diseñar mejor.
           </h1>
-          <p className="text-base md:text-lg mb-10 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
-            <HoverWord src={HOVER_IMG_1} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
-            diseñadora de servicios en la práctica.{"\n"}
-            Facilito procesos, investigo experiencias y <HoverWord src={HOVER_IMG_2} onHover={handleHover}>construyo aprendizajes</HoverWord> con equipos y organizaciones.
+          <style>{`
+            @keyframes ladoa-status-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes ladoa-green-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.82); opacity: 0.45; } }
+          `}</style>
+          <p className="text-base md:text-lg mb-8 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
+            <HoverWord src={HOVER_IMG_3} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
+            <HoverWord src={HOVER_IMG_1} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
+            Facilito procesos, investigo experiencias y trabajo con equipos que quieren entender mejor antes de actuar.
           </p>
-          <button
-            onClick={scrollToProjects}
-            className="inline-block bg-a-accent text-background px-6 py-2.5 hover:bg-a-accent-mid transition-colors"
-          >
-            Ver proyectos →
-          </button>
+
+          {/* STATUS BLOCK */}
           <div
-            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0"
-            style={{ marginTop: 12 }}
+            className="mx-auto text-left mb-6"
+            style={{
+              maxWidth: 520,
+              backgroundColor: "rgba(107, 107, 42, 0.06)",
+              border: "0.5px solid rgba(107, 107, 42, 0.22)",
+              borderRadius: 8,
+              padding: "14px 16px",
+              animation: "ladoa-status-in 0.4s ease both",
+              fontFamily: "Lexend, sans-serif",
+            }}
           >
+            <div className="flex items-center gap-2 mb-3">
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: "#4CAF50",
+                  animation: "ladoa-green-pulse 2s ease-in-out infinite",
+                }}
+              />
+              <span style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6B6B2A" }}>
+                En este momento estoy →
+              </span>
+            </div>
+            <ul
+              style={{
+                listStyle: "none",
+                margin: 0,
+                paddingLeft: 12,
+                borderLeft: "1px solid rgba(107, 107, 42, 0.25)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+              }}
+            >
+              <li style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.5 }}>
+                Diseñando servicios con BioActiva, un hub de innovación en I+D+i
+              </li>
+              <li style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.5 }}>
+                Investigando cómo la transformación digital cambia los museos
+              </li>
+              <li style={{ fontSize: 13, color: "#4a4a3a", lineHeight: 1.5 }}>
+                Conectando miradas desde el team Sur Global y su revista Untold.ink
+              </li>
+            </ul>
+          </div>
+
+          {/* CTA BUTTONS */}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={scrollToProjects}
+              style={{
+                background: "#6B6B2A",
+                color: "#FFFFFF",
+                borderRadius: 8,
+                padding: "8px 18px",
+                fontSize: 13,
+                fontFamily: "Lexend, sans-serif",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Ver proyectos ↓
+            </button>
             <a
               href="#contacto"
-              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
+              style={{
+                background: "transparent",
+                border: "0.5px solid rgba(0,0,0,0.2)",
+                color: "#4a4a3a",
+                borderRadius: 8,
+                padding: "8px 18px",
+                fontSize: 13,
+                fontFamily: "Lexend, sans-serif",
+                transition: "background 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
-              ¿Hacemos algo juntxs?
+              ¿Colaboremos? →
             </a>
-            <span className="hidden sm:inline" style={{ color: "#8A9A5A", fontSize: 13 }}>·</span>
             <Link
               to="/blog"
-              style={{ background: "transparent", border: "none", color: "#8A9A5A", fontSize: 13, padding: "0 8px" }}
+              style={{
+                background: "transparent",
+                border: "0.5px solid rgba(0,0,0,0.2)",
+                color: "#4a4a3a",
+                borderRadius: 8,
+                padding: "8px 18px",
+                fontSize: 13,
+                fontFamily: "Lexend, sans-serif",
+                transition: "background 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
-              Ir al blog →
+              Al blog →
             </Link>
           </div>
         </div>
