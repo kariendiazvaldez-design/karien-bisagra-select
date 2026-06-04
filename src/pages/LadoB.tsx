@@ -421,13 +421,18 @@ const LadoB = () => {
         </div>
       </section>
 
-      <section id="notas-ideas" className="px-6 md:px-12" style={{ paddingTop: 64, paddingBottom: 64 }}>
+      <section id="exploraciones" className="px-6 md:px-12" style={{ paddingTop: 64, paddingBottom: 64 }}>
         <div className="max-w-6xl mx-auto">
+          <p
+            className="font-quicksand"
+            style={{ fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}
+          >
+            Exploraciones:
+          </p>
           <h2 className="font-quicksand" style={{ fontSize: 28, fontWeight: 700, color: TEXT, marginBottom: 16 }}>
-            Notas e ideas
+            Lugares donde se mueve mi corazón estos días
           </h2>
           <div style={{ borderTop: `1px solid ${DIVIDER}`, marginBottom: 32 }} />
-
 
           <style>{`
             .notas-bento {
