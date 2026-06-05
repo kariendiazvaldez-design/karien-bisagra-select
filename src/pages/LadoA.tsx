@@ -405,23 +405,15 @@ const LadoA = () => {
       </section>
 
       {/* PROYECTOS */}
-      <section id="proyectos" className="px-6 md:px-20 py-24 md:py-32">
+      <section id="proyectos" style={{ background: "#FAFAF8" }} className="px-6 md:px-20 py-24 md:py-32 font-lexend">
         <div className="max-w-6xl mx-auto">
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Portafolio</p>
-          <h2 className="font-extralight text-4xl md:text-5xl mb-12">Proyectos:</h2>
+          <p style={{ fontSize: 10, letterSpacing: "0.12em", color: "#9a9a8a" }} className="uppercase mb-3 font-medium">
+            Portafolio
+          </p>
+          <h2 style={{ fontSize: 32, fontWeight: 500, color: "#1a1a14" }} className="mb-10">
+            Proyectos:
+          </h2>
           {(() => {
-            const PROJECT_DESCRIPTIONS: Record<string, string> = {
-              "innova-plus":
-                "Ejecuté la primera edición. Rediseñé la segunda. Iteración metodológica para 22 empresas peruanas.",
-              "patria-c":
-                "Academia ciudadana remota para 150 líderes jóvenes de todas las regiones del Perú.",
-              "washma":
-                "Cinco años acompañando a mujeres artesanas kañaris: identidad, capacidades e infraestructura productiva.",
-              "la-huaca":
-                "Festival cultural en espacios patrimoniales de Lambayeque. Activación territorial con alianzas como infraestructura.",
-              "command-z":
-                "Arquitectura de información y producto digital para convertir el archivo de un podcast en rutas de aprendizaje navegables.",
-            };
             const PROJECT_IMAGES: Record<string, string> = {
               "innova-plus":
                 "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
@@ -430,125 +422,205 @@ const LadoA = () => {
               "la-huaca":
                 "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
             };
-            const GROUPS: { label: string; ids: string[]; cols: string; wrapper?: string }[] = [
+
+            type CardData = {
+              id: string;
+              category: string;
+              title: string;
+              scale: string;
+              description: string;
+            };
+
+            const HERO: CardData = {
+              id: "innova-plus",
+              category: "Diseño de servicios · Innovación corporativa",
+              title: "INNOVA+ 2025: programa de I+D+i para empresas",
+              scale:
+                "Consultoría de BioActiva para el BID · 22 empresas / 150 participantes · 84% asistencia · 4,2/5 satisfacción",
+              description:
+                "Rediseñé la segunda edición a partir de investigación sistematizada de la primera: VOC, CSAT y observación en campo. Diseñé el blueprint completo, la experiencia de aprendizaje, evaluación y estructura de contenido, integré mentorías al ciclo formativo y ejecuté end to end.",
+            };
+
+            const ROW1: CardData[] = [
               {
-                label: "Diseño de servicios educativos",
-                ids: ["innova-plus", "patria-c"],
-                cols: "grid-cols-1 md:grid-cols-2",
+                id: "command-z",
+                category: "Arquitectura de información · Producto digital",
+                title: "Command Z: del podcast al sistema de aprendizaje",
+                scale: "+150 episodios · 4 rutas de aprendizaje · 3 perfiles de usuario",
+                description:
+                  "Analicé y estructuré el archivo completo del podcast usando Python y la API de Spotify. Diseñé y desarrollé una app navegable con no code: rutas de aprendizaje en 3 niveles para engagement con el oyente.",
               },
               {
-                label: "Territorios y comunidades",
-                ids: ["washma", "la-huaca"],
-                cols: "grid-cols-1 md:grid-cols-2",
-              },
-              {
-                label: "Sistemas de conocimiento",
-                ids: ["command-z"],
-                cols: "grid-cols-1",
-                wrapper: "md:max-w-[50%] md:mx-auto",
+                id: "patria-c",
+                category: "Diseño de servicios · Project management",
+                title: "Patria C: academia ciudadana para jóvenes de todo el Perú",
+                scale: "150 becarios · todas las regiones del país · NPS 91% · permanencia 80%",
+                description:
+                  "Diseñé y gestioné la experiencia end-to-end de un programa remoto para jóvenes líderes. Coordiné equipos internos, stakeholders corporativos y el cierre presencial.",
               },
             ];
-            const findProject = (id: string) => portfolioProjects.find((p) => p.id === id);
-            return (
-              <div className="flex flex-col">
-                {GROUPS.map((group, gi) => (
-                  <div key={group.label} style={{ marginTop: gi === 0 ? 0 : 40 }}>
-                    <p
-                      className="uppercase"
-                      style={{
-                        fontSize: 10,
-                        letterSpacing: "0.12em",
-                        color: "#888",
-                        marginBottom: 8,
-                      }}
-                    >
-                      {group.label}
-                    </p>
-                    <div style={{ borderTop: "1px solid #E8E8E8", marginBottom: 16 }} />
-                    <div className={group.wrapper ?? ""}>
-                      <div className={`grid ${group.cols} gap-2`}>
-                        {group.ids.map((id) => {
-                          const p = findProject(id);
-                          if (!p) return null;
-                          return (
-                            <Link
-                              key={id}
-                              to={`/portafolio/${id}`}
-                              className="group grid bg-background overflow-hidden hover:bg-[#F5F2EB] transition-colors grid-cols-1 md:grid-cols-[100px_1fr]"
-                              style={{
-                                border: "0.5px solid #E8E8E8",
-                                borderRadius: 10,
-                              }}
-                            >
-                              {PROJECT_IMAGES[id] ? (
-                                <img
-                                  src={PROJECT_IMAGES[id]}
-                                  alt={p.title}
-                                  className="w-full h-full object-cover"
-                                  style={{ minHeight: 120, objectPosition: "left" }}
-                                />
 
-                              ) : (
-                                <div className="w-full bg-[#E8E8E8]" style={{ minHeight: 120 }} />
-                              )}
-                              <div className="flex flex-col" style={{ padding: 14 }}>
-                                <p
-                                  className="uppercase"
-                                  style={{
-                                    fontFamily: "Lexend, sans-serif",
-                                    fontSize: 10,
-                                    letterSpacing: "0.12em",
-                                    color: "#8A9A5A",
-                                    marginBottom: 6,
-                                  }}
-                                >
-                                  {p.projectType[0]}
-                                </p>
-                                <h3
-                                  style={{
-                                    fontFamily: "Lexend, sans-serif",
-                                    fontWeight: 700,
-                                    fontSize: 13,
-                                    color: "#1A1A1A",
-                                    lineHeight: 1.35,
-                                    marginBottom: 6,
-                                  }}
-                                >
-                                  {p.title}
-                                </h3>
-                                <p
-                                  style={{
-                                    fontFamily: "Lexend, sans-serif",
-                                    fontSize: 11,
-                                    color: "#777",
-                                    lineHeight: 1.5,
-                                    marginBottom: 10,
-                                    display: "-webkit-box",
-                                    WebkitLineClamp: 3,
-                                    WebkitBoxOrient: "vertical",
-                                    overflow: "hidden",
-                                  }}
-                                >
-                                  {PROJECT_DESCRIPTIONS[id]}
-                                </p>
-                                <span
-                                  className="mt-auto"
-                                  style={{
-                                    fontFamily: "Lexend, sans-serif",
-                                    fontSize: 11,
-                                    color: "#8A9A5A",
-                                  }}
-                                >
-                                  Ver caso →
-                                </span>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
+            const ROW2: CardData[] = [
+              {
+                id: "washma",
+                category: "Desarrollo comunitario · Project management",
+                title: "WASHMA: mujeres kañaris tejiendo identidad",
+                scale: "S/64,000 ejecutados · 100% ejecución física y financiera · 4 ediciones Ruraq Maki",
+                description:
+                  "Formulé y gestioné un plan de negocio financiado por AgroRural–MIDAGRI tras 03 años de trabajar con la asociación para la recuperación de sus saberes textiles. Resultado: participación sostenida y autónoma de la asociación en el mercado nacional.",
+              },
+              {
+                id: "la-huaca",
+                category: "Gestión cultural · Project management",
+                title: "La Huaca Independiente: festival en espacios patrimoniales",
+                scale: "3 ediciones · +2,500 asistentes · 150 voluntarios · alianza Ministerio de Cultura",
+                description:
+                  "Co-fundé y coordiné un festival cultural en espacios patrimoniales de Lambayeque, enfocado en juventudes. Activación territorial con alianzas institucionales y comunidad de voluntarios.",
+              },
+            ];
+
+            const cardBase: React.CSSProperties = {
+              background: "#ffffff",
+              border: "0.5px solid rgba(0,0,0,0.1)",
+              borderRadius: 12,
+              transition: "border-color 0.2s ease",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+            };
+
+            const onEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+              e.currentTarget.style.borderColor = "rgba(107,107,42,0.35)";
+            };
+            const onLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+              e.currentTarget.style.borderColor = "rgba(0,0,0,0.1)";
+            };
+
+            const Badge = ({ text }: { text: string }) => (
+              <span
+                style={{
+                  background: "rgba(107,107,42,0.07)",
+                  borderRadius: 4,
+                  padding: "4px 8px",
+                  fontSize: 12,
+                  color: "#6B6B2A",
+                  alignSelf: "flex-start",
+                }}
+              >
+                {text}
+              </span>
+            );
+
+            const Category = ({ text }: { text: string }) => (
+              <p
+                className="uppercase"
+                style={{ fontSize: 10, color: "#6B6B2A", letterSpacing: "0.08em", fontWeight: 500 }}
+              >
+                {text}
+              </p>
+            );
+
+            const Title = ({ text }: { text: string }) => (
+              <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1a1a14", lineHeight: 1.3 }}>{text}</h3>
+            );
+
+            const Desc = ({ text }: { text: string }) => (
+              <p style={{ fontSize: 13, color: "#5a5a4a", lineHeight: 1.55 }}>{text}</p>
+            );
+
+            const SeeCase = () => (
+              <span style={{ fontSize: 12, color: "#6B6B2A", fontWeight: 500, marginTop: "auto" }}>
+                Ver caso →
+              </span>
+            );
+
+            const ImagePlaceholder = ({ src, alt, side }: { src?: string; alt: string; side: "right" | "top" }) =>
+              side === "right" ? (
+                <div
+                  className="hidden md:block shrink-0"
+                  style={{
+                    width: 160,
+                    background: "rgba(107,107,42,0.07)",
+                    borderTopRightRadius: 12,
+                    borderBottomRightRadius: 12,
+                    overflow: "hidden",
+                  }}
+                >
+                  {src && <img src={src} alt={alt} className="w-full h-full object-cover" />}
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    height: 140,
+                    background: "rgba(107,107,42,0.07)",
+                    borderTopLeftRadius: 12,
+                    borderTopRightRadius: 12,
+                    overflow: "hidden",
+                  }}
+                >
+                  {src && <img src={src} alt={alt} className="w-full h-full object-cover" />}
+                </div>
+              );
+
+            const SmallCard = ({ c }: { c: CardData }) => (
+              <Link
+                to={`/portafolio/${c.id}`}
+                style={cardBase}
+                onMouseEnter={onEnter}
+                onMouseLeave={onLeave}
+                className="group"
+              >
+                <ImagePlaceholder src={PROJECT_IMAGES[c.id]} alt={c.title} side="top" />
+                <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                  <Category text={c.category} />
+                  <Title text={c.title} />
+                  <Badge text={c.scale} />
+                  <Desc text={c.description} />
+                  <SeeCase />
+                </div>
+              </Link>
+            );
+
+            return (
+              <div className="flex flex-col gap-4">
+                {/* Hero card */}
+                <Link
+                  to={`/portafolio/${HERO.id}`}
+                  style={{ ...cardBase, flexDirection: "row", padding: 0 }}
+                  onMouseEnter={onEnter}
+                  onMouseLeave={onLeave}
+                  className="group"
+                >
+                  <div
+                    style={{
+                      padding: "1.25rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 10,
+                      flex: 1,
+                    }}
+                  >
+                    <Category text={HERO.category} />
+                    <Title text={HERO.title} />
+                    <Badge text={HERO.scale} />
+                    <Desc text={HERO.description} />
+                    <SeeCase />
                   </div>
-                ))}
+                  <ImagePlaceholder src={PROJECT_IMAGES[HERO.id]} alt={HERO.title} side="right" />
+                </Link>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {ROW1.map((c) => (
+                    <SmallCard key={c.id} c={c} />
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {ROW2.map((c) => (
+                    <SmallCard key={c.id} c={c} />
+                  ))}
+                </div>
               </div>
             );
           })()}
