@@ -824,23 +824,29 @@ const LadoA = () => {
       </section>
 
       {/* SOBRE MI */}
-      <section id="sobre-mi" className="px-6 md:px-20 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          <div className="order-2 md:order-1">
-            <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-4">Sobre mí</p>
-            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6">Karien:</h2>
-            <p className="text-base text-muted-foreground max-w-[480px] leading-relaxed mb-6 whitespace-pre-line">
-              Comunicadora de profesión, diseñadora en la práctica. Actualmente diseñadora cursando la Maestría en Gerencia de TI y Transformación Digital.{" "}
-              {"\n"}Trabajo para conectar innovación, tecnología y propósito.
-              {"\n\n"}Fun fact: me formé en mediación cultural y soy muy fan de los museos.
-              {"\n\n"}Mi caja de herramientas incluye:
+      <section id="sobre-mi" style={{ backgroundColor: "#FAFAF8" }} className="px-6 md:px-20 py-24 md:py-32">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start">
+          {/* Texto */}
+          <div className="flex-1 order-2 md:order-1">
+            <p className="text-xs font-medium uppercase tracking-[0.25em] mb-4" style={{ color: "#9a9a8a" }}>
+              Sobre mí
+            </p>
+            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6" style={{ color: "#1a1a14" }}>
+              Karien:
+            </h2>
+            <p className="leading-relaxed mb-6 whitespace-pre-line" style={{ fontSize: 14, color: "#4a4a3a", maxWidth: 520, lineHeight: 1.65 }}>
+              Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.{"\n\n"}Ahora mismo me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso la maestría de Transformación Digital, desarrollando una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso no se me ha ido: creo que las mejores intervenciones parten de escuchar bien y de conectar a los stakeholders vinculados. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {SKILLS.map((s) => (
                 <span
                   key={s}
-                  className="px-3 py-1.5 text-sm bg-[#EEF0E8] text-a-accent border border-a-accent-soft"
-                  style={{ borderWidth: "0.5px" }}
+                  className="px-3 py-1.5 text-sm"
+                  style={{
+                    background: "#EEF0E8",
+                    color: "#4A5232",
+                    border: "0.5px solid #8C9970",
+                  }}
                 >
                   {s}
                 </span>
@@ -855,12 +861,18 @@ const LadoA = () => {
               Perfil profesional →
             </a>
           </div>
-          <div className="order-1 md:order-2">
+
+          {/* Imagen */}
+          <div className="order-1 md:order-2 flex-shrink-0 w-full md:w-auto" style={{ maxWidth: 380 }}>
             <img
               src={HOVER_IMG_1}
               alt="Karien"
               className="w-full object-cover"
-              style={{ aspectRatio: "4/5" }}
+              style={{
+                borderRadius: 12,
+                height: "auto",
+                maxHeight: "100%",
+              }}
             />
           </div>
         </div>
