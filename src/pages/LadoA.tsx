@@ -87,9 +87,9 @@ const CATEGORIES = [
 
 const SKILLS = [
   "Diseño de servicios",
-  "UX Research",
+  "Investigación HCD",
   "Facilitación",
-  "Comunicación digital",
+  "Arquitectura de información",
   "Project Management",
 ];
 
