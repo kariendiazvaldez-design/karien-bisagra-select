@@ -867,10 +867,9 @@ const LadoA = () => {
             <img
               src={HOVER_IMG_1}
               alt="Karien"
-              className="w-full object-cover"
+              className="w-full object-cover h-[260px] md:h-auto"
               style={{
                 borderRadius: 12,
-                height: "auto",
                 maxHeight: "100%",
               }}
             />
