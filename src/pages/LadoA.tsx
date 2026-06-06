@@ -414,6 +414,254 @@ const LadoA = () => {
         </div>
       </section>
 
+      {/* BLOG */}
+      <section id="blog" className="px-6 md:px-20 py-24 md:py-32">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Aprendizajes</p>
+          <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando:</h2>
+          <div className="mb-4">
+            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
+              Temas
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {dynamicCategories.map((cat) => {
+                const active = activeCat === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCat(cat)}
+                    className="px-4 py-2 text-sm transition-colors"
+                    style={{
+                      border: "1px solid #6B7A3E",
+                      backgroundColor: active ? "#6B7A3E" : "transparent",
+                      color: active ? "#FFFFFF" : "#6B7A3E",
+                    }}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="mb-12">
+            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
+              Formato
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {dynamicTipos.map((t) => {
+                const active = activeTipo === t;
+                return (
+                  <button
+                    key={t}
+                    onClick={() => setActiveTipo(t)}
+                    className="px-4 py-2 text-sm transition-colors"
+                    style={{
+                      border: "1px solid #6B7A3E",
+                      backgroundColor: active ? "#6B7A3E" : "transparent",
+                      color: active ? "#FFFFFF" : "#6B7A3E",
+                    }}
+                  >
+                    {t}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {(() => {
+            const CAT_COLOR: Record<string, string> = {
+              "Service Design": "#6B7A3E",
+              "Research": "#8A9A5A",
+              "Diseño": "#C49A2A",
+              "Tecnología": "#7A8A6A",
+              "Educación": "#9AAA7A",
+            };
+            const getCatColor = (c: string) => CAT_COLOR[c] ?? "#E8E8E8";
+            const limitedPosts = filteredPosts.slice(0, 4);
+
+            if (notionLoading) {
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 20 }}>
+                  {[0, 1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="animate-pulse"
+                      style={{
+                        background: "#FFFFFF",
+                        border: "0.5px solid #E8E8E8",
+                        borderRadius: 10,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div style={{ height: 3, background: "#E8E8E8" }} />
+                      <div style={{ padding: 20 }}>
+                        <div className="h-3 w-24 bg-[#E8E8E8] mb-3" />
+                        <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
+                        <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
+                        <div className="h-3 w-5/6 bg-[#E8E8E8]" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+            if (limitedPosts.length === 0) {
+              return <p className="text-center text-muted-foreground py-12">Nada publicado aún</p>;
+            }
+            return (
+              <div
+                className="grid grid-cols-1 md:grid-cols-2"
+                style={{ gap: 20, rowGap: 20 }}
+              >
+                {limitedPosts.map((post) => {
+                  const lineColor = getCatColor(post.category);
+                  const formattedDate =
+                    post.date && post.date.includes("-")
+                      ? new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
+                      : post.date;
+                  const inner = (
+                    <div
+                      style={{
+                        background: "#FFFFFF",
+                        border: "0.5px solid #E8E8E8",
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <div style={{ height: 3, background: lineColor }} />
+                      <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>
+                        <p
+                          className="uppercase"
+                          style={{
+                            fontSize: 10,
+                            letterSpacing: "0.18em",
+                            color: "#8A9A5A",
+                            marginBottom: 10,
+                          }}
+                        >
+                          {post.category}
+                        </p>
+                        <h3
+                          style={{
+                            fontFamily: "Lexend, sans-serif",
+                            fontWeight: 700,
+                            fontSize: 15,
+                            lineHeight: 1.4,
+                            color: "#1A1A1A",
+                            marginBottom: 10,
+                          }}
+                        >
+                          {post.title}
+                        </h3>
+                        <p
+                          style={{
+                            fontSize: 12,
+                            color: "#777",
+                            lineHeight: 1.7,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            marginBottom: 16,
+                          }}
+                        >
+                          {post.excerpt}
+                        </p>
+                        <div
+                          className="mt-auto flex items-center justify-between"
+                          style={{ fontSize: 11 }}
+                        >
+                          <span style={{ color: "#aaa" }}>{formattedDate}</span>
+                          <span style={{ color: "#8A9A5A" }}>Leer →</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                  return post.slug ? (
+                    <Link key={post.id} to={`/blog/${post.slug}`}>
+                      {inner}
+                    </Link>
+                  ) : (
+                    <div key={post.id}>{inner}</div>
+                  );
+                })}
+              </div>
+            );
+          })()}
+
+          <div className="mt-12 text-center">
+            <Link
+              to="/blog"
+              className="inline-block transition-colors"
+              style={{
+                border: "1px solid #8A9A5A",
+                color: "#8A9A5A",
+                padding: "10px 24px",
+                background: "transparent",
+                borderRadius: 4,
+              }}
+            >
+              Ver más →
+            </Link>
+          </div>
+        </div>
+      </section>
+      {/* SOBRE MI */}
+      <section id="sobre-mi" style={{ backgroundColor: "#FAFAF8" }} className="px-6 md:px-20 py-24 md:py-32">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start">
+          {/* Texto */}
+          <div className="flex-1 order-2 md:order-1">
+            <p className="text-xs font-medium uppercase tracking-[0.25em] mb-4" style={{ color: "#9a9a8a" }}>
+              Sobre mí
+            </p>
+            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6" style={{ color: "#1a1a14" }}>
+              Karien:
+            </h2>
+            <p className="leading-relaxed mb-6 whitespace-pre-line" style={{ fontSize: 14, color: "#4a4a3a", maxWidth: 520, lineHeight: 1.65 }}>
+              Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.{"\n\n"}Ahora mismo me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso la maestría de Transformación Digital, desarrollando una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso no se me ha ido: creo que las mejores intervenciones parten de escuchar bien y de conectar a los stakeholders vinculados. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-8">
+              {SKILLS.map((s) => (
+                <span
+                  key={s}
+                  className="px-3 py-1.5 text-sm"
+                  style={{
+                    background: "#EEF0E8",
+                    color: "#4A5232",
+                    border: "0.5px solid #8C9970",
+                  }}
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+            <a
+              href="https://docs.google.com/document/d/1DBVwPjFIQ-Zu9P8tTLyugaJP77exdsA2iA9CIyOFMtI/edit?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block bg-a-accent text-background px-5 py-2.5 hover:bg-a-accent-mid transition-colors"
+            >
+              Perfil profesional →
+            </a>
+          </div>
+
+          {/* Imagen */}
+          <div className="order-1 md:order-2 flex-shrink-0 w-full md:w-auto" style={{ maxWidth: 380 }}>
+            <img
+              src={HOVER_IMG_1}
+              alt="Karien"
+              className="w-full object-cover h-[260px] md:h-auto"
+              style={{
+                borderRadius: 12,
+                maxHeight: "100%",
+              }}
+            />
+          </div>
+        </div>
+      </section>
       {/* PROYECTOS */}
       <section id="proyectos" style={{ background: "#FAFAF8" }} className="px-6 md:px-20 py-24 md:py-32 font-lexend">
         <div className="max-w-6xl mx-auto">
@@ -634,256 +882,6 @@ const LadoA = () => {
               </div>
             );
           })()}
-        </div>
-      </section>
-
-      {/* BLOG */}
-      <section id="blog" className="px-6 md:px-20 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-mid mb-3">Aprendizajes</p>
-          <h2 className="font-extralight text-4xl md:text-5xl mb-10">Actualmente curioseando:</h2>
-          <div className="mb-4">
-            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
-              Temas
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {dynamicCategories.map((cat) => {
-                const active = activeCat === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCat(cat)}
-                    className="px-4 py-2 text-sm transition-colors"
-                    style={{
-                      border: "1px solid #6B7A3E",
-                      backgroundColor: active ? "#6B7A3E" : "transparent",
-                      color: active ? "#FFFFFF" : "#6B7A3E",
-                    }}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div className="mb-12">
-            <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#999", textTransform: "uppercase", marginBottom: 8 }}>
-              Formato
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {dynamicTipos.map((t) => {
-                const active = activeTipo === t;
-                return (
-                  <button
-                    key={t}
-                    onClick={() => setActiveTipo(t)}
-                    className="px-4 py-2 text-sm transition-colors"
-                    style={{
-                      border: "1px solid #6B7A3E",
-                      backgroundColor: active ? "#6B7A3E" : "transparent",
-                      color: active ? "#FFFFFF" : "#6B7A3E",
-                    }}
-                  >
-                    {t}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {(() => {
-            const CAT_COLOR: Record<string, string> = {
-              "Service Design": "#6B7A3E",
-              "Research": "#8A9A5A",
-              "Diseño": "#C49A2A",
-              "Tecnología": "#7A8A6A",
-              "Educación": "#9AAA7A",
-            };
-            const getCatColor = (c: string) => CAT_COLOR[c] ?? "#E8E8E8";
-            const limitedPosts = filteredPosts.slice(0, 4);
-
-            if (notionLoading) {
-              return (
-                <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 20 }}>
-                  {[0, 1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="animate-pulse"
-                      style={{
-                        background: "#FFFFFF",
-                        border: "0.5px solid #E8E8E8",
-                        borderRadius: 10,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div style={{ height: 3, background: "#E8E8E8" }} />
-                      <div style={{ padding: 20 }}>
-                        <div className="h-3 w-24 bg-[#E8E8E8] mb-3" />
-                        <div className="h-4 w-3/4 bg-[#E8E8E8] mb-3" />
-                        <div className="h-3 w-full bg-[#E8E8E8] mb-2" />
-                        <div className="h-3 w-5/6 bg-[#E8E8E8]" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              );
-            }
-            if (limitedPosts.length === 0) {
-              return <p className="text-center text-muted-foreground py-12">Nada publicado aún</p>;
-            }
-            return (
-              <div
-                className="grid grid-cols-1 md:grid-cols-2"
-                style={{ gap: 20, rowGap: 20 }}
-              >
-                {limitedPosts.map((post) => {
-                  const lineColor = getCatColor(post.category);
-                  const formattedDate =
-                    post.date && post.date.includes("-")
-                      ? new Date(post.date).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
-                      : post.date;
-                  const inner = (
-                    <div
-                      style={{
-                        background: "#FFFFFF",
-                        border: "0.5px solid #E8E8E8",
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <div style={{ height: 3, background: lineColor }} />
-                      <div style={{ padding: 20, display: "flex", flexDirection: "column", flex: 1 }}>
-                        <p
-                          className="uppercase"
-                          style={{
-                            fontSize: 10,
-                            letterSpacing: "0.18em",
-                            color: "#8A9A5A",
-                            marginBottom: 10,
-                          }}
-                        >
-                          {post.category}
-                        </p>
-                        <h3
-                          style={{
-                            fontFamily: "Lexend, sans-serif",
-                            fontWeight: 700,
-                            fontSize: 15,
-                            lineHeight: 1.4,
-                            color: "#1A1A1A",
-                            marginBottom: 10,
-                          }}
-                        >
-                          {post.title}
-                        </h3>
-                        <p
-                          style={{
-                            fontSize: 12,
-                            color: "#777",
-                            lineHeight: 1.7,
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            marginBottom: 16,
-                          }}
-                        >
-                          {post.excerpt}
-                        </p>
-                        <div
-                          className="mt-auto flex items-center justify-between"
-                          style={{ fontSize: 11 }}
-                        >
-                          <span style={{ color: "#aaa" }}>{formattedDate}</span>
-                          <span style={{ color: "#8A9A5A" }}>Leer →</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                  return post.slug ? (
-                    <Link key={post.id} to={`/blog/${post.slug}`}>
-                      {inner}
-                    </Link>
-                  ) : (
-                    <div key={post.id}>{inner}</div>
-                  );
-                })}
-              </div>
-            );
-          })()}
-
-          <div className="mt-12 text-center">
-            <Link
-              to="/blog"
-              className="inline-block transition-colors"
-              style={{
-                border: "1px solid #8A9A5A",
-                color: "#8A9A5A",
-                padding: "10px 24px",
-                background: "transparent",
-                borderRadius: 4,
-              }}
-            >
-              Ver más →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* SOBRE MI */}
-      <section id="sobre-mi" style={{ backgroundColor: "#FAFAF8" }} className="px-6 md:px-20 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-start">
-          {/* Texto */}
-          <div className="flex-1 order-2 md:order-1">
-            <p className="text-xs font-medium uppercase tracking-[0.25em] mb-4" style={{ color: "#9a9a8a" }}>
-              Sobre mí
-            </p>
-            <h2 className="font-extralight text-[36px] md:text-[48px] mb-6" style={{ color: "#1a1a14" }}>
-              Karien:
-            </h2>
-            <p className="leading-relaxed mb-6 whitespace-pre-line" style={{ fontSize: 14, color: "#4a4a3a", maxWidth: 520, lineHeight: 1.65 }}>
-              Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.{"\n\n"}Ahora mismo me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso la maestría de Transformación Digital, desarrollando una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso no se me ha ido: creo que las mejores intervenciones parten de escuchar bien y de conectar a los stakeholders vinculados. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
-            </p>
-            <div className="flex flex-wrap gap-2 mb-8">
-              {SKILLS.map((s) => (
-                <span
-                  key={s}
-                  className="px-3 py-1.5 text-sm"
-                  style={{
-                    background: "#EEF0E8",
-                    color: "#4A5232",
-                    border: "0.5px solid #8C9970",
-                  }}
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-            <a
-              href="https://docs.google.com/document/d/1DBVwPjFIQ-Zu9P8tTLyugaJP77exdsA2iA9CIyOFMtI/edit?usp=sharing"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-block bg-a-accent text-background px-5 py-2.5 hover:bg-a-accent-mid transition-colors"
-            >
-              Perfil profesional →
-            </a>
-          </div>
-
-          {/* Imagen */}
-          <div className="order-1 md:order-2 flex-shrink-0 w-full md:w-auto" style={{ maxWidth: 380 }}>
-            <img
-              src={HOVER_IMG_1}
-              alt="Karien"
-              className="w-full object-cover h-[260px] md:h-auto"
-              style={{
-                borderRadius: 12,
-                maxHeight: "100%",
-              }}
-            />
-          </div>
         </div>
       </section>
 
