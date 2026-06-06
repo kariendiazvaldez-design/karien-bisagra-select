@@ -300,7 +300,7 @@ const LadoA = () => {
             className="font-extralight text-[40px] md:text-[72px] leading-[1.05] mb-8"
             style={{ letterSpacing: "-0.02em", color: "#FFFFFF" }}
           >
-            Entender mejor,<br />diseñar mejor.
+            Entender mejor<br />para diseñar mejor.
           </h1>
           <style>{`
             @keyframes ladoa-status-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -308,8 +308,7 @@ const LadoA = () => {
           `}</style>
           <p className="text-base md:text-lg mb-8 leading-relaxed mx-auto whitespace-pre-line" style={{ color: "#F5F2EB" }}>
             <HoverWord src={HOVER_IMG_3} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
-            <HoverWord src={HOVER_IMG_1} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica.{"\n"}
-            Facilito procesos, investigo experiencias y trabajo con <HoverWord src={HOVER_IMG_2} onHover={handleHover}>equipos</HoverWord> que quieren entender mejor antes de actuar.
+            <HoverWord src={HOVER_IMG_1} onHover={handleHover}>diseñadora de servicios</HoverWord> en la práctica. Trabajo en la intersección entre investigación, facilitación y diseño con <HoverWord src={HOVER_IMG_2} onHover={handleHover}>equipos</HoverWord> que quieren profundizar antes de actuar.
           </p>
 
         </div>
@@ -621,7 +620,7 @@ const LadoA = () => {
               Karien:
             </h2>
             <p className="leading-relaxed mb-6 whitespace-pre-line" style={{ fontSize: 14, color: "#4a4a3a", maxWidth: 720, lineHeight: 1.65 }}>
-              Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.{"\n\n"}Ahora mismo me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso la maestría de Transformación Digital, desarrollando una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso no se me ha ido: creo que las mejores intervenciones parten de escuchar bien y de conectar a los stakeholders vinculados. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+              Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso lun maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {SKILLS.map((s) => (
