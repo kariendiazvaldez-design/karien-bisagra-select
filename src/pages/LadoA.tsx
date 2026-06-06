@@ -336,18 +336,28 @@ const LadoA = () => {
           </div>
 
           <div>
-            <div style={{ padding: "9px 0", borderBottom: "0.5px solid rgba(107,107,42,0.1)", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
-              <span style={{ color: "#6B6B2A" }}>–</span>
-              Diseñando servicios con BioActiva, un hub de innovación en I+D+i
-            </div>
-            <div style={{ padding: "9px 0", borderBottom: "0.5px solid rgba(107,107,42,0.1)", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
-              <span style={{ color: "#6B6B2A" }}>–</span>
-              Investigando cómo la transformación digital cambia los museos
-            </div>
-            <div style={{ padding: "9px 0", fontSize: 13, color: "#4a4a3a", display: "flex", alignItems: "baseline", gap: 8 }}>
-              <span style={{ color: "#6B6B2A" }}>–</span>
-              Conectando miradas desde el team Sur Global y su revista Untold.ink
-            </div>
+            {[
+              "Diseñando servicios con BioActiva, un hub de innovación en I+D+i",
+              "Investigando cómo unir al Museo más antiguo de Lambayeque con Transformación Digital para fortalecer la conexión con sus públicos",
+              "Aprendiendo sobre diseño desde el team Command Z Podcast",
+              "Conectando miradas desde Sur Global y su revista Untold.ink",
+            ].map((item, i, arr) => (
+              <div
+                key={i}
+                style={{
+                  padding: "9px 0",
+                  borderBottom: i < arr.length - 1 ? "0.5px solid rgba(107,107,42,0.1)" : "none",
+                  fontSize: 13,
+                  color: "#4a4a3a",
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 8,
+                }}
+              >
+                <span style={{ color: "#6B6B2A" }}>–</span>
+                {item}
+              </div>
+            ))}
           </div>
 
           <div className="flex flex-wrap items-center mt-6" style={{ gap: 10 }}>
@@ -364,7 +374,7 @@ const LadoA = () => {
                 cursor: "pointer",
               }}
             >
-              Ver proyectos ↓
+              Portafolio →
             </button>
             <a
               href="#contacto"
@@ -381,7 +391,7 @@ const LadoA = () => {
               onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.04)")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
-              ¿Colaboremos? →
+              ¿Conversemos? →
             </a>
             <Link
               to="/blog"
