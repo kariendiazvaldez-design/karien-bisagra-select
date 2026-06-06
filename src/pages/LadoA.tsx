@@ -620,18 +620,20 @@ const LadoA = () => {
             <h2 className="font-extralight text-[36px] md:text-[48px] mb-6" style={{ color: "#1a1a14" }}>
               Karien:
             </h2>
-            <p className="leading-relaxed mb-6 whitespace-pre-line" style={{ fontSize: 14, color: "#4a4a3a", maxWidth: 520, lineHeight: 1.65 }}>
+            <p className="leading-relaxed mb-6 whitespace-pre-line" style={{ fontSize: 14, color: "#4a4a3a", maxWidth: 720, lineHeight: 1.65 }}>
               Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.{"\n\n"}Ahora mismo me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso la maestría de Transformación Digital, desarrollando una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso no se me ha ido: creo que las mejores intervenciones parten de escuchar bien y de conectar a los stakeholders vinculados. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {SKILLS.map((s) => (
                 <span
                   key={s}
-                  className="px-3 py-1.5 text-sm"
                   style={{
                     background: "#EEF0E8",
                     color: "#4A5232",
                     border: "0.5px solid #8C9970",
+                    borderRadius: 999,
+                    padding: "3px 10px",
+                    fontSize: 11,
                   }}
                 >
                   {s}
