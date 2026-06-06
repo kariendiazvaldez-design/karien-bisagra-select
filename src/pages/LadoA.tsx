@@ -892,23 +892,21 @@ const LadoA = () => {
       <section className="px-6 md:px-20 py-24 md:py-32 bg-[#1C1A17] text-background">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-a-accent-soft mb-4">Contacto</p>
-          <h2 className="font-extralight text-4xl md:text-6xl text-background mb-6">¿Un proyecto juntxs?</h2>
+          <h2 className="font-extralight text-4xl md:text-6xl text-background mb-6">¿Trabajemos juntxs?</h2>
           <p className="text-base text-muted-foreground mb-12 max-w-xl mx-auto">
             Interesada en proyectos de diseño de servicios o de aprendizaje. También en facilitación y en retos de el lado humano de la transformación digital.
           </p>
-          <div className="flex flex-col items-center max-w-sm mx-auto mb-16">
+          <div className="flex flex-col sm:flex-row items-stretch justify-center gap-px mb-16" style={{ background: "#2C2C2A" }}>
             {[
               { label: "WhatsApp", href: WHATSAPP_URL },
               { label: "LinkedIn", href: "#" },
               { label: "Instagram", href: "https://www.instagram.com/karien.xyz/" },
-            ].map((l, i, arr) => (
+            ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
-                className={`w-full py-5 text-background hover:text-a-accent-soft transition-colors ${
-                  i < arr.length - 1 ? "border-b" : ""
-                }`}
-                style={{ borderColor: "#2C2C2A", borderBottomWidth: i < arr.length - 1 ? "0.5px" : undefined }}
+                className="flex-1 py-5 px-6 text-background hover:text-a-accent-soft transition-colors text-center"
+                style={{ background: "#1C1A17" }}
               >
                 {l.label} ↗
               </a>
