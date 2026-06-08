@@ -298,12 +298,12 @@ const LadoA = () => {
                 maxWidth: 580,
               }}
             >
-              <HoverWord src={HOVER_IMG_3} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
+              <HoverWord src={HOVER_IMG_3} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>Comunicadora</span></HoverWord> de formación,{" "}
               <HoverWord src={HOVER_IMG_1} onHover={handleHover}>
-                <span style={{ color: "#C94A20" }}>diseñadora de servicios</span>
+                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>diseñadora de servicios</span>
               </HoverWord>{" "}
               en la práctica. Trabajo en la intersección entre investigación, facilitación y diseño con{" "}
-              <HoverWord src={HOVER_IMG_2} onHover={handleHover}>equipos</HoverWord> que quieren profundizar antes de actuar.
+              <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren profundizar antes de actuar.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button onClick={scrollToProjects} className="ds-btn ds-btn-primary">
