@@ -317,52 +317,94 @@ const LadoA = () => {
 
         {/* AHORA MISMO */}
         <section className="max-w-6xl w-full mx-auto ds-card px-6 md:px-12 py-12 md:py-14">
-          <div className="max-w-[640px] mx-auto">
-            <div className="flex items-center gap-2 mb-5">
-              <span
-                style={{
-                  display: "inline-block",
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: "#7AAA40",
-                }}
-              />
-              <span className="ds-eyebrow" style={{ color: "#3D6B1F" }}>
-                En este momento estoy →
-              </span>
-            </div>
-            <div>
-              {[
-                { text: "Diseñando servicios con BioActiva, un hub de innovación en I+D+i", bg: "#FDF5D0" },
-                { text: "Investigando cómo unir al Museo más antiguo de Lambayeque con Transformación Digital para fortalecer la conexión con sus públicos", bg: "#FAEEE8" },
-                { text: "Aprendiendo sobre diseño desde el team Command Z Podcast", bg: "#FDF5D0" },
-                { text: "Conectando miradas desde Sur Global y su revista Untold.ink", bg: "#FAEEE8" },
-              ].map((item, i, arr) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: "10px 0",
-                    borderBottom: i < arr.length - 1 ? "0.5px solid #D4CDB0" : "none",
-                    fontSize: 14,
-                    fontWeight: 300,
-                    color: "#4A4A3A",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  <span
-                    style={{
-                      background: item.bg,
-                      padding: "2px 8px",
-                      borderRadius: 6,
-                    }}
-                  >
-                    {item.text}
-                  </span>
+          <div className="max-w-[860px] mx-auto">
+            <h2
+              className="ds-section-title mb-8"
+              style={{ textAlign: "left" }}
+            >
+              Ahora mismo <span style={{ color: "#C94A20" }}>estoy —</span>
+            </h2>
+            {(() => {
+              const NOW_CARDS = [
+                {
+                  context: "Diseño de servicios",
+                  text: "Diseñando servicios con BioActiva, un hub de innovación en I+D+i.",
+                  accent: "#7AAA40",
+                  linkLabel: "Leer en el blog →",
+                  matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
+                },
+                {
+                  context: "Research",
+                  text: "Investigando cómo unir al museo más antiguo de Lambayeque con transformación digital.",
+                  accent: "#C94A20",
+                  linkLabel: "Ver investigación →",
+                  matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
+                },
+                {
+                  context: "Aprendizaje",
+                  text: "Aprendiendo sobre diseño desde el team de Command Z Podcast.",
+                  accent: "#E8B820",
+                  linkLabel: "Notas de aprendizaje →",
+                  matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
+                },
+                {
+                  context: "Comunidad",
+                  text: "Conectando miradas desde Sur Global y su revista Untold.ink.",
+                  accent: "#3D6B1F",
+                  linkLabel: "Explorar comunidad →",
+                  matchCats: ["Comunidad", "Sur Global"],
+                },
+              ];
+
+              const findPost = (cats: string[]) => {
+                if (!notionPosts) return null;
+                return notionPosts.find((p) => cats.includes(p.category)) || null;
+              };
+
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {NOW_CARDS.map((card, i) => {
+                    const post = findPost(card.matchCats);
+                    const href = post ? `/blog/${post.slug}` : "#blog";
+                    return (
+                      <div key={i} className="ds-card" style={{ padding: "1.5rem 1.4rem 1.4rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                        <div className="ds-card-line" style={{ background: card.accent }} />
+                        <span
+                          style={{
+                            fontSize: 10,
+                            letterSpacing: "0.14em",
+                            textTransform: "uppercase",
+                            color: "#7A8060",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {card.context}
+                        </span>
+                        <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.55, color: "#4A4A3A", flex: 1 }}>
+                          {card.text}
+                        </p>
+                        <Link
+                          to={href}
+                          className="ds-pill"
+                          style={{
+                            alignSelf: "flex-start",
+                            background: "transparent",
+                            border: `0.5px solid ${card.accent}`,
+                            color: card.accent,
+                            fontSize: 11,
+                            fontWeight: 500,
+                            padding: "6px 14px",
+                          }}
+                        >
+                          {card.linkLabel}
+                        </Link>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap items-center mt-7" style={{ gap: 10 }}>
+              );
+            })()}
+            <div className="flex flex-wrap items-center mt-8" style={{ gap: 10 }}>
               <button onClick={scrollToProjects} className="ds-btn ds-btn-terracota">
                 Portafolio →
               </button>
@@ -375,6 +417,7 @@ const LadoA = () => {
             </div>
           </div>
         </section>
+
 
         {/* PROYECTOS */}
         <section id="proyectos" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
