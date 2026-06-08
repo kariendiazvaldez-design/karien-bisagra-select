@@ -85,6 +85,7 @@ const LadoA = () => {
   const [activeCat, setActiveCat] = useState("Todos");
   const [activeTipo, setActiveTipo] = useState("Todos");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutExpanded, setAboutExpanded] = useState(false);
 
   const handleHover = (src: string | null, x?: number, y?: number) => {
     if (src && typeof x === "number" && typeof y === "number") setCursor({ x, y });
@@ -419,146 +420,6 @@ const LadoA = () => {
         </section>
 
 
-        {/* PROYECTOS */}
-        <section id="proyectos" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
-          <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Portafolio</p>
-          <h2 className="ds-section-title mb-8">Proyectos:</h2>
-          {(() => {
-            const PROJECT_IMAGES: Record<string, string> = {
-              "innova-plus": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
-              "command-z": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779259677/Captura_de_pantalla_2026-05-20_012733_b5ntfl.png",
-              "la-huaca": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
-            };
-
-            type CardData = {
-              id: string; category: string; title: string; scale: string; description: string;
-            };
-
-            const HERO: CardData = {
-              id: "innova-plus",
-              category: "Diseño de servicios · Innovación corporativa",
-              title: "INNOVA+ 2025: programa de I+D+i para empresas",
-              scale: "BioActiva · BID · 22 empresas · 84% asistencia · 4,2/5 satisfacción",
-              description: "Rediseñé la experiencia completa de la segunda edición: blueprint, ciclo formativo, comunicación y rebranding. 22 empresas · 84% asistencia · 4,2/5 satisfacción · 20 hojas de ruta ejecutadas.",
-            };
-
-            const ROW1: CardData[] = [
-              { id: "command-z", category: "Arquitectura de información · Producto digital",
-                title: "Command Z: del podcast al sistema de aprendizaje",
-                scale: "+150 episodios · 4 rutas · 3 perfiles",
-                description: "Analicé y estructuré el archivo del podcast con Python y la API de Spotify. Diseñé una app no-code con rutas de aprendizaje en 3 niveles." },
-              { id: "patria-c", category: "Diseño de servicios · Project management",
-                title: "Patria C: academia ciudadana para jóvenes de todo el Perú",
-                scale: "150 becarios · NPS 91% · permanencia 80%",
-                description: "Diseñé y gestioné la experiencia end-to-end de un programa remoto para jóvenes líderes." },
-            ];
-            const ROW2: CardData[] = [
-              { id: "washma", category: "Desarrollo comunitario · Project management",
-                title: "WASHMA: mujeres kañaris tejiendo identidad",
-                scale: "S/64,000 · 100% ejecución · 4 ediciones Ruraq Maki",
-                description: "Formulé y gestioné un plan de negocio financiado por AgroRural–MIDAGRI tras 3 años de trabajar con la asociación." },
-              { id: "la-huaca", category: "Gestión cultural · Project management",
-                title: "La Huaca Independiente: festival en espacios patrimoniales",
-                scale: "3 ediciones · +2,500 asistentes · 150 voluntarios",
-                description: "Co-fundé y coordiné un festival cultural en espacios patrimoniales de Lambayeque." },
-            ];
-
-            const badge = (text: string) => (
-              <span
-                className="ds-pill"
-                style={{ background: "#F4D8D0", color: "#6A1A08", alignSelf: "flex-start" }}
-              >
-                {text}
-              </span>
-            );
-
-            const SmallCard = ({ c }: { c: CardData }) => (
-              <Link to={`/portafolio/${c.id}`} className="ds-card group flex flex-col">
-                <div
-                  style={{
-                    width: "100%",
-                    height: 160,
-                    background: "#EDF4E2",
-                    overflow: "hidden",
-                  }}
-                >
-                  {PROJECT_IMAGES[c.id] && (
-                    <img src={PROJECT_IMAGES[c.id]} alt={c.title} className="w-full h-full object-cover" />
-                  )}
-                </div>
-                <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
-                    {c.category}
-                  </p>
-                  <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
-                  {badge(c.scale)}
-                  <p style={{ fontSize: 13, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.6 }}>{c.description}</p>
-                  <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
-                    Ver caso →
-                  </span>
-                </div>
-              </Link>
-            );
-
-            return (
-              <div className="flex flex-col gap-3">
-                {/* Featured */}
-                <Link
-                  to={`/portafolio/${HERO.id}`}
-                  className="group ds-hero-bg block"
-                  style={{ padding: 0 }}
-                >
-                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0">
-                    <div
-                      style={{
-                        background: "linear-gradient(135deg, #2A4F10 0%, #3D6B1F 100%)",
-                        minHeight: 240,
-                        overflow: "hidden",
-                      }}
-                    >
-                      {PROJECT_IMAGES[HERO.id] && (
-                        <img src={PROJECT_IMAGES[HERO.id]} alt={HERO.title} className="w-full h-full object-cover mix-blend-luminosity opacity-90" />
-                      )}
-                    </div>
-                    <div style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: 14 }}>
-                      <p className="uppercase" style={{ fontSize: 10, color: "#E8B820", letterSpacing: "0.14em", fontWeight: 500 }}>
-                        {HERO.category}
-                      </p>
-                      <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F5F0E0", lineHeight: 1.25 }}>
-                        {HERO.title}
-                      </h3>
-                      <span
-                        className="ds-pill"
-                        style={{
-                          background: "rgba(232,184,32,0.15)",
-                          color: "#E8B820",
-                          border: "0.5px solid rgba(232,184,32,0.4)",
-                          alignSelf: "flex-start",
-                        }}
-                      >
-                        {HERO.scale}
-                      </span>
-                      <p style={{ fontSize: 14, color: "rgba(245,240,224,0.78)", fontWeight: 300, lineHeight: 1.65 }}>
-                        {HERO.description}
-                      </p>
-                      <span style={{ fontSize: 13, color: "#E8B820", fontWeight: 500, marginTop: "auto" }}>
-                        Ver caso →
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {ROW1.map((c) => <SmallCard key={c.id} c={c} />)}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {ROW2.map((c) => <SmallCard key={c.id} c={c} />)}
-                </div>
-              </div>
-            );
-          })()}
-        </section>
-
         {/* BLOG */}
         <section id="blog" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Aprendizajes</p>
@@ -699,9 +560,31 @@ const LadoA = () => {
             <div className="flex-1 order-2 md:order-1">
               <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
               <h2 className="ds-section-title mb-5">Karien:</h2>
-              <p className="ds-body mb-6 whitespace-pre-line" style={{ maxWidth: 720 }}>
-                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+              <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
+                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).
               </p>
+              {aboutExpanded && (
+                <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
+                  Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+                </p>
+              )}
+              <button
+                onClick={() => setAboutExpanded((v) => !v)}
+                className="mb-6"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  color: "#3D6B1F",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                  cursor: "pointer",
+                }}
+              >
+                {aboutExpanded ? "Leer menos" : "Leer más"}
+              </button>
               <div className="flex flex-wrap gap-2 mb-7">
                 {SKILLS.map((s) => (
                   <span key={s} className="ds-tag">{s}</span>
@@ -725,6 +608,160 @@ const LadoA = () => {
               />
             </div>
           </div>
+        </section>
+
+        {/* PROYECTOS */}
+        <section id="proyectos" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
+          <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Portafolio</p>
+          <h2 className="ds-section-title mb-8">Proyectos:</h2>
+          {(() => {
+            const PROJECT_IMAGES: Record<string, string> = {
+              "innova-plus": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
+              "command-z": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779259677/Captura_de_pantalla_2026-05-20_012733_b5ntfl.png",
+              "la-huaca": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
+            };
+
+            type CardData = {
+              id: string; category: string; title: string; scale: string; description: string;
+            };
+
+            const HERO: CardData = {
+              id: "innova-plus",
+              category: "Diseño de servicios · Innovación corporativa",
+              title: "INNOVA+ 2025: programa de I+D+i para empresas",
+              scale: "BioActiva · BID · 22 empresas · 84% asistencia · 4,2/5 satisfacción",
+              description: "Rediseñé la experiencia completa de la segunda edición: blueprint, ciclo formativo, comunicación y rebranding. 22 empresas · 84% asistencia · 4,2/5 satisfacción · 20 hojas de ruta ejecutadas.",
+            };
+
+            const ROW1: CardData[] = [
+              { id: "command-z", category: "Arquitectura de información · Producto digital",
+                title: "Command Z: del podcast al sistema de aprendizaje",
+                scale: "+150 episodios · 4 rutas · 3 perfiles",
+                description: "Analicé y estructuré el archivo del podcast con Python y la API de Spotify. Diseñé una app no-code con rutas de aprendizaje en 3 niveles." },
+              { id: "patria-c", category: "Diseño de servicios · Project management",
+                title: "Patria C: academia ciudadana para jóvenes de todo el Perú",
+                scale: "150 becarios · NPS 91% · permanencia 80%",
+                description: "Diseñé y gestioné la experiencia end-to-end de un programa remoto para jóvenes líderes." },
+            ];
+            const ROW2: CardData[] = [
+              { id: "washma", category: "Desarrollo comunitario · Project management",
+                title: "WASHMA: mujeres kañaris tejiendo identidad",
+                scale: "S/64,000 · 100% ejecución · 4 ediciones Ruraq Maki",
+                description: "Formulé y gestioné un plan de negocio financiado por AgroRural–MIDAGRI tras 3 años de trabajar con la asociación." },
+              { id: "la-huaca", category: "Gestión cultural · Project management",
+                title: "La Huaca Independiente: festival en espacios patrimoniales",
+                scale: "3 ediciones · +2,500 asistentes · 150 voluntarios",
+                description: "Co-fundé y coordiné un festival cultural en espacios patrimoniales de Lambayeque." },
+            ];
+
+            const badge = (text: string) => (
+              <span
+                className="ds-pill"
+                style={{ background: "#F4D8D0", color: "#6A1A08", alignSelf: "flex-start" }}
+              >
+                {text}
+              </span>
+            );
+
+            const SmallCard = ({ c }: { c: CardData }) => (
+              <Link to={`/portafolio/${c.id}`} className="ds-card group flex flex-col">
+                <div
+                  style={{
+                    width: "100%",
+                    height: 160,
+                    background: "#EDF4E2",
+                    overflow: "hidden",
+                  }}
+                >
+                  {PROJECT_IMAGES[c.id] && (
+                    <img src={PROJECT_IMAGES[c.id]} alt={c.title} className="w-full h-full object-cover" />
+                  )}
+                </div>
+                <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                  <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
+                    {c.category}
+                  </p>
+                  <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
+                  {badge(c.scale)}
+                  <p style={{ fontSize: 13, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.6 }}>{c.description}</p>
+                  <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
+                    Ver caso →
+                  </span>
+                </div>
+              </Link>
+            );
+
+            return (
+              <div className="flex flex-col gap-3">
+                {/* Featured */}
+                <Link
+                  to={`/portafolio/${HERO.id}`}
+                  className="group ds-hero-bg block"
+                  style={{ padding: 0 }}
+                >
+                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0">
+                    <div
+                      style={{
+                        background: "linear-gradient(160deg, #1a3508 0%, #2a4f10 50%, #3d6b1f 100%)",
+                        minHeight: 240,
+                        position: "relative",
+                        display: "flex",
+                        alignItems: "flex-end",
+                        padding: "1.75rem",
+                      }}
+                    >
+                      <span
+                        className="ds-pill"
+                        style={{
+                          background: "rgba(232,184,32,0.18)",
+                          color: "#E8B820",
+                          border: "0.5px solid rgba(232,184,32,0.45)",
+                          fontSize: 11,
+                          fontWeight: 500,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Featured · Diseño de servicios
+                      </span>
+                    </div>
+                    <div style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: 14 }}>
+                      <p className="uppercase" style={{ fontSize: 10, color: "#E8B820", letterSpacing: "0.14em", fontWeight: 500 }}>
+                        {HERO.category}
+                      </p>
+                      <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F5F0E0", lineHeight: 1.25 }}>
+                        {HERO.title}
+                      </h3>
+                      <span
+                        className="ds-pill"
+                        style={{
+                          background: "rgba(232,184,32,0.15)",
+                          color: "#E8B820",
+                          border: "0.5px solid rgba(232,184,32,0.4)",
+                          alignSelf: "flex-start",
+                        }}
+                      >
+                        {HERO.scale}
+                      </span>
+                      <p style={{ fontSize: 14, color: "rgba(245,240,224,0.78)", fontWeight: 300, lineHeight: 1.65 }}>
+                        {HERO.description}
+                      </p>
+                      <span style={{ fontSize: 13, color: "#E8B820", fontWeight: 500, marginTop: "auto" }}>
+                        Ver caso →
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {ROW1.map((c) => <SmallCard key={c.id} c={c} />)}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {ROW2.map((c) => <SmallCard key={c.id} c={c} />)}
+                </div>
+              </div>
+            );
+          })()}
         </section>
 
         {/* CONTACTO */}
