@@ -48,7 +48,6 @@
   * {
     @apply border-border;
     border-width: 0;
-    border-radius: 0 !important;
   }
 
   html, body, #root {
