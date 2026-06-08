@@ -714,9 +714,31 @@ const LadoA = () => {
             <div className="flex-1 order-2 md:order-1">
               <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
               <h2 className="ds-section-title mb-5">Karien:</h2>
-              <p className="ds-body mb-6 whitespace-pre-line" style={{ maxWidth: 720 }}>
-                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).{"\n\n"}Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+              <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
+                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).
               </p>
+              {aboutExpanded && (
+                <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
+                  Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+                </p>
+              )}
+              <button
+                onClick={() => setAboutExpanded((v) => !v)}
+                className="mb-6"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
+                  color: "#3D6B1F",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                  cursor: "pointer",
+                }}
+              >
+                {aboutExpanded ? "Leer menos" : "Leer más"}
+              </button>
               <div className="flex flex-wrap gap-2 mb-7">
                 {SKILLS.map((s) => (
                   <span key={s} className="ds-tag">{s}</span>
