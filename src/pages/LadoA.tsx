@@ -512,14 +512,28 @@ const LadoA = () => {
                   <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0">
                     <div
                       style={{
-                        background: "linear-gradient(135deg, #2A4F10 0%, #3D6B1F 100%)",
+                        background: "linear-gradient(160deg, #1a3508 0%, #2a4f10 50%, #3d6b1f 100%)",
                         minHeight: 240,
-                        overflow: "hidden",
+                        position: "relative",
+                        display: "flex",
+                        alignItems: "flex-end",
+                        padding: "1.75rem",
                       }}
                     >
-                      {PROJECT_IMAGES[HERO.id] && (
-                        <img src={PROJECT_IMAGES[HERO.id]} alt={HERO.title} className="w-full h-full object-cover mix-blend-luminosity opacity-90" />
-                      )}
+                      <span
+                        className="ds-pill"
+                        style={{
+                          background: "rgba(232,184,32,0.18)",
+                          color: "#E8B820",
+                          border: "0.5px solid rgba(232,184,32,0.45)",
+                          fontSize: 11,
+                          fontWeight: 500,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        Featured · Diseño de servicios
+                      </span>
                     </div>
                     <div style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: 14 }}>
                       <p className="uppercase" style={{ fontSize: 10, color: "#E8B820", letterSpacing: "0.14em", fontWeight: 500 }}>
