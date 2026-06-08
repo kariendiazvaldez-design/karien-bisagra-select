@@ -323,27 +323,27 @@ const LadoA = () => {
               className="ds-section-title mb-8"
               style={{ textAlign: "left" }}
             >
-              Ahora mismo <span style={{ color: "#C94A20" }}>estoy —</span>
+              Ahora mismo <span style={{ color: "#C94A20" }}>estoy:</span>
             </h2>
             {(() => {
               const NOW_CARDS = [
                 {
                   context: "Diseño de servicios",
-                  text: "Diseñando servicios con BioActiva, un hub de innovación en I+D+i.",
+                  text: "Trabajando como diseñadora de servicios en BioActiva, consultora en innovación e I+D+i para el sector productivo peruano.",
                   accent: "#7AAA40",
                   linkLabel: "Leer en el blog →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
                   context: "Research",
-                  text: "Investigando cómo unir al museo más antiguo de Lambayeque con transformación digital.",
+                  text: "Investigando en el Museo Arqueológico Nacional Brüning de Lambayeque, como parte de la maestría en Transformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
                   context: "Aprendizaje",
-                  text: "Aprendiendo sobre diseño desde el team de Command Z Podcast.",
+                  text: "Tras la creación de la biblioteca digital del podcast Command Z.",
                   accent: "#E8B820",
                   linkLabel: "Notas de aprendizaje →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
