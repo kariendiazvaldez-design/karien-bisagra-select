@@ -85,6 +85,7 @@ const LadoA = () => {
   const [activeCat, setActiveCat] = useState("Todos");
   const [activeTipo, setActiveTipo] = useState("Todos");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutExpanded, setAboutExpanded] = useState(false);
 
   const handleHover = (src: string | null, x?: number, y?: number) => {
     if (src && typeof x === "number" && typeof y === "number") setCursor({ x, y });
