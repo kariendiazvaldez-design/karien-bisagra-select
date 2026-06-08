@@ -298,12 +298,12 @@ const LadoA = () => {
                 maxWidth: 580,
               }}
             >
-              <HoverWord src={HOVER_IMG_3} onHover={handleHover}>Comunicadora</HoverWord> de formación,{" "}
+              <HoverWord src={HOVER_IMG_3} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>Comunicadora</span></HoverWord> de formación,{" "}
               <HoverWord src={HOVER_IMG_1} onHover={handleHover}>
-                <span style={{ color: "#C94A20" }}>diseñadora de servicios</span>
+                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>diseñadora de servicios</span>
               </HoverWord>{" "}
               en la práctica. Trabajo en la intersección entre investigación, facilitación y diseño con{" "}
-              <HoverWord src={HOVER_IMG_2} onHover={handleHover}>equipos</HoverWord> que quieren profundizar antes de actuar.
+              <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren profundizar antes de actuar.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button onClick={scrollToProjects} className="ds-btn ds-btn-primary">
@@ -323,27 +323,27 @@ const LadoA = () => {
               className="ds-section-title mb-8"
               style={{ textAlign: "left" }}
             >
-              Ahora mismo <span style={{ color: "#C94A20" }}>estoy —</span>
+              Ahora mismo <span style={{ color: "#C94A20" }}>estoy:</span>
             </h2>
             {(() => {
               const NOW_CARDS = [
                 {
                   context: "Diseño de servicios",
-                  text: "Diseñando servicios con BioActiva, un hub de innovación en I+D+i.",
+                  text: "Trabajando como diseñadora de servicios en BioActiva, consultora en innovación e I+D+i para el sector productivo peruano.",
                   accent: "#7AAA40",
                   linkLabel: "Leer en el blog →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
                   context: "Research",
-                  text: "Investigando cómo unir al museo más antiguo de Lambayeque con transformación digital.",
+                  text: "Investigando en el Museo Arqueológico Nacional Brüning de Lambayeque, como parte de la maestría en Transformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
                   context: "Aprendizaje",
-                  text: "Aprendiendo sobre diseño desde el team de Command Z Podcast.",
+                  text: "Tras la creación de la biblioteca digital del podcast Command Z.",
                   accent: "#E8B820",
                   linkLabel: "Notas de aprendizaje →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
@@ -559,18 +559,18 @@ const LadoA = () => {
           <div className="flex flex-col md:flex-row gap-10 items-start">
             <div className="flex-1 order-2 md:order-1">
               <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
-              <h2 className="ds-section-title mb-5">Karien:</h2>
+              <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
               <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
                 Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).
               </p>
               {aboutExpanded && (
                 <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
-                  Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi en el futuro. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+                  Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi para profundizar en cómo potenciar la democracia mediante el diseño y la tecnología. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
                 </p>
               )}
               <button
                 onClick={() => setAboutExpanded((v) => !v)}
-                className="mb-6"
+                className="mb-3"
                 style={{
                   background: "transparent",
                   border: "none",
@@ -585,27 +585,28 @@ const LadoA = () => {
               >
                 {aboutExpanded ? "Leer menos" : "Leer más"}
               </button>
+              <p style={{ fontSize: 12, fontWeight: 500, color: "#7A8060", marginBottom: 8 }}>Explorando y aprendiendo:</p>
               <div className="flex flex-wrap gap-2 mb-7">
                 {SKILLS.map((s) => (
                   <span key={s} className="ds-tag">{s}</span>
                 ))}
               </div>
-              <a
-                href="https://docs.google.com/document/d/1DBVwPjFIQ-Zu9P8tTLyugaJP77exdsA2iA9CIyOFMtI/edit?usp=sharing"
-                target="_blank"
-                rel="noreferrer"
-                className="ds-btn ds-btn-terracota"
-              >
-                Perfil profesional →
-              </a>
             </div>
-            <div className="order-1 md:order-2 flex-shrink-0 w-full md:w-auto" style={{ maxWidth: 360 }}>
+            <div className="order-1 md:order-2 flex-shrink-0 w-full md:w-auto flex flex-col gap-4" style={{ maxWidth: 360 }}>
               <img
                 src={HOVER_IMG_1}
                 alt="Karien"
                 className="w-full object-cover h-[260px] md:h-auto"
                 style={{ borderRadius: 20, background: "#EDF4E2" }}
               />
+              <a
+                href="https://docs.google.com/document/d/1DBVwPjFIQ-Zu9P8tTLyugaJP77exdsA2iA9CIyOFMtI/edit?usp=sharing"
+                target="_blank"
+                rel="noreferrer"
+                className="ds-btn ds-btn-terracota w-full justify-center"
+              >
+                Perfil profesional →
+              </a>
             </div>
           </div>
         </section>
