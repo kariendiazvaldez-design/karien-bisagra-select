@@ -323,13 +323,13 @@ const LadoA = () => {
               className="ds-section-title mb-8"
               style={{ textAlign: "left" }}
             >
-              Ahora mismo <span style={{ color: "#C94A20" }}>estoy:</span>
+              Ahora mismo <span style={{ color: "#C94A20" }}>:</span>
             </h2>
             {(() => {
               const NOW_CARDS = [
                 {
                   context: "Diseño de servicios",
-                  text: "Trabajando como diseñadora de servicios en BioActiva, consultora en innovación e I+D+i para el sector productivo peruano.",
+                  text: "Trabajando como diseñadora de servicios en BioActiva, consultora en innovación para el sector productivo peruano.",
                   accent: "#7AAA40",
                   linkLabel: "Leer en el blog →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
@@ -342,14 +342,14 @@ const LadoA = () => {
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
-                  context: "Aprendizaje",
-                  text: "Tras la creación de la biblioteca digital del podcast Command Z.",
+                  context: "PROYECT MANAGEMENT",
+                  text: "Tras la creación de la biblioteca digital del podcast Command Z y vínculo con su comunidad.",
                   accent: "#E8B820",
                   linkLabel: "Notas de aprendizaje →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
                 },
                 {
-                  context: "Comunidad",
+                  context: "COMUNIDAD Y ENFOQUE DE SUR",
                   text: "Conectando miradas desde Sur Global y su revista Untold.ink.",
                   accent: "#3D6B1F",
                   linkLabel: "Explorar comunidad →",
@@ -407,13 +407,13 @@ const LadoA = () => {
             })()}
             <div className="flex flex-wrap items-center mt-8" style={{ gap: 10 }}>
               <button onClick={scrollToProjects} className="ds-btn ds-btn-terracota">
-                Portafolio →
+                Portafolio→
               </button>
               <a href="#contacto" className="ds-btn ds-btn-outline">
                 ¿Conversemos? →
               </a>
               <Link to="/blog" className="ds-btn ds-btn-outline">
-                Al blog →
+                Blog →
               </Link>
             </div>
           </div>
@@ -423,7 +423,7 @@ const LadoA = () => {
         {/* BLOG */}
         <section id="blog" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Aprendizajes</p>
-          <h2 className="ds-section-title mb-8">Actualmente curioseando:</h2>
+          <h2 className="ds-section-title mb-8">Actualmente aprendiendo / explorando:</h2>
 
           <div className="mb-4">
             <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#9A9A8A", textTransform: "uppercase", marginBottom: 8 }}>
@@ -560,8 +560,9 @@ const LadoA = () => {
             <div className="flex-1 order-2 md:order-1">
               <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
               <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
-              <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
-                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú. Hoy me interesan los retos de mayor escala y complejidad sistémica: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).
+              <p className="ds-body mb-4 whitespace-pre-line" style={{ maxWidth: 720 }}>
+                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.
+                {"\n"}Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).
               </p>
               {aboutExpanded && (
                 <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
@@ -781,9 +782,10 @@ const LadoA = () => {
                 marginBottom: 12,
               }}
             >
-              ¿Trabajemos juntxs?
+              ¿Trabajamos juntxs?
             </h2>
             <p
+              className="whitespace-pre-line"
               style={{
                 color: "#E8B820",
                 fontSize: 15,
@@ -793,7 +795,7 @@ const LadoA = () => {
                 margin: "0 auto 32px",
               }}
             >
-              Interesada en proyectos de diseño de servicios o de aprendizaje. También en facilitación y en el lado humano de la transformación digital.
+              Estoy interesada en proyectos de diseño de servicios o de aprendizaje.{"\n"}También en facilitación y en el lado humano de la transformación digital.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               <a href={WHATSAPP_URL} className="ds-btn ds-btn-terracota">WhatsApp ↗</a>
