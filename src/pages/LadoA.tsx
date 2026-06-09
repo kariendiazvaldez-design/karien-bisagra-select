@@ -647,13 +647,13 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
             ];
             const ROW2: CardData[] = [
               { id: "washma", category: "Desarrollo comunitario · Project management",
-                title: "WASHMA: mujeres kañaris tejiendo identidad",
+                title: "WASHMA: mujeres Kañaris tejiendo identidad",
                 scale: "S/64,000 · 100% ejecución · 4 ediciones Ruraq Maki",
-                description: "Formulé y gestioné un plan de negocio financiado por AgroRural–MIDAGRI tras 3 años de trabajar con la asociación." },
+                description: "Formulé y gestioné un plan de negocio financiado por AgroRural–MIDAGRI tras 3 años de trabajar con la asociación de artesanas WASHMA en Kañaris los temas de memoria, identidad y habilidades de negocio." },
               { id: "la-huaca", category: "Gestión cultural · Project management",
-                title: "La Huaca Independiente: festival en espacios patrimoniales",
+                title: "La Huaca Independiente: festival para juventudes en espacios patrimoniales",
                 scale: "3 ediciones · +2,500 asistentes · 150 voluntarios",
-                description: "Co-fundé y coordiné un festival cultural en espacios patrimoniales de Lambayeque." },
+                description: "Co-fundé y coordiné un festival cultural en espacios patrimoniales de Lambayeque, en alianza con la DDC Lambayeque y Museos Regionales." },
             ];
 
             const badge = (text: string) => (
