@@ -307,7 +307,7 @@ const LadoA = () => {
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button onClick={scrollToProjects} className="ds-btn ds-btn-primary">
-                Ver proyectos →
+                Proyectos realizados →
               </button>
               <a href="#contacto" className="ds-btn ds-btn-ghost-cream">
                 ¿Trabajamos juntxs?
@@ -336,21 +336,21 @@ const LadoA = () => {
                 },
                 {
                   context: "Research",
-                  text: "Investigando en el Museo Arqueológico Nacional Brüning de Lambayeque, como parte de la maestría en Transformación Digital.",
+                  text: "En el Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
                   context: "PROYECT MANAGEMENT",
-                  text: "Tras la creación de la biblioteca digital del podcast Command Z y vínculo con su comunidad.",
+                  text: "Detrás de la creación de la biblioteca digital del podcast Command Z e impulsando el vínculo con su comunidad.",
                   accent: "#E8B820",
                   linkLabel: "Notas de aprendizaje →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
                 },
                 {
                   context: "COMUNIDAD Y ENFOQUE DE SUR",
-                  text: "Conectando miradas desde Sur Global y su revista Untold.ink.",
+                  text: "Editora voluntaria, conectando miradas desde Sur Global y su revista Untold.ink.",
                   accent: "#3D6B1F",
                   linkLabel: "Explorar comunidad →",
                   matchCats: ["Comunidad", "Sur Global"],
@@ -632,18 +632,18 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
               category: "Diseño de servicios · Innovación corporativa",
               title: "INNOVA+ 2025: programa de I+D+i para empresas",
               scale: "BioActiva · BID · 22 empresas · 84% asistencia · 4,2/5 satisfacción",
-              description: "Rediseñé la experiencia completa de la segunda edición: blueprint, ciclo formativo, comunicación y rebranding. 22 empresas · 84% asistencia · 4,2/5 satisfacción · 20 hojas de ruta ejecutadas.",
+              description: "Ejecuté la primera edición y rediseñé la experiencia completa de la segunda edición: identifiqué el blueprint, desarrollé el ciclo formativo, lideré las comunicaciones y el desarrollo del programa. Segunda edición: 22 empresas · 84% asistencia · 4,2/5 satisfacción · 20 hojas de ruta ejecutadas. 03 eventos presenciales y 04 encuentros virtuales.",
             };
 
             const ROW1: CardData[] = [
               { id: "command-z", category: "Arquitectura de información · Producto digital",
                 title: "Command Z: del podcast al sistema de aprendizaje",
                 scale: "+150 episodios · 4 rutas · 3 perfiles",
-                description: "Analicé y estructuré el archivo del podcast con Python y la API de Spotify. Diseñé una app no-code con rutas de aprendizaje en 3 niveles." },
+                description: "Analicé y estructuré el archivo del podcast con Python y la API de Spotify. Desarrollé categorías de contenido y diseñé una app no-code con rutas de aprendizaje en 3 niveles." },
               { id: "patria-c", category: "Diseño de servicios · Project management",
                 title: "Patria C: academia ciudadana para jóvenes de todo el Perú",
                 scale: "150 becarios · NPS 91% · permanencia 80%",
-                description: "Diseñé y gestioné la experiencia end-to-end de un programa remoto para jóvenes líderes." },
+                description: "Diseñé y gestioné la experiencia end-to-end de un programa remoto para jóvenes líderes, de alcance nacional. Ejecuté el programa e impulsé el encuentro presencial." },
             ];
             const ROW2: CardData[] = [
               { id: "washma", category: "Desarrollo comunitario · Project management",
