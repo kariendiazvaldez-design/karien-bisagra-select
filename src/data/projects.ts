@@ -29,7 +29,7 @@ export const innovaPlus: Project = {
     "Google Suite",
   ],
   content: innovaContent,
-  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779250719/_DSC1648_fdomqo.jpg",
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif",
 };
 
 export const washma: Project = {
@@ -50,6 +50,7 @@ export const washma: Project = {
     "Proposition Value",
   ],
   content: washmaContent,
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781047625/471373683_616174887418431_7143005213072550297_n_rlqked.jpg",
 };
 
 export const commandZ: Project = {
@@ -63,7 +64,7 @@ export const commandZ: Project = {
   projectType: ["Arquitectura de información", "Investigación aplicada", "Producto digital"],
   tools: ["Python", "Spotify API", "Base44", "Google Colab", "Claude"],
   content: commandZContent,
-  heroImage: commandZHero,
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781047547/Captura_de_pantalla_2026-06-09_182538_zfa578.png",
 };
 
 export const patriaC: Project = {
@@ -77,6 +78,7 @@ export const patriaC: Project = {
   projectType: ["B2C", "Learning Experience Design", "Gestión de programas"],
   tools: ["Miro", "Notion", "Zoom", "Whatsapp Business", "Facilitación virtual"],
   content: patriaCContent,
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781048292/Dise%C3%B1o_sin_t%C3%ADtulo_x9gcjd.png",
 };
 
 export const laHuaca: Project = {
@@ -90,7 +92,7 @@ export const laHuaca: Project = {
   projectType: ["Gestión cultural", "Desarrollo territorial", "Investigación aplicada"],
   tools: ["Customer journey", "Ecosystem mapping", "Stakeholder mapping", "Facilitación presencial"],
   content: laHuacaContent,
-  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
+  heroImage: "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779304772/LHI_2_bqmzvf.gif",
 };
 
 export const projects: Project[] = [innovaPlus, washma, commandZ, patriaC, laHuaca];
