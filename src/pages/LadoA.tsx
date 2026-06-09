@@ -618,9 +618,11 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
           <h2 className="ds-section-title mb-8">Proyectos:</h2>
           {(() => {
             const PROJECT_IMAGES: Record<string, string> = {
-              "innova-plus": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1777913304/2_brm4jt.png",
-              "command-z": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779259677/Captura_de_pantalla_2026-05-20_012733_b5ntfl.png",
-              "la-huaca": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779303598/53364966_437290196813210_7415387592050343936_n_qibyj3.jpg",
+              "innova-plus": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif",
+              "command-z": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781047547/Captura_de_pantalla_2026-06-09_182538_zfa578.png",
+              "la-huaca": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779304772/LHI_2_bqmzvf.gif",
+              "washma": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781047625/471373683_616174887418431_7143005213072550297_n_rlqked.jpg",
+              "patria-c": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781048292/Dise%C3%B1o_sin_t%C3%ADtulo_x9gcjd.png",
             };
 
             type CardData = {
