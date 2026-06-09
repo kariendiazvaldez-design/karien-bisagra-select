@@ -561,8 +561,8 @@ const LadoA = () => {
               <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
               <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
               <p className="ds-body mb-4 whitespace-pre-line" style={{ maxWidth: 720 }}>
-                Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.
-                {"\n"}Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).
+                {`Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.
+Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).`}
               </p>
               {aboutExpanded && (
                 <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
@@ -795,7 +795,8 @@ const LadoA = () => {
                 margin: "0 auto 32px",
               }}
             >
-              Estoy interesada en proyectos de diseño de servicios o de aprendizaje.{"\n"}También en facilitación y en el lado humano de la transformación digital.
+              {`Estoy interesada en proyectos de diseño de servicios o de aprendizaje.
+También en facilitación y en el lado humano de la transformación digital.`}
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               <a href={WHATSAPP_URL} className="ds-btn ds-btn-terracota">WhatsApp ↗</a>
