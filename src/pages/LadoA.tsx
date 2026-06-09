@@ -323,7 +323,7 @@ const LadoA = () => {
               className="ds-section-title mb-8"
               style={{ textAlign: "left" }}
             >
-              Ahora mismo <span style={{ color: "#C94A20" }}>:</span>
+              Ahora mismo<span style={{ color: "#C94A20" }}>:</span>
             </h2>
             {(() => {
               const NOW_CARDS = [
