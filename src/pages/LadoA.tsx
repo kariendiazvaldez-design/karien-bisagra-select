@@ -656,37 +656,38 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
             };
 
             type CardData = {
-              id: string; category: string; title: string; scale: string; description: string;
+              id: string;
+              slug: string;
+              category: string;
+              title: string;
+              scale: string;
+              description: string;
             };
 
-            const HERO: CardData = {
+            const FALLBACK_HERO: CardData = {
               id: "innova-plus",
+              slug: "innova-plus",
               category: "Diseño de servicios · Innovación corporativa",
               title: "INNOVA+ 2025: programa de I+D+i para empresas",
               scale: "BioActiva · BID · 22 empresas · 84% asistencia · 4,2/5 satisfacción",
-              description: "Ejecuté la primera edición y rediseñé la experiencia completa de la segunda edición: identifiqué el blueprint, desarrollé el ciclo formativo, lideré las comunicaciones y el desarrollo del programa. Segunda edición: 22 empresas · 84% asistencia · 4,2/5 satisfacción · 20 hojas de ruta ejecutadas. 03 eventos presenciales y 04 encuentros virtuales.",
+              description:
+                "Ejecuté la primera edición y rediseñé la experiencia completa de la segunda edición.",
             };
 
-            const ROW1: CardData[] = [
-              { id: "command-z", category: "Arquitectura de información · Producto digital",
-                title: "Command Z: del podcast al sistema de aprendizaje",
-                scale: "+150 episodios · 4 rutas · 3 perfiles",
-                description: "Analicé y estructuré el archivo del podcast con Python y la API de Spotify. Desarrollé categorías de contenido y diseñé una app no-code con rutas de aprendizaje en 3 niveles." },
-              { id: "patria-c", category: "Diseño de servicios · Project management",
-                title: "Patria C: academia ciudadana para jóvenes de todo el Perú",
-                scale: "150 becarios · NPS 91% · permanencia 80%",
-                description: "Diseñé y gestioné la experiencia end-to-end de un programa remoto para jóvenes líderes, de alcance nacional. Ejecuté el programa e impulsé el encuentro presencial." },
-            ];
-            const ROW2: CardData[] = [
-              { id: "washma", category: "Desarrollo comunitario · Project management",
-                title: "WASHMA: mujeres Kañaris tejiendo identidad",
-                scale: "S/64,000 · 100% ejecución · 4 ediciones Ruraq Maki",
-                description: "Formulé y gestioné un plan de negocio financiado por AgroRural–MIDAGRI tras 3 años de trabajar con la asociación de artesanas WASHMA en Kañaris los temas de memoria, identidad y habilidades de negocio." },
-              { id: "la-huaca", category: "Gestión cultural · Project management",
-                title: "La Huaca Independiente: festival para juventudes en espacios patrimoniales",
-                scale: "3 ediciones · +2,500 asistentes · 150 voluntarios",
-                description: "Co-fundé y coordiné un festival cultural en espacios patrimoniales de Lambayeque, en alianza con la DDC Lambayeque y Museos Regionales." },
-            ];
+            // Map Notion projects -> CardData. Skip rows without a known slug (no route/image).
+            const fromNotion: CardData[] = (notionProjects ?? [])
+              .filter((p) => p.slug)
+              .map((p) => ({
+                id: p.slug as string,
+                slug: p.slug as string,
+                category: p.tipo.slice(0, 3).join(" · "),
+                title: p.title,
+                scale: p.cliente.join(" · "),
+                description: p.description,
+              }));
+
+            const HERO: CardData = fromNotion[0] ?? FALLBACK_HERO;
+            const REST: CardData[] = fromNotion.slice(1);
 
             const badge = (text: string) => (
               <span
@@ -698,7 +699,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
             );
 
             const SmallCard = ({ c }: { c: CardData }) => (
-              <Link to={`/portafolio/${c.id}`} className="ds-card group flex flex-col">
+              <Link to={`/portafolio/${c.slug}`} className="ds-card group flex flex-col">
                 <div
                   style={{
                     width: "100%",
@@ -712,12 +713,18 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                   )}
                 </div>
                 <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
-                    {c.category}
-                  </p>
-                  <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
-                  {badge(c.scale)}
-                  <p style={{ fontSize: 13, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.6 }}>{c.description}</p>
+                  {c.category && (
+                    <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
+                      {c.category}
+                    </p>
+                  )}
+                  {c.title && (
+                    <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
+                  )}
+                  {c.scale && badge(c.scale)}
+                  {c.description && (
+                    <p style={{ fontSize: 13, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.6 }}>{c.description}</p>
+                  )}
                   <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
                     Ver caso →
                   </span>
@@ -729,7 +736,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
               <div className="flex flex-col gap-3">
                 {/* Featured */}
                 <Link
-                  to={`/portafolio/${HERO.id}`}
+                  to={`/portafolio/${HERO.slug}`}
                   className="group ds-hero-bg block"
                   style={{ padding: 0 }}
                 >
@@ -766,30 +773,38 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                           zIndex: 2,
                         }}
                       >
-                        Featured · Diseño de servicios
+                        Featured{HERO.category ? ` · ${HERO.category.split(" · ")[0]}` : ""}
                       </span>
                     </div>
                     <div style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: 14 }}>
-                      <p className="uppercase" style={{ fontSize: 10, color: "#E8B820", letterSpacing: "0.14em", fontWeight: 500 }}>
-                        {HERO.category}
-                      </p>
-                      <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F5F0E0", lineHeight: 1.25 }}>
-                        {HERO.title}
-                      </h3>
-                      <span
-                        className="ds-pill"
-                        style={{
-                          background: "rgba(232,184,32,0.15)",
-                          color: "#E8B820",
-                          border: "0.5px solid rgba(232,184,32,0.4)",
-                          alignSelf: "flex-start",
-                        }}
-                      >
-                        {HERO.scale}
-                      </span>
-                      <p style={{ fontSize: 14, color: "rgba(245,240,224,0.78)", fontWeight: 300, lineHeight: 1.65 }}>
-                        {HERO.description}
-                      </p>
+                      {HERO.category && (
+                        <p className="uppercase" style={{ fontSize: 10, color: "#E8B820", letterSpacing: "0.14em", fontWeight: 500 }}>
+                          {HERO.category}
+                        </p>
+                      )}
+                      {HERO.title && (
+                        <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F5F0E0", lineHeight: 1.25 }}>
+                          {HERO.title}
+                        </h3>
+                      )}
+                      {HERO.scale && (
+                        <span
+                          className="ds-pill"
+                          style={{
+                            background: "rgba(232,184,32,0.15)",
+                            color: "#E8B820",
+                            border: "0.5px solid rgba(232,184,32,0.4)",
+                            alignSelf: "flex-start",
+                          }}
+                        >
+                          {HERO.scale}
+                        </span>
+                      )}
+                      {HERO.description && (
+                        <p style={{ fontSize: 14, color: "rgba(245,240,224,0.78)", fontWeight: 300, lineHeight: 1.65 }}>
+                          {HERO.description}
+                        </p>
+                      )}
                       <span style={{ fontSize: 13, color: "#E8B820", fontWeight: 500, marginTop: "auto" }}>
                         Ver caso →
                       </span>
@@ -797,16 +812,17 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                   </div>
                 </Link>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {ROW1.map((c) => <SmallCard key={c.id} c={c} />)}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {ROW2.map((c) => <SmallCard key={c.id} c={c} />)}
-                </div>
+                {/* Resto en grid de 2 columnas */}
+                {REST.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {REST.map((c) => <SmallCard key={c.id} c={c} />)}
+                  </div>
+                )}
               </div>
             );
           })()}
         </section>
+
 
         {/* CONTACTO */}
         <section
