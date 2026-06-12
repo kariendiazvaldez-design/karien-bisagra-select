@@ -712,10 +712,26 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                         display: "flex",
                         alignItems: "flex-end",
                         padding: "1.75rem",
+                        overflow: "hidden",
                       }}
                     >
+                      {PROJECT_IMAGES[HERO.id] && (
+                        <img
+                          src={PROJECT_IMAGES[HERO.id]}
+                          alt={HERO.title}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          style={{ zIndex: 0 }}
+                        />
+                      )}
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: "linear-gradient(160deg, rgba(26,53,8,0.55) 0%, rgba(42,79,16,0.35) 50%, rgba(61,107,31,0.55) 100%)",
+                          zIndex: 1,
+                        }}
+                      />
                       <span
-                        className="ds-pill"
+                        className="ds-pill relative"
                         style={{
                           background: "rgba(232,184,32,0.18)",
                           color: "#E8B820",
@@ -724,6 +740,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                           fontWeight: 500,
                           letterSpacing: "0.08em",
                           textTransform: "uppercase",
+                          zIndex: 2,
                         }}
                       >
                         Featured · Diseño de servicios
