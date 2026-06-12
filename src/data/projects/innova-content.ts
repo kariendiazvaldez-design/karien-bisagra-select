@@ -2,23 +2,32 @@ export const innovaContent = `
 
 ## Contexto
 
-INNOVA+ es un programa ejecutivo de ocho semanas para fortalecer la gestión de I+D+i en empresas peruanas. La primera edición (2024) fue un piloto exitoso — 4,6/5 de satisfacción, 15 empresas, financiamiento íntegro del BID. Suficiente para validar el modelo. Operar 2024 me dejó algo que no tiene el diseñador que llega frío: acceso real a las fricciones. La ventaja no era solo saber qué mejorar, era poder documentar exactamente por qué.
+INNOVA+ es un programa ejecutivo de ocho semanas para fortalecer la gestión de la innovación en empresas del sector productivo peruano. 
 
-En 2024 coordiné la ejecución del piloto: logística, seguimiento a empresas, medición de experiencia y evaluación final.
+La primera edición (2024) fue un piloto exitoso — 4,6/5 de satisfacción, 15 empresas, financiamiento íntegro del BID, tras una investigación sobre el estado de la innovación a nivel nacional. Suficiente para validar el modelo. Ser project manager de la edición en el 2024 me dejó algo que no tiene el diseñador que llega frío: acceso real a las fricciones. La ventaja no era solo saber qué mejorar, era poder documentar exactamente por qué. Ese año coordiné la ejecución del piloto: logística, seguimiento a empresas, medición de experiencia y evaluación final.
 
-En 2025 asumí el diseño completo: metodología, rebranding, convocatoria, coordinación de mentores, facilitación de eventos presenciales y documentación para la edición siguiente. La segunda edición creció en escala, incorporó cofinanciamiento de las empresas participantes y operó con una alianza institucional nueva. Pero sobre todo, incorporó lo que la primera edición había enseñado.
+En 2025 asumí el diseño completo: metodología, rebranding, convocatoria, coordinación de mentores, facilitación de eventos presenciales y documentación para la edición siguiente. La segunda edición creció en escala, alcanzando a 22 empresas, incorporó cofinanciamiento de las empresas participantes y operó con una alianza institucional nueva. Pero sobre todo, incorporó lo que la primera edición había enseñado.
 
 ## Lo que reveló la primera edición
 
 Al cerrar 2024, sistematicé lo observado durante el ciclo: feedback de sesiones, conversaciones con participantes, evaluación final, VOC. Tres patrones concentraban la mayor parte del ruido:
 
+
+Heterogeneidad de madurez no gestionada. Empresas con equipos de I+D formados convivían con empresas que recién nombraban un responsable. El mismo contenido y ritmo para todos generaba frustración en ambos extremos.
+
 [IMAGE: https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779253611/Gif_resumen_fupcgp.gif]
 
-**Heterogeneidad de madurez no gestionada.** Empresas con equipos de I+D formados convivían con empresas que recién nombraban un responsable. El mismo contenido y ritmo para todos generaba frustración en ambos extremos.
 
-**Mentorías desconectadas del programa.** Las empresas hacían los módulos y luego tenían las mentorías, como pistas paralelas que nunca se cruzaban. El valor de cada una no potenciaba a la otra.
+Heterogeneidad de madurez entre los participantes. Empresas con equipos de I+D formados convivían con empresas que recién nombraban un responsable. El mismo contenido y ritmo para todos generaba frustración en ambos extremos.
+Mentorías desarticuladas del programa. Las empresas hacían los módulos y luego tenían las mentorías, como pistas paralelas que nunca se cruzaban. El valor de cada una no potenciaba a la otra.
 
-**Comunidad que se disolvía al terminar.** Los vínculos entre empresas eran el activo más valorado y nadie los había diseñado para sobrevivir al cierre del programa.
+
+Mentorías desarticuladas del programa. Las empresas hacían los módulos y luego tenían las mentorías, como pistas paralelas que nunca se cruzaban. El valor de cada una no potenciaba a la otra.
+Comunidad con oportunidad a fortalecerse. Los vínculos entre empresas eran el activo más valorado y nadie los había diseñado para sobrevivir al cierre del programa.
+
+
+Comunidad con oportunidad a fortalecerse. Los vínculos entre empresas eran el activo más valorado y nadie los había diseñado para sobrevivir al cierre del programa.
+
 
 Esos tres patrones organizaron el rediseño de 2025. Cada decisión de diseño tiene un origen directo en uno de ellos.
 

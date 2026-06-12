@@ -13,7 +13,7 @@ export const innovaPlus: Project = {
   id: "innova-plus",
   title: "INNOVA+: Dos ediciones de un programa que aprende e itera",
   description:
-    "Ejecuté la primera edición. Rediseñé la segunda. Este caso documenta qué cambié en INNOVA+, por qué lo cambié y qué quedó sin resolver. Iteración metodológica de un programa formativo B2B para 22 empresas peruanas.",
+    "Tras estar a cargo de las operaciones en la primera edición de INNOVA+ como diseñadora de servicios en BioActiva, me hice cargo del rediseño para la segunda edición. Este caso documenta la iteración metodológica de un programa formativo B2B para 22 empresas peruanas: ¿Qué cambió en la experiencia? ¿Por qué tomé esas decisiones? ¿Qué impacto generó?",
   client: "BioActiva · BID · Transforme",
   year: "2025",
   role: ["Service Designer", "Project Manager"],
