@@ -133,6 +133,36 @@ const LadoA = () => {
     };
   }, []);
 
+  type NotionProject = {
+    id: string;
+    slug: string | null;
+    title: string;
+    description: string;
+    tipo: string[];
+    cliente: string[];
+    destacado: boolean;
+    fecha: string | null;
+  };
+  const [notionProjects, setNotionProjects] = useState<NotionProject[] | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    supabase.functions
+      .invoke("get-portfolio-projects", { method: "GET" })
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("get-portfolio-projects error", error);
+          setNotionProjects([]);
+        } else {
+          setNotionProjects(Array.isArray(data?.projects) ? data.projects : []);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+
   const dynamicCategories = useMemo(() => {
     const set = new Set<string>();
     (notionPosts || []).forEach((p) => p.category && set.add(p.category));
