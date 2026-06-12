@@ -706,7 +706,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                   <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0">
                     <div
                       style={{
-                        background: "linear-gradient(160deg, #1a3508 0%, #2a4f10 50%, #3d6b1f 100%)",
+                        background: "#1a3508",
                         minHeight: 240,
                         position: "relative",
                         display: "flex",
@@ -723,13 +723,6 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                           style={{ zIndex: 0 }}
                         />
                       )}
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          background: "linear-gradient(160deg, rgba(26,53,8,0.55) 0%, rgba(42,79,16,0.35) 50%, rgba(61,107,31,0.55) 100%)",
-                          zIndex: 1,
-                        }}
-                      />
                       <span
                         className="ds-pill relative"
                         style={{
