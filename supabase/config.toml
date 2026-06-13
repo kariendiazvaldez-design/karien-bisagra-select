@@ -11,3 +11,9 @@ verify_jwt = false
 
 [functions.get-garden-post-by-slug]
 verify_jwt = false
+
+[functions.get-portfolio-project-by-slug]
+verify_jwt = false
+
+[functions.get-portfolio-projects]
+verify_jwt = false

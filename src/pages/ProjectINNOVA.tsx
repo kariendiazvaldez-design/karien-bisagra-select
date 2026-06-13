@@ -1,6 +1,4 @@
-import ProjectDetail from "@/components/ProjectDetail";
-import { innovaPlus } from "@/data/projects";
-
+import NotionProjectDetail from "@/components/NotionProjectDetail";
 export default function ProjectINNOVA() {
-  return <ProjectDetail {...innovaPlus} />;
+  return <NotionProjectDetail slug="innova-plus" />;
 }
