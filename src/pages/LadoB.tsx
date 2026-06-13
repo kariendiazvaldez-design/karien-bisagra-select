@@ -107,7 +107,7 @@ const Hero = () => (
         }}
       />
       <div className="flex-1 text-center md:text-left">
-        <h1 className="font-caveat" style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 16 }}>
+        <h1 style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 16, fontFamily: "'Elms Sans', sans-serif", fontWeight: 700 }}>
           Karien.
         </h1>
         <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 580, whiteSpace: "pre-line" }}>
