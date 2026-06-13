@@ -1,8 +1,4 @@
-import ProjectDetail from "@/components/ProjectDetail";
-import { projects } from "@/data/projects";
-
+import NotionProjectDetail from "@/components/NotionProjectDetail";
 export default function ProjectPatriaC() {
-  const project = projects.find((p) => p.id === "patria-c");
-  if (!project) return null;
-  return <ProjectDetail {...project} />;
+  return <NotionProjectDetail slug="patria-c" />;
 }
