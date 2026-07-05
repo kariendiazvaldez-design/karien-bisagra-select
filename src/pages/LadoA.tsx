@@ -584,6 +584,7 @@ const LadoA = () => {
             </Link>
           </div>
         </section>
+        </div>
 
         {/* SOBRE MI */}
         <section id="sobre-mi" className="max-w-6xl w-full mx-auto ds-card px-6 md:px-12 py-12 md:py-16">
