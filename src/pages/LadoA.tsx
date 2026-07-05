@@ -302,7 +302,7 @@ const LadoA = () => {
         {/* HERO */}
         <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-14 md:py-20 text-center">
           <div className="relative max-w-[720px] mx-auto">
-            <p className="ds-eyebrow mb-6">Diseño de servicios · Transformación digital</p>
+            <p className="ds-eyebrow mb-6">DISEÑO · TRANSFORMACIÓN DIGITAL</p>
             <h1
               style={{
                 fontSize: "clamp(38px, 6vw, 48px)",
@@ -332,15 +332,15 @@ const LadoA = () => {
               <HoverWord src={HOVER_IMG_1} onHover={handleHover}>
                 <span style={{ color: "#FFFFFF", fontWeight: 700 }}>diseñadora</span>
               </HoverWord>{" "}
-              en la práctica.
-              {"\n"}Trabajo en la intersección entre investigación, facilitación y estrategia, con <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren comprender para actuar.
+              de servicios en la práctica.{" "}
+              Estoy en la intersección entre investigación, facilitación y estrategia, con <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren comprender para actuar.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button onClick={scrollToProjects} className="ds-btn ds-btn-primary">
-                Descubre mis proyectos →
+                Explora mis proyectos →
               </button>
               <a href="#contacto" className="ds-btn ds-btn-ghost-cream">
-                ¿Trabajamos juntxs?
+                ¿Hacemos algo juntxs?
               </a>
             </div>
           </div>
