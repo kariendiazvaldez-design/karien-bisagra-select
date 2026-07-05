@@ -529,7 +529,7 @@ const LadoA = () => {
               return <p className="text-center py-12" style={{ color: "#7A8060" }}>Nada publicado aún</p>;
             }
             return (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                 {limitedPosts.map((post) => {
                   const colors = getCat(post.category);
                   const formattedDate =
@@ -539,7 +539,7 @@ const LadoA = () => {
                   const inner = (
                     <div className="ds-card h-full flex flex-col">
                       <div className="ds-card-line" style={{ background: colors.text }} />
-                      <div style={{ padding: 24, display: "flex", flexDirection: "column", flex: 1 }}>
+                      <div className="p-4 md:p-6" style={{ display: "flex", flexDirection: "column", flex: 1 }}>
                         <span
                           className="ds-pill mb-3"
                           style={{ background: colors.bg, color: colors.text, alignSelf: "flex-start" }}
