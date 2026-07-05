@@ -300,7 +300,7 @@ const LadoA = () => {
 
       <div className="pt-24 px-4 md:px-6 pb-6" style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         {/* HERO */}
-        <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-20 md:py-28 text-center">
+        <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-14 md:py-20 text-center">
           <div className="relative max-w-[720px] mx-auto">
             <p className="ds-eyebrow mb-6">Diseño de servicios · Transformación digital</p>
             <h1
@@ -393,12 +393,12 @@ const LadoA = () => {
               };
 
               return (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                   {NOW_CARDS.map((card, i) => {
                     const post = findPost(card.matchCats);
                     const href = post ? `/blog/${post.slug}` : "#blog";
                     return (
-                      <div key={i} className="ds-card" style={{ padding: "1.5rem 1.4rem 1.4rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[85%] md:min-w-[320px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
                         <div className="ds-card-line" style={{ background: card.accent }} />
                         <span
                           style={{
@@ -451,7 +451,8 @@ const LadoA = () => {
 
 
         {/* BLOG */}
-        <section id="blog" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
+        <div className="w-full -mx-4 md:-mx-6" style={{ background: "rgba(107, 122, 82, 0.06)" }}>
+          <section id="blog" className="max-w-6xl w-full mx-auto px-4 md:px-6 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Aprendizajes</p>
           <h2 className="ds-section-title mb-8">Actualmente aprendiendo / explorando:</h2>
 
@@ -583,6 +584,7 @@ const LadoA = () => {
             </Link>
           </div>
         </section>
+        </div>
 
         {/* SOBRE MI */}
         <section id="sobre-mi" className="max-w-6xl w-full mx-auto ds-card px-6 md:px-12 py-12 md:py-16">
