@@ -398,7 +398,7 @@ const LadoA = () => {
                     const post = findPost(card.matchCats);
                     const href = post ? `/blog/${post.slug}` : "#blog";
                     return (
-                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[85%] md:min-w-[320px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(50%-0.5rem)] md:min-w-[280px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
                         <div className="ds-card-line" style={{ background: card.accent }} />
                         <span
                           style={{
@@ -436,22 +436,19 @@ const LadoA = () => {
               );
             })()}
             <div className="flex flex-wrap items-center mt-8" style={{ gap: 10 }}>
-              <button onClick={scrollToProjects} className="ds-btn ds-btn-terracota">
-                Portafolio→
-              </button>
+              <Link to="/blog" className="ds-btn ds-btn-terracota">
+                Blog →
+              </Link>
               <a href="#contacto" className="ds-btn ds-btn-outline">
                 ¿Conversemos? →
               </a>
-              <Link to="/blog" className="ds-btn ds-btn-outline">
-                Blog →
-              </Link>
             </div>
           </div>
         </section>
 
 
         {/* BLOG */}
-        <div className="w-full -mx-4 md:-mx-6" style={{ background: "rgba(107, 122, 82, 0.06)" }}>
+        <div className="w-full relative" style={{ background: "rgba(107, 122, 82, 0.06)", width: "100vw", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
           <section id="blog" className="max-w-6xl w-full mx-auto px-4 md:px-6 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>BITÁCORA DE APRENDIZAJES</p>
           <h2 className="ds-section-title mb-8">Actualmente explorando:</h2>
@@ -513,11 +510,11 @@ const LadoA = () => {
             const limitedPosts = filteredPosts.slice(0, 4);
             if (notionLoading) {
               return (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                   {[0, 1, 2, 3].map((i) => (
                     <div key={i} className="ds-card animate-pulse" style={{ padding: 0 }}>
                       <div className="ds-card-line" style={{ background: "#E8E8E0" }} />
-                      <div style={{ padding: 24 }}>
+                      <div className="p-4 md:p-6">
                         <div className="h-3 w-24 bg-[#EDF4E2] mb-3" />
                         <div className="h-4 w-3/4 bg-[#EDF4E2] mb-3" />
                         <div className="h-3 w-full bg-[#EDF4E2] mb-2" />
@@ -532,7 +529,7 @@ const LadoA = () => {
               return <p className="text-center py-12" style={{ color: "#7A8060" }}>Nada publicado aún</p>;
             }
             return (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                 {limitedPosts.map((post) => {
                   const colors = getCat(post.category);
                   const formattedDate =
@@ -542,19 +539,20 @@ const LadoA = () => {
                   const inner = (
                     <div className="ds-card h-full flex flex-col">
                       <div className="ds-card-line" style={{ background: colors.text }} />
-                      <div style={{ padding: 24, display: "flex", flexDirection: "column", flex: 1 }}>
+                      <div className="p-4 md:p-6" style={{ display: "flex", flexDirection: "column", flex: 1 }}>
                         <span
                           className="ds-pill mb-3"
                           style={{ background: colors.bg, color: colors.text, alignSelf: "flex-start" }}
                         >
                           {post.category}
                         </span>
-                        <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.35, marginBottom: 10 }}>
+                        <h3 className="text-[15px] md:text-[17px]" style={{ fontWeight: 500, color: "#1A1F0A", lineHeight: 1.35, marginBottom: 10 }}>
                           {post.title}
                         </h3>
                         <p
+                          className="text-[13px] md:text-[14px]"
                           style={{
-                            fontSize: 14, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.65,
+                            color: "#5A5A4A", fontWeight: 300, lineHeight: 1.65,
                             display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
                             overflow: "hidden", marginBottom: 16,
                           }}
