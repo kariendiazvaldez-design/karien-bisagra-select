@@ -510,11 +510,11 @@ const LadoA = () => {
             const limitedPosts = filteredPosts.slice(0, 4);
             if (notionLoading) {
               return (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                   {[0, 1, 2, 3].map((i) => (
                     <div key={i} className="ds-card animate-pulse" style={{ padding: 0 }}>
                       <div className="ds-card-line" style={{ background: "#E8E8E0" }} />
-                      <div style={{ padding: 24 }}>
+                      <div className="p-4 md:p-6">
                         <div className="h-3 w-24 bg-[#EDF4E2] mb-3" />
                         <div className="h-4 w-3/4 bg-[#EDF4E2] mb-3" />
                         <div className="h-3 w-full bg-[#EDF4E2] mb-2" />
