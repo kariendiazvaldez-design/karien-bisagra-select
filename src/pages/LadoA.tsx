@@ -451,7 +451,8 @@ const LadoA = () => {
 
 
         {/* BLOG */}
-        <section id="blog" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
+        <div className="w-full -mx-4 md:-mx-6" style={{ background: "rgba(107, 122, 82, 0.06)" }}>
+          <section id="blog" className="max-w-6xl w-full mx-auto px-4 md:px-6 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Aprendizajes</p>
           <h2 className="ds-section-title mb-8">Actualmente aprendiendo / explorando:</h2>
 
