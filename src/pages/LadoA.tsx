@@ -398,7 +398,7 @@ const LadoA = () => {
                     const post = findPost(card.matchCats);
                     const href = post ? `/blog/${post.slug}` : "#blog";
                     return (
-                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[85%] md:min-w-[320px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(50%-0.5rem)] md:min-w-[280px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
                         <div className="ds-card-line" style={{ background: card.accent }} />
                         <span
                           style={{
@@ -436,22 +436,19 @@ const LadoA = () => {
               );
             })()}
             <div className="flex flex-wrap items-center mt-8" style={{ gap: 10 }}>
-              <button onClick={scrollToProjects} className="ds-btn ds-btn-terracota">
-                Portafolio→
-              </button>
+              <Link to="/blog" className="ds-btn ds-btn-terracota">
+                Blog →
+              </Link>
               <a href="#contacto" className="ds-btn ds-btn-outline">
                 ¿Conversemos? →
               </a>
-              <Link to="/blog" className="ds-btn ds-btn-outline">
-                Blog →
-              </Link>
             </div>
           </div>
         </section>
 
 
         {/* BLOG */}
-        <div className="w-full -mx-4 md:-mx-6" style={{ background: "rgba(107, 122, 82, 0.06)" }}>
+        <div className="w-full relative" style={{ background: "rgba(107, 122, 82, 0.06)", width: "100vw", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
           <section id="blog" className="max-w-6xl w-full mx-auto px-4 md:px-6 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>BITÁCORA DE APRENDIZAJES</p>
           <h2 className="ds-section-title mb-8">Actualmente explorando:</h2>
