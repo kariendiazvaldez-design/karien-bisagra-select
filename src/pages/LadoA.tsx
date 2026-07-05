@@ -546,12 +546,13 @@ const LadoA = () => {
                         >
                           {post.category}
                         </span>
-                        <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.35, marginBottom: 10 }}>
+                        <h3 className="text-[15px] md:text-[17px]" style={{ fontWeight: 500, color: "#1A1F0A", lineHeight: 1.35, marginBottom: 10 }}>
                           {post.title}
                         </h3>
                         <p
+                          className="text-[13px] md:text-[14px]"
                           style={{
-                            fontSize: 14, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.65,
+                            color: "#5A5A4A", fontWeight: 300, lineHeight: 1.65,
                             display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
                             overflow: "hidden", marginBottom: 16,
                           }}
