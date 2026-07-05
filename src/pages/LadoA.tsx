@@ -330,14 +330,14 @@ const LadoA = () => {
             >
               <HoverWord src={HOVER_IMG_3} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>Comunicadora</span></HoverWord> de formación,{" "}
               <HoverWord src={HOVER_IMG_1} onHover={handleHover}>
-                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>diseñadora de servicios</span>
+                <span style={{ color: "#FFFFFF", fontWeight: 700 }}>diseñadora</span>
               </HoverWord>{" "}
-              en la práctica. Trabajo en la intersección entre investigación, facilitación y diseño con{" "}
-              <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren profundizar antes de actuar.
+              en la práctica.
+              {"\n"}Trabajo en la intersección entre investigación, facilitación y estrategia, con <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren comprender para actuar.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button onClick={scrollToProjects} className="ds-btn ds-btn-primary">
-                Proyectos realizados →
+                Descubre mis proyectos →
               </button>
               <a href="#contacto" className="ds-btn ds-btn-ghost-cream">
                 ¿Trabajamos juntxs?
@@ -358,31 +358,31 @@ const LadoA = () => {
             {(() => {
               const NOW_CARDS = [
                 {
-                  context: "Diseño de servicios",
-                  text: "Trabajando como diseñadora de servicios en BioActiva, consultora en innovación para el sector productivo peruano.",
+                  context: "TRABAJANDO COMO:",
+                  text: "Diseñadora de servicios en BioActiva, consultora en innovación para el sector productivo peruano.",
                   accent: "#7AAA40",
-                  linkLabel: "Leer en el blog →",
+                  linkLabel: "Te cuento los detalles →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
-                  context: "Research",
+                  context: "HACIENDO INVESTIGACIÓN:",
                   text: "En el Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
-                  context: "PROYECT MANAGEMENT",
+                  context: "MI SIDE QUEST FAVORITO:",
                   text: "Detrás de la creación de la biblioteca digital del podcast Command Z e impulsando el vínculo con su comunidad.",
                   accent: "#E8B820",
-                  linkLabel: "Notas de aprendizaje →",
+                  linkLabel: "Conoce a Command Z →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
                 },
                 {
                   context: "COMUNIDAD Y ENFOQUE DE SUR",
                   text: "Editora voluntaria, conectando miradas desde Sur Global y su revista Untold.ink.",
                   accent: "#3D6B1F",
-                  linkLabel: "Explorar comunidad →",
+                  linkLabel: "Conoce a Untold.ink →",
                   matchCats: ["Comunidad", "Sur Global"],
                 },
               ];
@@ -579,7 +579,7 @@ const LadoA = () => {
 
           <div className="mt-10 text-center">
             <Link to="/blog" className="ds-btn ds-btn-outline">
-              Ver más →
+              Aquí todas las entradas del blog →
             </Link>
           </div>
         </section>
@@ -592,7 +592,7 @@ const LadoA = () => {
               <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
               <p className="ds-body mb-4 whitespace-pre-line" style={{ maxWidth: 720 }}>
                 {`Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.
-Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño de servicios, el diseño ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).`}
+Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño; el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).`}
               </p>
               {aboutExpanded && (
                 <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
