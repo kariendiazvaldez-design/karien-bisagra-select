@@ -287,6 +287,15 @@ export default function NotionProjectDetail({ slug }: { slug: string }) {
 
   return (
     <div style={{ background: BG, color: "#1A1A1A", fontFamily: "Lexend, sans-serif", minHeight: "100vh" }}>
+      {title && (
+        <Seo
+          title={`${title.split(":")[0].split("/")[0].trim()} — Portafolio · Karien Díaz Valdez`}
+          description={description || `Caso de estudio: ${title}. Portafolio de diseño de servicios de Karien Díaz Valdez.`}
+          path={`/portafolio/${slug}`}
+          image={heroImage || undefined}
+          type="article"
+        />
+      )}
       {/* Sticky nav */}
       <nav className="sticky top-0 z-40" style={{ background: BG, borderBottom: "1px solid #E8E8E8" }}>
         <div className="max-w-5xl mx-auto px-6 md:px-16 h-14 flex items-center justify-between">
