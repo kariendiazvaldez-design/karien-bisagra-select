@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 type RichText = { plain_text: string; href?: string | null; annotations?: any };
 type Block = { id: string; type: string; [k: string]: any };

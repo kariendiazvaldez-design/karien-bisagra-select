@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { MapPin, Menu, X, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 const BG = "#F2EFE8";
 const TERRACOTA = "#C4622D";

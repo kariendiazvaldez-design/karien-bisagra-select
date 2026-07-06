@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Seo from "@/components/Seo";
 
 const Index = () => {
   const navigate = useNavigate();

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { projects } from "@/data/projects";
+import Seo from "@/components/Seo";
 
 const OLIVE = "#6B7A3E";
 const BG = "#FAFAF7";

@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { sanityClient } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 type NotionPost = {
   id: string;
