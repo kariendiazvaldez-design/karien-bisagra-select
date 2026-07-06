@@ -211,6 +211,14 @@ const GardenPost = () => {
 
   return (
     <div className="font-quicksand min-h-screen" style={{ background: BG, color: INK }}>
+      {post && (
+        <Seo
+          title={`${post.nombre} — Jardín · Karien Díaz Valdez`}
+          description={post.excerpt || `${post.nombre}. Nota del jardín digital de Karien Díaz Valdez.`}
+          path={`/jardin/${slug}`}
+          type="article"
+        />
+      )}
       <nav className="fixed top-0 left-0 right-0 z-40" style={{ background: BG, borderBottom: BORDER_FAINT }}>
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
           <Link to="/" className="font-medium" style={{ color: INK }}>Karien.xyz</Link>
