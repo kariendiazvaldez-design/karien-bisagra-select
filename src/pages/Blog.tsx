@@ -96,6 +96,11 @@ const Blog = () => {
 
   return (
     <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
+      <Seo
+        title="Blog — Karien Díaz Valdez"
+        description="Blog de Karien Díaz Valdez sobre diseño de servicios, investigación, facilitación, aprendizaje y transformación digital."
+        path="/blog"
+      />
       <nav
         className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]"
         style={{ borderBottomWidth: "0.5px" }}

@@ -191,6 +191,11 @@ const LadoA = () => {
 
   return (
     <div className="lado-a min-h-screen">
+      <Seo
+        title="Lado A — Portafolio y blog de Karien Díaz Valdez"
+        description="Portafolio de diseño de servicios y transformación digital, blog de aprendizajes y proyectos con equipos que quieren comprender para actuar."
+        path="/lado-a"
+      />
       {/* NAV */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div
