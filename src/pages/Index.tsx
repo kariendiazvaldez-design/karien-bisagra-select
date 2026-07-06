@@ -13,6 +13,19 @@ const Index = () => {
   };
 
   return (
+    <>
+      <Seo
+        title="Karien Díaz Valdez — Diseño de servicios y transformación digital"
+        description="Portafolio, blog y jardín digital de Karien Díaz Valdez. Elige Lado A (portafolio + blog) o Lado B (jardín digital de intereses)."
+        path="/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Karien Díaz Valdez",
+          jobTitle: "Diseñadora de servicios",
+          url: "https://karien-bisagra-select.lovable.app/",
+        }}
+      />
     <main
       className={`h-screen w-screen overflow-hidden flex flex-col relative transition-opacity duration-300 ${
         exiting ? "opacity-0" : "opacity-100"
