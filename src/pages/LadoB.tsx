@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { MapPin, Menu, X, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 const BG = "#F2EFE8";
 const TERRACOTA = "#C4622D";
@@ -490,6 +491,11 @@ const LadoB = () => {
 
   return (
     <div className="font-quicksand min-h-screen" style={{ background: BG, color: TEXT }}>
+      <Seo
+        title="Lado B — Jardín digital de Karien Díaz Valdez"
+        description="Un jardín digital de intereses, apuntes, reseñas y curiosidades personales de Karien Díaz Valdez, en crecimiento continuo."
+        path="/lado-b"
+      />
       <Navbar />
       <Hero />
       <div style={{ borderTop: `1px solid ${DIVIDER}` }} />

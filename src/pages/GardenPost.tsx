@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 type RichText = { plain_text: string; href?: string | null; annotations?: any };
 type Block = { id: string; type: string; [k: string]: any };
@@ -210,6 +211,14 @@ const GardenPost = () => {
 
   return (
     <div className="font-quicksand min-h-screen" style={{ background: BG, color: INK }}>
+      {post && (
+        <Seo
+          title={`${post.nombre} — Jardín · Karien Díaz Valdez`}
+          description={post.excerpt || `${post.nombre}. Nota del jardín digital de Karien Díaz Valdez.`}
+          path={`/jardin/${slug}`}
+          type="article"
+        />
+      )}
       <nav className="fixed top-0 left-0 right-0 z-40" style={{ background: BG, borderBottom: BORDER_FAINT }}>
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
           <Link to="/" className="font-medium" style={{ color: INK }}>Karien.xyz</Link>

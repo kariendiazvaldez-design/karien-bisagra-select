@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { sanityClient } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 type NotionPost = {
   id: string;
@@ -190,6 +191,11 @@ const LadoA = () => {
 
   return (
     <div className="lado-a min-h-screen">
+      <Seo
+        title="Lado A — Portafolio y blog de Karien Díaz Valdez"
+        description="Portafolio de diseño de servicios y transformación digital, blog de aprendizajes y proyectos con equipos que quieren comprender para actuar."
+        path="/lado-a"
+      />
       {/* NAV */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div
