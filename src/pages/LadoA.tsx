@@ -365,21 +365,14 @@ const LadoA = () => {
               const NOW_CARDS = [
                 {
                   context: "TRABAJANDO COMO:",
-                  text: "Diseñadora de servicios en BioActiva,\nconsultora en innovación para el sector\nproductivo peruano.",
+                  text: "Diseñadora de servicios en BioActiva,\nconsultora en innovación para\nel sector productivo peruano.",
                   accent: "#7AAA40",
                   linkLabel: "Te cuento los detalles →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
-                  context: "HACIENDO INVESTIGACIÓN:",
-                  text: (
-                    <>
-                      Sobre Transformación Digital<br />
-                      en el Museo Arqueológico<br />
-                      Nacional Brüning, mi tesis de<br />
-                      maestría.
-                    </>
-                  ),
+                  context: "HACIENDO INVESTIGACIÓN EN:",
+                  text: "\u00a0Museo Arqueológico Nacional Brüning,\ncomo parte de la maestría en\nTransformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
@@ -392,7 +385,7 @@ const LadoA = () => {
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
                 },
                 {
-                  context: "COMUNIDAD Y ENFOQUE DE SUR",
+                  context: "EDITORIAL\u00a0",
                   text: "Editora voluntaria, conectando miradas desde Sur Global y su revista Untold.ink.",
                   accent: "#3D6B1F",
                   linkLabel: "Conoce a Untold.ink →",
