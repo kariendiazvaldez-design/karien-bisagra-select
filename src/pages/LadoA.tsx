@@ -338,8 +338,9 @@ const LadoA = () => {
               <HoverWord src={HOVER_IMG_1} onHover={handleHover}>
                 <span style={{ color: "#FFFFFF", fontWeight: 700 }}>diseñadora</span>
               </HoverWord>{" "}
-              de servicios en la práctica.{" "}
-              Estoy en la intersección entre investigación, facilitación y estrategia, con <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren comprender para actuar.
+              de servicios en la práctica.{"\n"}
+              Estoy en la intersección entre investigación, facilitación y articulación,{"\n"}
+              con <HoverWord src={HOVER_IMG_2} onHover={handleHover}><span style={{ color: "#FFFFFF", fontWeight: 700 }}>equipos</span></HoverWord> que quieren comprender para actuar.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <button onClick={scrollToProjects} className="ds-btn ds-btn-primary">
