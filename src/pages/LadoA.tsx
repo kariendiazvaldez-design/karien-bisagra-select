@@ -653,7 +653,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
         {/* PROYECTOS */}
         <section id="proyectos" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Portafolio</p>
-          <h2 className="ds-section-title mb-8">Proyectos:</h2>
+          <h2 className="ds-section-title mb-8">Proyectos destacados:</h2>
           {(() => {
             const PROJECT_IMAGES: Record<string, string> = {
               "innova-plus": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif",
@@ -670,21 +670,18 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
               title: string;
               scale: string;
               description: string;
+              cover: string | null;
             };
 
-            const FALLBACK_HERO: CardData = {
-              id: "innova-plus",
-              slug: "innova-plus",
-              category: "Diseño de servicios · Innovación corporativa",
-              title: "INNOVA+ 2025: programa de I+D+i para empresas",
-              scale: "BioActiva · BID · 22 empresas · 84% asistencia · 4,2/5 satisfacción",
-              description:
-                "Ejecuté la primera edición y rediseñé la experiencia completa de la segunda edición.",
-            };
-
-            // Map Notion projects -> CardData. Skip rows without a known slug (no route/image).
-            const fromNotion: CardData[] = (notionProjects ?? [])
-              .filter((p) => p.slug)
+            // Filter destacado from Notion, sort by fecha desc, take 3.
+            const featured: CardData[] = (notionProjects ?? [])
+              .filter((p) => p.slug && p.destacado)
+              .sort((a, b) => {
+                const ad = a.fecha ? Date.parse(a.fecha) : 0;
+                const bd = b.fecha ? Date.parse(b.fecha) : 0;
+                return bd - ad;
+              })
+              .slice(0, 3)
               .map((p) => ({
                 id: p.slug as string,
                 slug: p.slug as string,
@@ -692,10 +689,8 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                 title: p.title,
                 scale: p.cliente.join(" · "),
                 description: p.description,
+                cover: (p as any).cover ?? null,
               }));
-
-            const HERO: CardData = fromNotion[0] ?? FALLBACK_HERO;
-            const REST: CardData[] = fromNotion.slice(1);
 
             const badge = (text: string) => (
               <span
@@ -706,126 +701,52 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
               </span>
             );
 
-            const SmallCard = ({ c }: { c: CardData }) => (
-              <Link to={`/portafolio/${c.slug}`} className="ds-card group flex flex-col">
-                <div
-                  style={{
-                    width: "100%",
-                    height: 160,
-                    background: "#EDF4E2",
-                    overflow: "hidden",
-                  }}
-                >
-                  {PROJECT_IMAGES[c.id] && (
-                    <img src={PROJECT_IMAGES[c.id]} alt={c.title} className="w-full h-full object-cover" />
-                  )}
-                </div>
-                <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                  {c.category && (
-                    <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
-                      {c.category}
-                    </p>
-                  )}
-                  {c.title && (
-                    <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
-                  )}
-                  {c.scale && badge(c.scale)}
-                  {c.description && (
-                    <p style={{ fontSize: 13, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.6 }}>{c.description}</p>
-                  )}
-                  <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
-                    Ver caso →
-                  </span>
-                </div>
-              </Link>
-            );
-
-            return (
-              <div className="flex flex-col gap-3">
-                {/* Featured */}
-                <Link
-                  to={`/portafolio/${HERO.slug}`}
-                  className="group ds-hero-bg block"
-                  style={{ padding: 0 }}
-                >
-                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0">
-                    <div
-                      style={{
-                        background: "#1a3508",
-                        minHeight: 240,
-                        position: "relative",
-                        display: "flex",
-                        alignItems: "flex-end",
-                        padding: "1.75rem",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {PROJECT_IMAGES[HERO.id] && (
-                        <img
-                          src={PROJECT_IMAGES[HERO.id]}
-                          alt={HERO.title}
-                          className="absolute inset-0 w-full h-full object-cover"
-                          style={{ zIndex: 0 }}
-                        />
-                      )}
-                      <span
-                        className="ds-pill relative"
+            const Card = ({ c }: { c: CardData }) => {
+              const image = c.cover || PROJECT_IMAGES[c.id];
+              return (
+                <Link to={`/proyectos/${c.slug}`} className="ds-card group flex flex-col">
+                  <div style={{ width: "100%", height: 180, background: "#EDF4E2", overflow: "hidden" }}>
+                    {image && (
+                      <img src={image} alt={c.title} className="w-full h-full object-cover" loading="lazy" />
+                    )}
+                  </div>
+                  <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                    {c.category && (
+                      <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
+                        {c.category}
+                      </p>
+                    )}
+                    {c.title && (
+                      <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
+                    )}
+                    {c.scale && badge(c.scale)}
+                    {c.description && (
+                      <p
                         style={{
-                          background: "rgba(232,184,32,0.18)",
-                          color: "#E8B820",
-                          border: "0.5px solid rgba(232,184,32,0.45)",
-                          fontSize: 11,
-                          fontWeight: 500,
-                          letterSpacing: "0.08em",
-                          textTransform: "uppercase",
-                          zIndex: 2,
+                          fontSize: 13,
+                          color: "#5A5A4A",
+                          fontWeight: 300,
+                          lineHeight: 1.5,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 1,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
                         }}
                       >
-                        Featured{HERO.category ? ` · ${HERO.category.split(" · ")[0]}` : ""}
-                      </span>
-                    </div>
-                    <div style={{ padding: "2rem", display: "flex", flexDirection: "column", gap: 14 }}>
-                      {HERO.category && (
-                        <p className="uppercase" style={{ fontSize: 10, color: "#E8B820", letterSpacing: "0.14em", fontWeight: 500 }}>
-                          {HERO.category}
-                        </p>
-                      )}
-                      {HERO.title && (
-                        <h3 style={{ fontSize: 22, fontWeight: 700, color: "#F5F0E0", lineHeight: 1.25 }}>
-                          {HERO.title}
-                        </h3>
-                      )}
-                      {HERO.scale && (
-                        <span
-                          className="ds-pill"
-                          style={{
-                            background: "rgba(232,184,32,0.15)",
-                            color: "#E8B820",
-                            border: "0.5px solid rgba(232,184,32,0.4)",
-                            alignSelf: "flex-start",
-                          }}
-                        >
-                          {HERO.scale}
-                        </span>
-                      )}
-                      {HERO.description && (
-                        <p style={{ fontSize: 14, color: "rgba(245,240,224,0.78)", fontWeight: 300, lineHeight: 1.65 }}>
-                          {HERO.description}
-                        </p>
-                      )}
-                      <span style={{ fontSize: 13, color: "#E8B820", fontWeight: 500, marginTop: "auto" }}>
-                        Ver caso →
-                      </span>
-                    </div>
+                        {c.description}
+                      </p>
+                    )}
+                    <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
+                      Ver caso →
+                    </span>
                   </div>
                 </Link>
+              );
+            };
 
-                {/* Resto en grid de 2 columnas */}
-                {REST.length > 0 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {REST.map((c) => <SmallCard key={c.id} c={c} />)}
-                  </div>
-                )}
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {featured.map((c) => <Card key={c.id} c={c} />)}
               </div>
             );
           })()}
@@ -844,6 +765,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
             </Link>
           </div>
         </section>
+
 
 
         {/* CONTACTO */}
