@@ -365,21 +365,28 @@ const LadoA = () => {
               const NOW_CARDS = [
                 {
                   context: "TRABAJANDO COMO:",
-                  text: "Diseñadora de servicios en BioActiva, consultora en innovación para el sector productivo peruano.",
+                  text: "Diseñadora de servicios en BioActiva,\nconsultora en innovación para el sector\nproductivo peruano.",
                   accent: "#7AAA40",
                   linkLabel: "Te cuento los detalles →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
                   context: "HACIENDO INVESTIGACIÓN:",
-                  text: "En el Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
+                  text: (
+                    <>
+                      Sobre Transformación Digital<br />
+                      en el Museo Arqueológico<br />
+                      Nacional Brüning, mi tesis de<br />
+                      maestría.
+                    </>
+                  ),
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
-                  context: "MI SIDE QUEST FAVORITO:",
-                  text: "Detrás de la creación de la biblioteca digital del podcast Command Z e impulsando el vínculo con su comunidad.",
+                  context: "MI SIDE QUEST FAVORITO ES:",
+                  text: "que para explorar el Diseño\ndesde una mirada holística, hice\nuna pasantía en Command Z Podcast\ndonde creé la Biblioteca Interactiva.",
                   accent: "#E8B820",
                   linkLabel: "Conoce a Command Z →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
@@ -446,7 +453,7 @@ const LadoA = () => {
                 Blog →
               </Link>
               <a href="#contacto" className="ds-btn ds-btn-outline">
-                ¿Conversemos? →
+                Conversemos&nbsp; →
               </a>
             </div>
           </div>
