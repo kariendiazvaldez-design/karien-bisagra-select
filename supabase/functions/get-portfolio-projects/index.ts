@@ -3,8 +3,8 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/notion/v1";
 const DATABASE_ID = "360433d6-8c6e-80f7-944c-ff4408ac0a12";
 
-// Map Notion title keywords -> internal project slug (for routing + images)
-function slugFromTitle(title: string): string | null {
+// Legacy map: keep known slugs stable for existing routes/images.
+function knownSlugFromTitle(title: string): string | null {
   const t = title.toLowerCase();
   if (t.includes("innova")) return "innova-plus";
   if (t.includes("washma")) return "washma";
@@ -12,6 +12,16 @@ function slugFromTitle(title: string): string | null {
   if (t.includes("patria")) return "patria-c";
   if (t.includes("huaca")) return "la-huaca";
   return null;
+}
+
+function slugify(s: string): string {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
 }
 
 function richTextToPlain(rt: any[] | undefined): string {
@@ -62,9 +72,15 @@ Deno.serve(async (req) => {
       const estado = p["Estado"]?.status?.name ?? null;
       const destacado = !!p["Destacado"]?.checkbox;
       const fecha = p["Fecha de Finalización"]?.date?.start ?? null;
+      // Prefer explicit Slug property in Notion if present, then legacy map, then auto-slugify.
+      const notionSlug = richTextToPlain(p["Slug"]?.rich_text) || p["Slug"]?.select?.name || null;
+      const slug = (notionSlug ? slugify(notionSlug) : null) || knownSlugFromTitle(title) || slugify(title) || null;
+      const cover = page.cover?.type === "external"
+        ? page.cover.external?.url
+        : page.cover?.type === "file" ? page.cover.file?.url : null;
       return {
         id: page.id,
-        slug: slugFromTitle(title),
+        slug,
         title,
         description,
         tipo,
@@ -74,6 +90,7 @@ Deno.serve(async (req) => {
         estado,
         destacado,
         fecha,
+        cover,
       };
     });
 

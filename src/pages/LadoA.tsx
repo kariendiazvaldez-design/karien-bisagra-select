@@ -829,6 +829,20 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
               </div>
             );
           })()}
+          <div className="mt-8 flex justify-center">
+            <Link
+              to="/proyectos"
+              style={{
+                fontSize: 14,
+                color: "#3D6B1F",
+                fontWeight: 500,
+                borderBottom: "1px solid #3D6B1F",
+                paddingBottom: 2,
+              }}
+            >
+              Ver todos los proyectos →
+            </Link>
+          </div>
         </section>
 
 
