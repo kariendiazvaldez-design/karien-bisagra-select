@@ -3,16 +3,24 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/notion/v1";
 const DATABASE_ID = "360433d6-8c6e-80f7-944c-ff4408ac0a12";
 
-function titleMatchesSlug(title: string, slug: string): boolean {
+function knownSlugFromTitle(title: string): string | null {
   const t = title.toLowerCase();
-  switch (slug) {
-    case "innova-plus": return t.includes("innova");
-    case "washma": return t.includes("washma");
-    case "command-z": return t.includes("command z");
-    case "patria-c": return t.includes("patria");
-    case "la-huaca": return t.includes("huaca");
-    default: return false;
-  }
+  if (t.includes("innova")) return "innova-plus";
+  if (t.includes("washma")) return "washma";
+  if (t.includes("command z")) return "command-z";
+  if (t.includes("patria")) return "patria-c";
+  if (t.includes("huaca")) return "la-huaca";
+  return null;
+}
+
+function slugify(s: string): string {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
 }
 
 const getPlain = (rich: any[] | undefined) =>
@@ -39,7 +47,6 @@ Deno.serve(async (req) => {
       "Content-Type": "application/json",
     };
 
-    // Query DB (small, fine to fetch all)
     const qRes = await fetch(`${GATEWAY_URL}/databases/${DATABASE_ID}/query`, {
       method: "POST",
       headers,
@@ -48,9 +55,18 @@ Deno.serve(async (req) => {
     const qData = await qRes.json();
     if (!qRes.ok) throw new Error(`Query failed [${qRes.status}]: ${JSON.stringify(qData)}`);
 
-    const page = (qData.results || []).find((pg: any) =>
-      titleMatchesSlug(getPlain(pg.properties?.["Nombre del Proyecto"]?.title), slug)
-    );
+    const wanted = slug.toLowerCase();
+    const page = (qData.results || []).find((pg: any) => {
+      const p = pg.properties || {};
+      const title = getPlain(p["Nombre del Proyecto"]?.title);
+      const notionSlug = getPlain(p["Slug"]?.rich_text) || p["Slug"]?.select?.name || null;
+      const candidates = [
+        notionSlug ? slugify(notionSlug) : null,
+        knownSlugFromTitle(title),
+        slugify(title),
+      ].filter(Boolean) as string[];
+      return candidates.some((c) => c === wanted);
+    });
     if (!page) {
       return new Response(JSON.stringify({ error: "not_found" }), {
         status: 404,
@@ -63,7 +79,6 @@ Deno.serve(async (req) => {
       ? page.cover.external?.url
       : page.cover?.type === "file" ? page.cover.file?.url : null;
 
-    // Fetch all blocks (paginated, recursively for children)
     async function fetchChildren(blockId: string): Promise<any[]> {
       const all: any[] = [];
       let cursor: string | undefined;
@@ -76,7 +91,6 @@ Deno.serve(async (req) => {
         all.push(...(bData.results || []));
         cursor = bData.has_more ? bData.next_cursor : undefined;
       } while (cursor);
-      // recurse into children for blocks that may contain them
       for (const b of all) {
         if (b.has_children) {
           b.children = await fetchChildren(b.id);
