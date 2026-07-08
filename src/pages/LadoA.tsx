@@ -597,7 +597,8 @@ const LadoA = () => {
               <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
               <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
               <p className="ds-body mb-4 whitespace-pre-line" style={{ maxWidth: 720 }}>
-                {`Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y de hacer algo al respecto. Trabajo en el cruce entre investigación, facilitación y diseño, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, en innovación corporativa y con comunidades en distintas regiones del Perú.
+                {`Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y actuar al respecto.
+Actualmente trabajo en gestión de la innovación, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, desarrollo local y la construcción de comunidades digitales.
 Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño; el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).`}
               </p>
               {aboutExpanded && (
