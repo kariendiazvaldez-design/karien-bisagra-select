@@ -715,7 +715,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                       <img src={image} alt={c.title} className="w-full h-full object-cover" loading="lazy" />
                     )}
                   </div>
-                  <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                  <div style={{ padding: "1.1rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                     {c.category && (
                       <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
                         {c.category}
@@ -724,7 +724,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                     {c.title && (
                       <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
                     )}
-                    {c.scale && badge(c.scale)}
+                    {c.cliente && badge(c.cliente)}
                     {c.description && (
                       <p
                         style={{
@@ -733,12 +733,19 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                           fontWeight: 300,
                           lineHeight: 1.5,
                           display: "-webkit-box",
-                          WebkitLineClamp: 1,
+                          WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
                         }}
                       >
                         {c.description}
+                      </p>
+                    )}
+                    {(c.rol || c.year) && (
+                      <p style={{ fontSize: 11, color: "#7A8060", fontWeight: 500 }}>
+                        {c.rol}
+                        {c.rol && c.year && " · "}
+                        {c.year}
                       </p>
                     )}
                     <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
