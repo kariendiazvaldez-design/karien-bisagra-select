@@ -140,6 +140,7 @@ const LadoA = () => {
     title: string;
     description: string;
     tipo: string[];
+    rol: string[];
     cliente: string[];
     destacado: boolean;
     fecha: string | null;
