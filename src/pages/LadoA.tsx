@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { sanityClient } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 import { supabase } from "@/integrations/supabase/client";
