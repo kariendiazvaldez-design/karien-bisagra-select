@@ -81,6 +81,129 @@ const HoverWord = ({
   </span>
 );
 
+const NOW_CARDS = [
+  {
+    context: "TRABAJANDO COMO:",
+    text: "Diseñadora de servicios en BioActiva. Consultora en innovación para el sector productivo peruano.",
+    accent: "#7AAA40",
+    linkLabel: "Detalles →",
+    matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
+  },
+  {
+    context: "HACIENDO INVESTIGACIÓN EN:",
+    text: "Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
+    accent: "#C94A20",
+    linkLabel: "Ver investigación →",
+    matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
+  },
+  {
+    context: "MI SIDE QUEST FAVORITO ES:",
+    text: "Pasantía en Command Z Podcast, donde creé la Biblioteca Interactiva.",
+    accent: "#E8B820",
+    linkLabel: "Command Z →",
+    matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
+  },
+  {
+    context: "EDITORIAL",
+    text: "Editora voluntaria en Sur Global y su revista Untold.ink.",
+    accent: "#3D6B1F",
+    linkLabel: "Untold.ink →",
+    matchCats: ["Comunidad", "Sur Global"],
+  },
+];
+
+const NowCarousel = ({ notionPosts }: { notionPosts: NotionPost[] | null }) => {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  const findPost = (cats: string[]) => {
+    if (!notionPosts) return null;
+    return notionPosts.find((p) => cats.includes(p.category)) || null;
+  };
+
+  const scrollByCard = (dir: 1 | -1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>("[data-now-card]");
+    const gap = 12;
+    const step = card ? card.offsetWidth + gap : el.clientWidth * 0.3;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      <div
+        ref={scrollerRef}
+        className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {NOW_CARDS.map((card, i) => {
+          const post = findPost(card.matchCats);
+          const href = post ? `/blog/${post.slug}` : "#blog";
+          return (
+            <div
+              key={i}
+              data-now-card
+              className="ds-card flex-shrink-0 snap-start min-w-[85%] md:min-w-[30%]"
+              style={{ padding: "0.85rem 0.8rem 0.8rem", display: "flex", flexDirection: "column", gap: 8 }}
+            >
+              <div className="ds-card-line" style={{ background: card.accent }} />
+              <span
+                style={{
+                  fontSize: 9,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#7A8060",
+                  fontWeight: 500,
+                }}
+              >
+                {card.context}
+              </span>
+              <p style={{ fontSize: 12.5, fontWeight: 300, lineHeight: 1.45, color: "#4A4A3A", flex: 1, overflowWrap: "break-word", wordBreak: "break-word", hyphens: "auto" }}>
+                {card.text}
+              </p>
+              <Link
+                to={href}
+                className="ds-pill"
+                style={{
+                  alignSelf: "flex-start",
+                  background: "transparent",
+                  border: `0.5px solid ${card.accent}`,
+                  color: card.accent,
+                  fontSize: 10,
+                  fontWeight: 500,
+                  padding: "5px 12px",
+                }}
+              >
+                {card.linkLabel}
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex justify-center gap-3 mt-4">
+        <button
+          type="button"
+          aria-label="Anterior"
+          onClick={() => scrollByCard(-1)}
+          className="flex items-center justify-center rounded-full transition-colors"
+          style={{ width: 36, height: 36, border: "0.5px solid #D4CDB0", background: "#FFFFFF", color: "#3D6B1F" }}
+        >
+          <ChevronLeft size={18} />
+        </button>
+        <button
+          type="button"
+          aria-label="Siguiente"
+          onClick={() => scrollByCard(1)}
+          className="flex items-center justify-center rounded-full transition-colors"
+          style={{ width: 36, height: 36, border: "0.5px solid #D4CDB0", background: "#FFFFFF", color: "#3D6B1F" }}
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const LadoA = () => {
   const [hoverImg, setHoverImg] = useState<string | null>(null);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
