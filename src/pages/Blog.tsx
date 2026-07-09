@@ -124,10 +124,10 @@ const Blog = () => {
             marginBottom: 12,
           }}
         >
-          Blog de aprendizaje
+          Cuaderno de campo:
         </h1>
         <p style={{ fontSize: 16, color: "#666", marginBottom: 40 }}>
-          Apuntes, reseñas y reflexiones
+          Notas para no olvidar, mientras exploro temas afines.
         </p>
 
         <div className="blog-filter-row mb-3">
