@@ -68,11 +68,7 @@ export default function Proyectos() {
       </nav>
 
       <main className="max-w-6xl mx-auto px-4 md:px-8 pt-28 pb-24">
-        <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Portafolio</p>
-        <h1 className="ds-section-title mb-3">Todos los proyectos</h1>
-        <p className="mb-10" style={{ fontSize: 15, color: "#5A5A4A", maxWidth: 640, lineHeight: 1.6 }}>
-          Casos de diseño de servicios, aprendizaje, gestión cultural e innovación. Se sincronizan automáticamente desde mi base en Notion.
-        </p>
+        <h1 className="ds-section-title mb-10">Portafolio:</h1>
 
         {projects === null ? (
           <p style={{ color: "#888" }}>Cargando proyectos…</p>
