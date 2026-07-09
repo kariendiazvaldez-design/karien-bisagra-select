@@ -669,7 +669,9 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
               slug: string;
               category: string;
               title: string;
-              scale: string;
+              cliente: string;
+              rol: string;
+              year: string;
               description: string;
               cover: string | null;
             };
@@ -688,7 +690,9 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 slug: p.slug as string,
                 category: p.tipo.slice(0, 3).join(" · "),
                 title: p.title,
-                scale: p.cliente.join(" · "),
+                cliente: p.cliente.join(" · "),
+                rol: p.rol.join(" · "),
+                year: p.fecha ? p.fecha.slice(0, 4) : "",
                 description: p.description,
                 cover: (p as any).cover ?? null,
               }));
