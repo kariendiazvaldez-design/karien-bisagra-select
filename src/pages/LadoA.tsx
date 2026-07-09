@@ -367,30 +367,30 @@ const LadoA = () => {
               const NOW_CARDS = [
                 {
                   context: "TRABAJANDO COMO:",
-                  text: "Diseñadora de servicios en BioActiva,\nconsultora en innovación para\nel sector productivo peruano.",
+                  text: "Diseñadora de servicios en BioActiva. Consultora en innovación para el sector productivo peruano.",
                   accent: "#7AAA40",
-                  linkLabel: "Te cuento los detalles →",
+                  linkLabel: "Detalles →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
                   context: "HACIENDO INVESTIGACIÓN EN:",
-                  text: "\u00a0Museo Arqueológico Nacional Brüning,\ncomo parte de la maestría en\nTransformación Digital.",
+                  text: "Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
                   context: "MI SIDE QUEST FAVORITO ES:",
-                  text: "que para explorar el Diseño\ndesde una mirada holística, hice\nuna pasantía en Command Z Podcast\ndonde creé la Biblioteca Interactiva.",
+                  text: "Pasantía en Command Z Podcast, donde creé la Biblioteca Interactiva.",
                   accent: "#E8B820",
-                  linkLabel: "Conoce a Command Z →",
+                  linkLabel: "Command Z →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
                 },
                 {
-                  context: "EDITORIAL\u00a0",
-                  text: "Editora voluntaria, conectando miradas desde Sur Global y su revista Untold.ink.",
+                  context: "EDITORIAL",
+                  text: "Editora voluntaria en Sur Global y su revista Untold.ink.",
                   accent: "#3D6B1F",
-                  linkLabel: "Conoce a Untold.ink →",
+                  linkLabel: "Untold.ink →",
                   matchCats: ["Comunidad", "Sur Global"],
                 },
               ];
