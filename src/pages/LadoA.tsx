@@ -599,12 +599,12 @@ const LadoA = () => {
               <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
               <p className="ds-body mb-4 whitespace-pre-line" style={{ maxWidth: 720 }}>
                 {`Llegué al diseño de servicios desde la comunicación, y me quedé en la disciplina para entender cómo las personas viven lo que las organizaciones construyen, y actuar al respecto.
-Actualmente trabajo en gestión de la innovación, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, desarrollo local y la construcción de comunidades digitales.
-Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño; el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).`}
+Actualmente trabajo en gestión de la innovación, con equipos que atraviesan procesos de cambio y buscan claridad para construir soluciones. Desde mi rol actual en BioActiva, empresa consultora en I+D+i, he desarrollado programas de innovación B2B (BID) y articulación de ecosistemas para la innovación.`}
               </p>
               {aboutExpanded && (
                 <p className="ds-body mb-4" style={{ maxWidth: 720 }}>
-                  Actualmente curso una maestría de Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque. Me formé en mediación cultural y eso sigue vivo. Manifiesto ir a la maestría SdSi para profundizar en cómo potenciar la democracia mediante el diseño y la tecnología. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.
+                  {`Me interesa abrir el puente de innovación corporativa desde adentro, para abordar retos de mayor escala y complejidad: la intersección entre IA y diseño, el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos). En roles anteriores, he trabajado en diseño de experiencias y aprendizaje, gestión comunitaria y participación.
+Curso una maestría en Transformación Digital y desarrollo una tesis que explora cómo pasar de la digitación a la digitalización en el Museo Brüning de Lambayeque: gobierno de datos, gestión del cambio y diseño de servicios aplicados a una institución real. Me formé en mediación cultural y eso sigue vivo en cómo diseño. A futuro, manifiesto ir a la maestría SdSi para profundizar en cómo potenciar la democracia mediante el diseño y la tecnología. Mientras tanto, trabajo en remoto y busco conocer el Perú mientras aprendo.`}
                 </p>
               )}
               <button
