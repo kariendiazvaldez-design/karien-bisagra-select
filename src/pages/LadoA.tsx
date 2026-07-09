@@ -364,86 +364,8 @@ const LadoA = () => {
             >
               Ahora mismo<span style={{ color: "#C94A20" }}>:</span>
             </h2>
-            {(() => {
-              const NOW_CARDS = [
-                {
-                  context: "TRABAJANDO COMO:",
-                  text: "Diseñadora de servicios en BioActiva. Consultora en innovación para el sector productivo peruano.",
-                  accent: "#7AAA40",
-                  linkLabel: "Detalles →",
-                  matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
-                },
-                {
-                  context: "HACIENDO INVESTIGACIÓN EN:",
-                  text: "Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
-                  accent: "#C94A20",
-                  linkLabel: "Ver investigación →",
-                  matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
-                },
-                {
-                  context: "MI SIDE QUEST FAVORITO ES:",
-                  text: "Pasantía en Command Z Podcast, donde creé la Biblioteca Interactiva.",
-                  accent: "#E8B820",
-                  linkLabel: "Command Z →",
-                  matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
-                },
-                {
-                  context: "EDITORIAL",
-                  text: "Editora voluntaria en Sur Global y su revista Untold.ink.",
-                  accent: "#3D6B1F",
-                  linkLabel: "Untold.ink →",
-                  matchCats: ["Comunidad", "Sur Global"],
-                },
-              ];
+            <NowCarousel notionPosts={notionPosts} />
 
-              const findPost = (cats: string[]) => {
-                if (!notionPosts) return null;
-                return notionPosts.find((p) => cats.includes(p.category)) || null;
-              };
-
-              return (
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-                  {NOW_CARDS.map((card, i) => {
-                    const post = findPost(card.matchCats);
-                    const href = post ? `/blog/${post.slug}` : "#blog";
-                    return (
-                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(33.333%-0.75rem)] md:min-w-[calc(33.333%-0.75rem)]" style={{ padding: "0.85rem 0.8rem 0.8rem", display: "flex", flexDirection: "column", gap: 8 }}>
-                        <div className="ds-card-line" style={{ background: card.accent }} />
-                        <span
-                          style={{
-                            fontSize: 9,
-                            letterSpacing: "0.14em",
-                            textTransform: "uppercase",
-                            color: "#7A8060",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {card.context}
-                        </span>
-                        <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.45, color: "#4A4A3A", flex: 1 }}>
-                          {card.text}
-                        </p>
-                        <Link
-                          to={href}
-                          className="ds-pill"
-                          style={{
-                            alignSelf: "flex-start",
-                            background: "transparent",
-                            border: `0.5px solid ${card.accent}`,
-                            color: card.accent,
-                            fontSize: 10,
-                            fontWeight: 500,
-                            padding: "5px 12px",
-                          }}
-                        >
-                          {card.linkLabel}
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })()}
             <div className="flex flex-wrap items-center mt-8" style={{ gap: 10 }}>
               <Link to="/blog" className="ds-btn ds-btn-terracota">
                 Blog →
