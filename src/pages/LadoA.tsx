@@ -140,6 +140,7 @@ const LadoA = () => {
     title: string;
     description: string;
     tipo: string[];
+    rol: string[];
     cliente: string[];
     destacado: boolean;
     fecha: string | null;
@@ -366,30 +367,30 @@ const LadoA = () => {
               const NOW_CARDS = [
                 {
                   context: "TRABAJANDO COMO:",
-                  text: "Diseñadora de servicios en BioActiva,\nconsultora en innovación para\nel sector productivo peruano.",
+                  text: "Diseñadora de servicios en BioActiva. Consultora en innovación para el sector productivo peruano.",
                   accent: "#7AAA40",
-                  linkLabel: "Te cuento los detalles →",
+                  linkLabel: "Detalles →",
                   matchCats: ["Diseño de servicios", "Service Design", "Diseño"],
                 },
                 {
                   context: "HACIENDO INVESTIGACIÓN EN:",
-                  text: "\u00a0Museo Arqueológico Nacional Brüning,\ncomo parte de la maestría en\nTransformación Digital.",
+                  text: "Museo Arqueológico Nacional Brüning, como parte de la maestría en Transformación Digital.",
                   accent: "#C94A20",
                   linkLabel: "Ver investigación →",
                   matchCats: ["Research", "UX Research", "Transformación Digital", "Tecnología", "Tecnologia"],
                 },
                 {
                   context: "MI SIDE QUEST FAVORITO ES:",
-                  text: "que para explorar el Diseño\ndesde una mirada holística, hice\nuna pasantía en Command Z Podcast\ndonde creé la Biblioteca Interactiva.",
+                  text: "Pasantía en Command Z Podcast, donde creé la Biblioteca Interactiva.",
                   accent: "#E8B820",
-                  linkLabel: "Conoce a Command Z →",
+                  linkLabel: "Command Z →",
                   matchCats: ["Aprendizaje", "Educación", "Diseño x Aprendizaje"],
                 },
                 {
-                  context: "EDITORIAL\u00a0",
-                  text: "Editora voluntaria, conectando miradas desde Sur Global y su revista Untold.ink.",
+                  context: "EDITORIAL",
+                  text: "Editora voluntaria en Sur Global y su revista Untold.ink.",
                   accent: "#3D6B1F",
-                  linkLabel: "Conoce a Untold.ink →",
+                  linkLabel: "Untold.ink →",
                   matchCats: ["Comunidad", "Sur Global"],
                 },
               ];
@@ -400,16 +401,16 @@ const LadoA = () => {
               };
 
               return (
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                   {NOW_CARDS.map((card, i) => {
                     const post = findPost(card.matchCats);
                     const href = post ? `/blog/${post.slug}` : "#blog";
                     return (
-                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(50%-0.5rem)] md:min-w-[280px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(33.333%-0.75rem)] md:min-w-[calc(33.333%-0.75rem)]" style={{ padding: "0.85rem 0.8rem 0.8rem", display: "flex", flexDirection: "column", gap: 8 }}>
                         <div className="ds-card-line" style={{ background: card.accent }} />
                         <span
                           style={{
-                            fontSize: 10,
+                            fontSize: 9,
                             letterSpacing: "0.14em",
                             textTransform: "uppercase",
                             color: "#7A8060",
@@ -418,7 +419,7 @@ const LadoA = () => {
                         >
                           {card.context}
                         </span>
-                        <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.55, color: "#4A4A3A", flex: 1 }}>
+                        <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.45, color: "#4A4A3A", flex: 1 }}>
                           {card.text}
                         </p>
                         <Link
@@ -429,9 +430,9 @@ const LadoA = () => {
                             background: "transparent",
                             border: `0.5px solid ${card.accent}`,
                             color: card.accent,
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: 500,
-                            padding: "6px 14px",
+                            padding: "5px 12px",
                           }}
                         >
                           {card.linkLabel}
@@ -668,7 +669,9 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
               slug: string;
               category: string;
               title: string;
-              scale: string;
+              cliente: string;
+              rol: string;
+              year: string;
               description: string;
               cover: string | null;
             };
@@ -687,7 +690,9 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 slug: p.slug as string,
                 category: p.tipo.slice(0, 3).join(" · "),
                 title: p.title,
-                scale: p.cliente.join(" · "),
+                cliente: p.cliente.join(" · "),
+                rol: p.rol.join(" · "),
+                year: p.fecha ? p.fecha.slice(0, 4) : "",
                 description: p.description,
                 cover: (p as any).cover ?? null,
               }));
@@ -710,7 +715,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                       <img src={image} alt={c.title} className="w-full h-full object-cover" loading="lazy" />
                     )}
                   </div>
-                  <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                  <div style={{ padding: "1.1rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
                     {c.category && (
                       <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
                         {c.category}
@@ -719,7 +724,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                     {c.title && (
                       <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
                     )}
-                    {c.scale && badge(c.scale)}
+                    {c.cliente && badge(c.cliente)}
                     {c.description && (
                       <p
                         style={{
@@ -728,12 +733,19 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                           fontWeight: 300,
                           lineHeight: 1.5,
                           display: "-webkit-box",
-                          WebkitLineClamp: 1,
+                          WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
                         }}
                       >
                         {c.description}
+                      </p>
+                    )}
+                    {(c.rol || c.year) && (
+                      <p style={{ fontSize: 11, color: "#7A8060", fontWeight: 500 }}>
+                        {c.rol}
+                        {c.rol && c.year && " · "}
+                        {c.year}
                       </p>
                     )}
                     <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
