@@ -457,8 +457,8 @@ const LadoA = () => {
         {/* BLOG */}
         <div className="w-full relative" style={{ background: "rgba(107, 122, 82, 0.06)", width: "100vw", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
           <section id="blog" className="max-w-6xl w-full mx-auto px-4 md:px-6 py-10">
-          <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>BITÁCORA DE APRENDIZAJES</p>
-          <h2 className="ds-section-title mb-8">Actualmente explorando:</h2>
+          <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>BLOC DE NOTAS</p>
+          <h2 className="ds-section-title mb-8">Apuntes & aprendizajes:</h2>
 
           <div className="mb-4">
             <p style={{ fontSize: 10, letterSpacing: "0.18em", color: "#9A9A8A", textTransform: "uppercase", marginBottom: 8 }}>
@@ -595,10 +595,10 @@ const LadoA = () => {
         <section id="sobre-mi" className="max-w-6xl w-full mx-auto ds-card px-6 md:px-12 py-12 md:py-16">
           <div className="flex flex-col md:flex-row gap-10 items-start">
             <div className="flex-1 order-2 md:order-1">
-              <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Sobre mí</p>
+              <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>¡HOLA!</p>
               <h2 className="ds-section-title mb-5">Karien Díaz Valdez:</h2>
               <p className="ds-body mb-4 whitespace-pre-line" style={{ maxWidth: 720 }}>
-                {`Llegué al diseño de servicios desde la comunicación, y me quedé porque es una forma de entender cómo las personas viven lo que las organizaciones construyen, y actuar al respecto.
+                {`Llegué al diseño de servicios desde la comunicación, y me quedé en la disciplina para entender cómo las personas viven lo que las organizaciones construyen, y actuar al respecto.
 Actualmente trabajo en gestión de la innovación, con equipos que están transitando cambios y buscan claridad para crear soluciones. He colaborado con programas educativos, desarrollo local y la construcción de comunidades digitales.
 Hoy me interesan los retos de mayor escala y complejidad: la intersección entre IA y diseño; el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos).`}
               </p>
@@ -653,7 +653,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
         {/* PROYECTOS */}
         <section id="proyectos" className="max-w-6xl w-full mx-auto px-2 md:px-4 py-10">
           <p className="ds-eyebrow mb-3" style={{ color: "#3D6B1F" }}>Portafolio</p>
-          <h2 className="ds-section-title mb-8">Proyectos destacados:</h2>
+          <h2 className="ds-section-title mb-8">Mis proyectos favoritos:</h2>
           {(() => {
             const PROJECT_IMAGES: Record<string, string> = {
               "innova-plus": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1779256438/Innova_Inauguraci%C3%B3n_k9a91c.gif",
@@ -761,7 +761,7 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                 paddingBottom: 2,
               }}
             >
-              Ver todos los proyectos →
+              Más retos y aprendizajes, aquí →
             </Link>
           </div>
         </section>
@@ -797,8 +797,10 @@ Hoy me interesan los retos de mayor escala y complejidad: la intersección entre
                 margin: "0 auto 32px",
               }}
             >
-              {`Estoy interesada en proyectos de diseño de servicios o de aprendizaje.
-También en facilitación y en el lado humano de la transformación digital.`}
+              {`Me interesa explorar el puente de innovación corporativa desde adentro, para abordar retos de mayor escala y complejidad: la intersección entre IA y diseño, el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos). 
+
+
+Dispo como freelance para proyectos de research, así como de diseño y facilitación de procesos de aprendizaje :)`}
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               <a href={WHATSAPP_URL} className="ds-btn ds-btn-terracota">WhatsApp ↗</a>
