@@ -401,16 +401,16 @@ const LadoA = () => {
               };
 
               return (
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                   {NOW_CARDS.map((card, i) => {
                     const post = findPost(card.matchCats);
                     const href = post ? `/blog/${post.slug}` : "#blog";
                     return (
-                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(50%-0.5rem)] md:min-w-[280px]" style={{ padding: "1.1rem 1rem 1rem", display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div key={i} className="ds-card flex-shrink-0 snap-start min-w-[calc(33.333%-0.75rem)] md:min-w-[calc(33.333%-0.75rem)]" style={{ padding: "0.85rem 0.8rem 0.8rem", display: "flex", flexDirection: "column", gap: 8 }}>
                         <div className="ds-card-line" style={{ background: card.accent }} />
                         <span
                           style={{
-                            fontSize: 10,
+                            fontSize: 9,
                             letterSpacing: "0.14em",
                             textTransform: "uppercase",
                             color: "#7A8060",
@@ -419,7 +419,7 @@ const LadoA = () => {
                         >
                           {card.context}
                         </span>
-                        <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.55, color: "#4A4A3A", flex: 1 }}>
+                        <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.45, color: "#4A4A3A", flex: 1 }}>
                           {card.text}
                         </p>
                         <Link
@@ -430,9 +430,9 @@ const LadoA = () => {
                             background: "transparent",
                             border: `0.5px solid ${card.accent}`,
                             color: card.accent,
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: 500,
-                            padding: "6px 14px",
+                            padding: "5px 12px",
                           }}
                         >
                           {card.linkLabel}
