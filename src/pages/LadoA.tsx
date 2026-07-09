@@ -809,9 +809,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 margin: "0 auto 32px",
               }}
             >
-              {`Me interesa explorar el puente de innovación corporativa desde adentro, para abordar retos de mayor escala y complejidad: la intersección entre IA y diseño, el enfoque ecosistémico, y el puente entre STEM (tecnología) y GLAM (museos). 
-
-
+              {`Me interesa explorar el puente de innovación corporativa desde adentro, para abordar retos de mayor escala y complejidad.
 Dispo como freelance para proyectos de research, así como de diseño y facilitación de procesos de aprendizaje :)`}
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
