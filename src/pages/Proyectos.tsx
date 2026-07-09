@@ -60,10 +60,16 @@ export default function Proyectos() {
         path="/proyectos"
       />
 
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]" style={{ borderBottomWidth: "0.5px" }}>
+      <nav
+        className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]"
+        style={{ borderBottomWidth: "0.5px" }}
+      >
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
-          <Link to="/lado-a" className="font-medium">← Karien.xyz</Link>
-          <Link to="/lado-b" className="text-sm text-a-accent-soft hover:text-a-accent">Lado B →</Link>
+          <Link to="/lado-a" className="font-medium">Karien.xyz</Link>
+          <div className="flex items-center gap-6 text-sm">
+            <Link to="/lado-a" className="text-a-accent-soft hover:text-a-accent">Lado A</Link>
+            <Link to="/blog" className="text-a-accent-soft hover:text-a-accent">blog</Link>
+          </div>
         </div>
       </nav>
 
