@@ -143,7 +143,7 @@ const NowCarousel = ({ notionPosts }: { notionPosts: NotionPost[] | null }) => {
             <div
               key={i}
               data-now-card
-              className="ds-card flex-shrink-0 snap-start min-w-[85%] md:min-w-[30%]"
+              className="ds-card flex-shrink-0 flex-grow-0 snap-start basis-[85%] w-[85%] md:basis-[calc((100%-24px)/3)] md:w-[calc((100%-24px)/3)] min-w-0"
               style={{ padding: "0.85rem 0.8rem 0.8rem", display: "flex", flexDirection: "column", gap: 8 }}
             >
               <div className="ds-card-line" style={{ background: card.accent }} />
