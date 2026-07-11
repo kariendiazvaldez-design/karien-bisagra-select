@@ -1,7 +1,7 @@
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 
-const BASE_URL = "https://karien-bisagra-select.lovable.app";
+const BASE_URL = "https://karien.xyz";
 
 const SUPABASE_URL = "https://aopsophqctgfldthfazl.supabase.co";
 const SUPABASE_ANON_KEY =
