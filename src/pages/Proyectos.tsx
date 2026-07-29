@@ -35,7 +35,7 @@ const typeBadge = (tipo: string) => {
     <span
       key={tipo}
       className="ds-pill"
-      style={{ background: bg, color, fontWeight: 600, letterSpacing: "0.04em" }}
+      style={{ background: bg, color, fontWeight: 500, letterSpacing: "0.03em", fontSize: 9, padding: "2px 8px" }}
 
     >
       {tipo}
@@ -111,14 +111,11 @@ export default function Proyectos() {
                     )}
                   </div>
                   <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      {year && (
-                        <span style={{ fontSize: 11, color: "#7A8060", fontWeight: 600, letterSpacing: "0.08em" }}>
-                          {year}
-                        </span>
-                      )}
-                      {p.tipo.map((t) => typeBadge(t))}
-                    </div>
+                    {year && (
+                      <span style={{ fontSize: 11, color: "#7A8060", fontWeight: 600, letterSpacing: "0.08em" }}>
+                        {year}
+                      </span>
+                    )}
                     <h2 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>
                       {p.title}
                     </h2>
@@ -149,9 +146,15 @@ export default function Proyectos() {
                         {p.description}
                       </p>
                     )}
-                    <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
+                    {p.tipo.length > 0 && (
+                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: "auto" }}>
+                        {p.tipo.map((t) => typeBadge(t))}
+                      </div>
+                    )}
+                    <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500 }}>
                       Ver caso →
                     </span>
+
                   </div>
                 </Link>
               );
