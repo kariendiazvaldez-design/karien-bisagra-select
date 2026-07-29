@@ -25,11 +25,22 @@ const FALLBACK_IMAGES: Record<string, string> = {
   "patria-c": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781048292/Dise%C3%B1o_sin_t%C3%ADtulo_x9gcjd.png",
 };
 
-const badge = (text: string) => (
-  <span className="ds-pill" style={{ background: "#F4D8D0", color: "#6A1A08", alignSelf: "flex-start" }}>
-    {text}
-  </span>
-);
+const typeBadge = (tipo: string) => {
+  const t = tipo.toUpperCase();
+  const isB2B = t === "B2B";
+  const isB2C = t === "B2C";
+  const bg = isB2B ? "#E3ECD1" : isB2C ? "#F4D8D0" : "#EDE7D3";
+  const color = isB2B ? "#3D6B1F" : isB2C ? "#6A1A08" : "#5A5A2A";
+  return (
+    <span
+      className="ds-pill"
+      style={{ background: bg, color, alignSelf: "flex-start", fontWeight: 600, letterSpacing: "0.04em" }}
+    >
+      {tipo}
+    </span>
+  );
+};
+
 
 export default function Proyectos() {
   const [projects, setProjects] = useState<NotionProject[] | null>(null);
@@ -84,8 +95,10 @@ export default function Proyectos() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {list.map((p) => {
               const image = p.cover || FALLBACK_IMAGES[p.slug as string];
-              const category = p.tipo.slice(0, 3).join(" · ");
-              const scale = p.cliente.join(" · ");
+              const tipoPill = p.tipo.find((t) => /^b2[bc]$/i.test(t)) || p.tipo[0] || "";
+              const rolPrimary = p.rol[0] || "";
+              const cliente = p.cliente.join(" · ");
+              const year = p.fecha ? p.fecha.slice(0, 4) : "";
               return (
                 <Link
                   key={p.id}
@@ -98,17 +111,40 @@ export default function Proyectos() {
                     )}
                   </div>
                   <div style={{ padding: "1.3rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                    {category && (
-                      <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
-                        {category}
-                      </p>
-                    )}
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                      {year && (
+                        <span style={{ fontSize: 11, color: "#7A8060", fontWeight: 600, letterSpacing: "0.08em" }}>
+                          {year}
+                        </span>
+                      )}
+                      {tipoPill && typeBadge(tipoPill)}
+                    </div>
                     <h2 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>
                       {p.title}
                     </h2>
-                    {scale && badge(scale)}
+                    {rolPrimary && (
+                      <p style={{ fontSize: 12, color: "#C94A20", fontWeight: 500, letterSpacing: "0.02em" }}>
+                        {rolPrimary}
+                      </p>
+                    )}
+                    {cliente && (
+                      <p style={{ fontSize: 11, color: "#8A8A6A", fontWeight: 400 }}>
+                        {cliente}
+                      </p>
+                    )}
                     {p.description && (
-                      <p style={{ fontSize: 13, color: "#5A5A4A", fontWeight: 300, lineHeight: 1.6 }}>
+                      <p
+                        style={{
+                          fontSize: 13,
+                          color: "#5A5A4A",
+                          fontWeight: 300,
+                          lineHeight: 1.6,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
                         {p.description}
                       </p>
                     )}
@@ -119,6 +155,7 @@ export default function Proyectos() {
                 </Link>
               );
             })}
+
           </div>
         )}
       </main>

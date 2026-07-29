@@ -743,17 +743,29 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 cover: (p as any).cover ?? null,
               }));
 
-            const badge = (text: string) => (
-              <span
-                className="ds-pill"
-                style={{ background: "#F4D8D0", color: "#6A1A08", alignSelf: "flex-start" }}
-              >
-                {text}
-              </span>
-            );
+            const typeBadge = (tipo: string) => {
+              const t = tipo.toUpperCase();
+              const isB2B = t === "B2B";
+              const isB2C = t === "B2C";
+              const bg = isB2B ? "#E3ECD1" : isB2C ? "#F4D8D0" : "#EDE7D3";
+              const color = isB2B ? "#3D6B1F" : isB2C ? "#6A1A08" : "#5A5A2A";
+              return (
+                <span
+                  className="ds-pill"
+                  style={{ background: bg, color, alignSelf: "flex-start", fontWeight: 600, letterSpacing: "0.04em" }}
+                >
+                  {tipo}
+                </span>
+              );
+            };
 
             const Card = ({ c }: { c: CardData }) => {
               const image = c.cover || PROJECT_IMAGES[c.id];
+              // Tipo project pill: prefer B2B/B2C token if present, else first tipo value.
+              const tipoList = c.category ? c.category.split(" · ") : [];
+              const tipoPill = tipoList.find((t) => /^b2[bc]$/i.test(t)) || tipoList[0] || "";
+              // Rol: single primary value.
+              const rolPrimary = c.rol ? c.rol.split(" · ")[0] : "";
               return (
                 <Link to={`/proyectos/${c.slug}`} className="ds-card group flex flex-col">
                   <div style={{ width: "100%", height: 180, background: "#EDF4E2", overflow: "hidden" }}>
@@ -762,15 +774,27 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                     )}
                   </div>
                   <div style={{ padding: "1.1rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                    {c.category && (
-                      <p className="uppercase" style={{ fontSize: 10, color: "#C94A20", letterSpacing: "0.12em", fontWeight: 500 }}>
-                        {c.category}
-                      </p>
-                    )}
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                      {c.year && (
+                        <span style={{ fontSize: 11, color: "#7A8060", fontWeight: 600, letterSpacing: "0.08em" }}>
+                          {c.year}
+                        </span>
+                      )}
+                      {tipoPill && typeBadge(tipoPill)}
+                    </div>
                     {c.title && (
                       <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
                     )}
-                    {c.cliente && badge(c.cliente)}
+                    {rolPrimary && (
+                      <p style={{ fontSize: 12, color: "#C94A20", fontWeight: 500, letterSpacing: "0.02em" }}>
+                        {rolPrimary}
+                      </p>
+                    )}
+                    {c.cliente && (
+                      <p style={{ fontSize: 11, color: "#8A8A6A", fontWeight: 400 }}>
+                        {c.cliente}
+                      </p>
+                    )}
                     {c.description && (
                       <p
                         style={{
@@ -779,19 +803,12 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                           fontWeight: 300,
                           lineHeight: 1.5,
                           display: "-webkit-box",
-                          WebkitLineClamp: 2,
+                          WebkitLineClamp: 3,
                           WebkitBoxOrient: "vertical",
                           overflow: "hidden",
                         }}
                       >
                         {c.description}
-                      </p>
-                    )}
-                    {(c.rol || c.year) && (
-                      <p style={{ fontSize: 11, color: "#7A8060", fontWeight: 500 }}>
-                        {c.rol}
-                        {c.rol && c.year && " · "}
-                        {c.year}
                       </p>
                     )}
                     <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
@@ -801,6 +818,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 </Link>
               );
             };
+
 
             return (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
