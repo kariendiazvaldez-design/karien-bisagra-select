@@ -433,7 +433,7 @@ const LadoA = () => {
         {/* HERO */}
         <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-14 md:py-20 text-center">
           <div className="relative max-w-[720px] mx-auto">
-            <p className="ds-eyebrow mb-6">DISEÑO · TRANSFORMACIÓN DIGITAL</p>
+            <p className="ds-eyebrow mb-6">DISEÑO · TRANSFORMACIÓN DIGITAL · INNOVACIÓN</p>
             <h1
               style={{
                 fontSize: "clamp(38px, 6vw, 48px)",
@@ -842,7 +842,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 marginBottom: 12,
               }}
             >
-              ¿Trabajamos juntxs?
+              Sigamos en contacto
             </h2>
             <p
               className="whitespace-pre-line"
@@ -855,8 +855,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 margin: "0 auto 32px",
               }}
             >
-              {`Me interesa explorar el puente de innovación corporativa desde adentro, para abordar retos de mayor escala y complejidad.
-Dispo como freelance para proyectos de research, así como de diseño y facilitación de procesos de aprendizaje :)`}
+              {`Me interesa explorar la de innovación corporativa desde adentro,\npara abordar retos de mayor escala y complejidad :)`}
             </p>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               <a href={WHATSAPP_URL} className="ds-btn ds-btn-terracota">WhatsApp ↗</a>
