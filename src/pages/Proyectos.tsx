@@ -25,11 +25,22 @@ const FALLBACK_IMAGES: Record<string, string> = {
   "patria-c": "https://res.cloudinary.com/dyh3wxppm/image/upload/q_auto/f_auto/v1781048292/Dise%C3%B1o_sin_t%C3%ADtulo_x9gcjd.png",
 };
 
-const badge = (text: string) => (
-  <span className="ds-pill" style={{ background: "#F4D8D0", color: "#6A1A08", alignSelf: "flex-start" }}>
-    {text}
-  </span>
-);
+const typeBadge = (tipo: string) => {
+  const t = tipo.toUpperCase();
+  const isB2B = t === "B2B";
+  const isB2C = t === "B2C";
+  const bg = isB2B ? "#E3ECD1" : isB2C ? "#F4D8D0" : "#EDE7D3";
+  const color = isB2B ? "#3D6B1F" : isB2C ? "#6A1A08" : "#5A5A2A";
+  return (
+    <span
+      className="ds-pill"
+      style={{ background: bg, color, alignSelf: "flex-start", fontWeight: 600, letterSpacing: "0.04em" }}
+    >
+      {tipo}
+    </span>
+  );
+};
+
 
 export default function Proyectos() {
   const [projects, setProjects] = useState<NotionProject[] | null>(null);
