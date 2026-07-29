@@ -33,8 +33,10 @@ const typeBadge = (tipo: string) => {
   const color = isB2B ? "#3D6B1F" : isB2C ? "#6A1A08" : "#5A5A2A";
   return (
     <span
+      key={tipo}
       className="ds-pill"
-      style={{ background: bg, color, alignSelf: "flex-start", fontWeight: 600, letterSpacing: "0.04em" }}
+      style={{ background: bg, color, fontWeight: 600, letterSpacing: "0.04em" }}
+
     >
       {tipo}
     </span>
