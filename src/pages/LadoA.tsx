@@ -770,14 +770,11 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                     )}
                   </div>
                   <div style={{ padding: "1.1rem", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      {c.year && (
-                        <span style={{ fontSize: 11, color: "#7A8060", fontWeight: 600, letterSpacing: "0.08em" }}>
-                          {c.year}
-                        </span>
-                      )}
-                      {c.tipos.map((t) => typeBadge(t))}
-                    </div>
+                    {c.year && (
+                      <span style={{ fontSize: 11, color: "#7A8060", fontWeight: 600, letterSpacing: "0.08em" }}>
+                        {c.year}
+                      </span>
+                    )}
                     {c.title && (
                       <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
                     )}
@@ -807,9 +804,15 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                         {c.description}
                       </p>
                     )}
-                    <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500, marginTop: "auto" }}>
+                    {c.tipos.length > 0 && (
+                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: "auto" }}>
+                        {c.tipos.map((t) => typeBadge(t))}
+                      </div>
+                    )}
+                    <span style={{ fontSize: 12, color: "#3D6B1F", fontWeight: 500 }}>
                       Ver caso →
                     </span>
+
                   </div>
                 </Link>
               );
