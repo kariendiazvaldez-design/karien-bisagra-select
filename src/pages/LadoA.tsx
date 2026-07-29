@@ -753,7 +753,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 <span
                   key={tipo}
                   className="ds-pill"
-                  style={{ background: bg, color, fontWeight: 600, letterSpacing: "0.04em" }}
+                  style={{ background: bg, color, fontWeight: 500, letterSpacing: "0.03em", fontSize: 9, padding: "2px 8px" }}
                 >
                   {tipo}
                 </span>
