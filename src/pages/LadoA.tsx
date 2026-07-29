@@ -713,10 +713,10 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
             type CardData = {
               id: string;
               slug: string;
-              category: string;
+              tipos: string[];
               title: string;
               cliente: string;
-              rol: string;
+              roles: string[];
               year: string;
               description: string;
               cover: string | null;
@@ -734,10 +734,10 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
               .map((p) => ({
                 id: p.slug as string,
                 slug: p.slug as string,
-                category: p.tipo.slice(0, 3).join(" · "),
+                tipos: p.tipo,
                 title: p.title,
                 cliente: p.cliente.join(" · "),
-                rol: p.rol.join(" · "),
+                roles: p.rol,
                 year: p.fecha ? p.fecha.slice(0, 4) : "",
                 description: p.description,
                 cover: (p as any).cover ?? null,
@@ -751,8 +751,9 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
               const color = isB2B ? "#3D6B1F" : isB2C ? "#6A1A08" : "#5A5A2A";
               return (
                 <span
+                  key={tipo}
                   className="ds-pill"
-                  style={{ background: bg, color, alignSelf: "flex-start", fontWeight: 600, letterSpacing: "0.04em" }}
+                  style={{ background: bg, color, fontWeight: 600, letterSpacing: "0.04em" }}
                 >
                   {tipo}
                 </span>
@@ -761,11 +762,6 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
 
             const Card = ({ c }: { c: CardData }) => {
               const image = c.cover || PROJECT_IMAGES[c.id];
-              // Tipo project pill: prefer B2B/B2C token if present, else first tipo value.
-              const tipoList = c.category ? c.category.split(" · ") : [];
-              const tipoPill = tipoList.find((t) => /^b2[bc]$/i.test(t)) || tipoList[0] || "";
-              // Rol: single primary value.
-              const rolPrimary = c.rol ? c.rol.split(" · ")[0] : "";
               return (
                 <Link to={`/proyectos/${c.slug}`} className="ds-card group flex flex-col">
                   <div style={{ width: "100%", height: 180, background: "#EDF4E2", overflow: "hidden" }}>
@@ -780,14 +776,14 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                           {c.year}
                         </span>
                       )}
-                      {tipoPill && typeBadge(tipoPill)}
+                      {c.tipos.map((t) => typeBadge(t))}
                     </div>
                     {c.title && (
                       <h3 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>{c.title}</h3>
                     )}
-                    {rolPrimary && (
+                    {c.roles.length > 0 && (
                       <p style={{ fontSize: 12, color: "#C94A20", fontWeight: 500, letterSpacing: "0.02em" }}>
-                        {rolPrimary}
+                        {c.roles.join(" · ")}
                       </p>
                     )}
                     {c.cliente && (
@@ -818,6 +814,7 @@ Curso una maestría en Transformación Digital y desarrollo una tesis que explor
                 </Link>
               );
             };
+
 
 
             return (

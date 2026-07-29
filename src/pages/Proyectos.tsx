@@ -33,8 +33,10 @@ const typeBadge = (tipo: string) => {
   const color = isB2B ? "#3D6B1F" : isB2C ? "#6A1A08" : "#5A5A2A";
   return (
     <span
+      key={tipo}
       className="ds-pill"
-      style={{ background: bg, color, alignSelf: "flex-start", fontWeight: 600, letterSpacing: "0.04em" }}
+      style={{ background: bg, color, fontWeight: 600, letterSpacing: "0.04em" }}
+
     >
       {tipo}
     </span>
@@ -95,8 +97,6 @@ export default function Proyectos() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {list.map((p) => {
               const image = p.cover || FALLBACK_IMAGES[p.slug as string];
-              const tipoPill = p.tipo.find((t) => /^b2[bc]$/i.test(t)) || p.tipo[0] || "";
-              const rolPrimary = p.rol[0] || "";
               const cliente = p.cliente.join(" · ");
               const year = p.fecha ? p.fecha.slice(0, 4) : "";
               return (
@@ -117,16 +117,17 @@ export default function Proyectos() {
                           {year}
                         </span>
                       )}
-                      {tipoPill && typeBadge(tipoPill)}
+                      {p.tipo.map((t) => typeBadge(t))}
                     </div>
                     <h2 style={{ fontSize: 17, fontWeight: 500, color: "#1A1F0A", lineHeight: 1.3 }}>
                       {p.title}
                     </h2>
-                    {rolPrimary && (
+                    {p.rol.length > 0 && (
                       <p style={{ fontSize: 12, color: "#C94A20", fontWeight: 500, letterSpacing: "0.02em" }}>
-                        {rolPrimary}
+                        {p.rol.join(" · ")}
                       </p>
                     )}
+
                     {cliente && (
                       <p style={{ fontSize: 11, color: "#8A8A6A", fontWeight: 400 }}>
                         {cliente}
