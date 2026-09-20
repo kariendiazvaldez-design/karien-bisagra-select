@@ -14,6 +14,7 @@ type Post = {
   maturity: string;
   temas: string[];
   tipo: string;
+  coverUrl?: string;
   blocks: Block[];
 };
 
@@ -241,6 +242,25 @@ const GardenPost = () => {
           <p className="text-center py-16" style={{ color: "#999" }}>Nota no encontrada</p>
         ) : (
           <>
+            {post.coverUrl && (
+              <div
+                className="relative mb-10 aspect-[16/7] min-h-[210px] overflow-hidden rounded-2xl md:min-h-[280px]"
+                style={{ background: INK }}
+              >
+                <img
+                  src={post.coverUrl}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(28, 26, 23, 0.14) 0%, rgba(28, 26, 23, 0.58) 100%)",
+                  }}
+                  aria-hidden="true"
+                />
+              </div>
+            )}
             {(icon || post.maturity) && (
               <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 22, marginBottom: 12 }}>
                 {icon} {post.maturity}
