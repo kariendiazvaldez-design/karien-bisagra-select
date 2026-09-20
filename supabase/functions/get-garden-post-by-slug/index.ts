@@ -30,6 +30,29 @@ Deno.serve(async (req) => {
       'Content-Type': 'application/json',
     };
 
+    const fetchChildren = async (blockId: string): Promise<any[]> => {
+      const children: any[] = [];
+      let cursor: string | undefined;
+      do {
+        const qs = new URLSearchParams({ page_size: '100' });
+        if (cursor) qs.set('start_cursor', cursor);
+        const response = await fetch(`${GATEWAY_URL}/blocks/${blockId}/children?${qs}`, { headers });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(`Blocks failed [${response.status}]: ${JSON.stringify(data)}`);
+        }
+        const batch = await Promise.all(
+          (data.results || []).map(async (block: any) => ({
+            ...block,
+            children: block.has_children ? await fetchChildren(block.id) : [],
+          })),
+        );
+        children.push(...batch);
+        cursor = data.has_more ? data.next_cursor : undefined;
+      } while (cursor);
+      return children;
+    };
+
     const getPlain = (rich: any[]) =>
       Array.isArray(rich) && rich.length > 0 ? rich.map((r) => r.plain_text).join('') : '';
 
@@ -60,17 +83,7 @@ Deno.serve(async (req) => {
 
     const p = page.properties || {};
 
-    const blocks: any[] = [];
-    let cursor: string | undefined;
-    do {
-      const qs = new URLSearchParams({ page_size: '100' });
-      if (cursor) qs.set('start_cursor', cursor);
-      const bRes = await fetch(`${GATEWAY_URL}/blocks/${page.id}/children?${qs}`, { headers });
-      const bData = await bRes.json();
-      if (!bRes.ok) throw new Error(`Blocks failed [${bRes.status}]: ${JSON.stringify(bData)}`);
-      blocks.push(...(bData.results || []));
-      cursor = bData.has_more ? bData.next_cursor : undefined;
-    } while (cursor);
+    const blocks = await fetchChildren(page.id);
 
     const post = {
       id: page.id,
@@ -81,7 +94,10 @@ Deno.serve(async (req) => {
       maturity: p.Maturity?.select?.name || '',
       temas: (p.Temas?.multi_select || []).map((t: any) => t.name),
       tipo: p.Select?.select?.name || p.Tipo?.select?.name || '',
-      coverUrl: p.URL?.url || '',
+      coverUrl:
+        p.URL?.url ||
+        (page.cover?.type === 'external' ? page.cover.external?.url : page.cover?.file?.url) ||
+        '',
       blocks,
     };
 
