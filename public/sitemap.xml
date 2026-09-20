@@ -46,6 +46,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://karien.xyz/blog/FEN-2026-evento-bioactiva</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://karien.xyz/blog/podcast-como-sistema-investigacion-commandz</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
@@ -66,6 +72,24 @@
   <url>
     <loc>https://karien.xyz/blog/diseno-experiencia-escala-programa-remoto</loc>
     <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://karien.xyz/jardin/recap-sept-26</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://karien.xyz/jardin/aves-costeras-de-pimentel</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://karien.xyz/jardin/nostalgia-deseo-amor</loc>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
