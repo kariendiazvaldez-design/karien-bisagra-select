@@ -328,9 +328,9 @@ const GardenPost = () => {
         </div>
       </nav>
 
-      <article className="mx-auto px-6 md:px-8 pt-32 pb-24" style={{ maxWidth: 680 }}>
+      <article className="pt-16 pb-24">
         {loading ? (
-          <div className="animate-pulse">
+          <div className="mx-auto max-w-5xl animate-pulse px-6 pt-16 md:px-10">
             <div className="h-3 w-24 bg-[#E8E2DA] mb-4" />
             <div className="h-10 w-full bg-[#E8E2DA] mb-4" />
             <div className="h-10 w-3/4 bg-[#E8E2DA] mb-8" />
@@ -345,7 +345,7 @@ const GardenPost = () => {
           <>
             {post.coverUrl && (
               <div
-                className="relative mb-10 aspect-[16/7] min-h-[210px] overflow-hidden rounded-2xl md:min-h-[280px]"
+                className="relative mb-12 h-[42vh] min-h-[280px] w-full overflow-hidden md:h-[52vh] md:min-h-[380px] md:max-h-[620px]"
                 style={{ background: INK }}
               >
                 <img
@@ -362,6 +362,7 @@ const GardenPost = () => {
                 />
               </div>
             )}
+            <div className="mx-auto w-full max-w-5xl px-6 md:px-10">
             {(icon || post.maturity) && (
               <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 22, marginBottom: 12 }}>
                 {icon} {post.maturity}
@@ -405,6 +406,7 @@ const GardenPost = () => {
               >
                 ← Volver al jardín
               </Link>
+            </div>
             </div>
           </>
         )}
