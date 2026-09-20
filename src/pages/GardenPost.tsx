@@ -3,8 +3,21 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Seo from "@/components/Seo";
 
-type RichText = { plain_text: string; href?: string | null; annotations?: any };
-type Block = { id: string; type: string; [k: string]: any };
+type RichText = {
+  plain_text: string;
+  href?: string | null;
+  type?: string;
+  equation?: { expression?: string };
+  annotations?: {
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+    strikethrough?: boolean;
+    code?: boolean;
+    color?: string;
+  };
+};
+type Block = { id: string; type: string; children?: Block[]; [k: string]: any };
 type Post = {
   id: string;
   nombre: string;
@@ -22,6 +35,15 @@ const TERRACOTA = "#C4622D";
 const BG = "#FAFAF8";
 const INK = "#1C1A17";
 const BORDER_FAINT = "0.5px solid rgba(28, 26, 23, 0.15)";
+const NOTION_COLORS: Record<string, string> = {
+  gray: "#787774", brown: "#9F6B53", orange: "#D9730D", yellow: "#CB912F",
+  green: "#448361", blue: "#337EA9", purple: "#9065B0", pink: "#C14C8A", red: "#D44C47",
+};
+const NOTION_BACKGROUNDS: Record<string, string> = {
+  gray_background: "#F1F1EF", brown_background: "#F4EEEE", orange_background: "#FAEBDD",
+  yellow_background: "#FBF3DB", green_background: "#EDF3EC", blue_background: "#E7F3F8",
+  purple_background: "#F4F0F7", pink_background: "#F9EEF3", red_background: "#FDEBEC",
+};
 
 const maturityIcon = (m: string) => {
   const k = (m || "").toLowerCase();
@@ -44,12 +66,15 @@ const RT = ({ rich }: { rich: RichText[] }) => (
   <>
     {(rich || []).map((t, i) => {
       const a = t.annotations || {};
-      let el: React.ReactNode = t.plain_text;
-      if (a.code) el = <code key={i} className="px-1 py-0.5 bg-[#F3EDE6] text-[0.9em]">{el}</code>;
+      let el: React.ReactNode = t.type === "equation" ? t.equation?.expression || t.plain_text : t.plain_text;
+      if (a.code) el = <code key={i} className="rounded-xl px-1.5 py-0.5 bg-[#F3EDE6] text-[0.9em]">{el}</code>;
+      const notionColor = a.color && a.color !== "default" ? a.color : undefined;
       const style: React.CSSProperties = {
         fontWeight: a.bold ? 600 : undefined,
         fontStyle: a.italic ? "italic" : undefined,
         textDecoration: [a.underline && "underline", a.strikethrough && "line-through"].filter(Boolean).join(" ") || undefined,
+        color: notionColor ? NOTION_COLORS[notionColor] : undefined,
+        background: notionColor ? NOTION_BACKGROUNDS[notionColor] : undefined,
       };
       const node = <span key={i} style={style}>{el}</span>;
       return t.href ? (
@@ -61,7 +86,10 @@ const RT = ({ rich }: { rich: RichText[] }) => (
   </>
 );
 
-const renderBlocks = (blocks: Block[]) => {
+const getMediaUrl = (data: any) => data?.type === "external" ? data.external?.url : data?.file?.url;
+const getCaption = (data: any) => (data?.caption || []).map((c: RichText) => c.plain_text).join("");
+
+const renderBlocks = (blocks: Block[], depth = 0) => {
   const out: React.ReactNode[] = [];
   let i = 0;
   while (i < blocks.length) {
@@ -89,10 +117,11 @@ const renderBlocks = (blocks: Block[]) => {
           {items.map((it) => {
             const d = it[it.type];
             return (
-              <li key={it.id} style={{ marginBottom: 6, fontSize: 15, lineHeight: 1.8 }}>
+              <li key={it.id} style={{ marginBottom: 6, fontSize: 16, lineHeight: 1.8 }}>
                 <span style={{ color: INK }}>
                   <RT rich={d.rich_text || []} />
                 </span>
+                {it.children && it.children.length > 0 && renderBlocks(it.children, depth + 1)}
               </li>
             );
           })}
@@ -104,9 +133,12 @@ const renderBlocks = (blocks: Block[]) => {
     switch (type) {
       case "paragraph":
         out.push(
-          <p key={b.id} className="font-quicksand" style={{ fontSize: 15, lineHeight: 1.8, color: INK, marginBottom: 16 }}>
+          <div key={b.id}>
+          <p className="font-quicksand" style={{ fontSize: 16, lineHeight: 1.8, color: INK, marginBottom: 16, minHeight: data.rich_text?.length ? undefined : 16 }}>
             <RT rich={data.rich_text || []} />
-          </p>,
+          </p>
+          {b.children && b.children.length > 0 && renderBlocks(b.children, depth + 1)}
+          </div>,
         );
         break;
       case "heading_1":
@@ -147,29 +179,98 @@ const renderBlocks = (blocks: Block[]) => {
             }}
           >
             <RT rich={data.rich_text || []} />
+            {b.children && b.children.length > 0 && <div className="mt-3">{renderBlocks(b.children, depth + 1)}</div>}
           </blockquote>,
         );
         break;
       case "image": {
-        const src = data.type === "external" ? data.external?.url : data.file?.url;
-        const caption = (data.caption || []).map((c: RichText) => c.plain_text).join("");
+        const src = getMediaUrl(data);
+        const caption = getCaption(data);
         out.push(
-          <figure key={b.id} style={{ margin: "24px 0" }}>
-            {src && <img src={src} alt={caption || ""} className="w-full" />}
+          <figure key={b.id} style={{ margin: "32px 0" }}>
+            {src && <img src={src} alt={caption || ""} className="w-full rounded-2xl object-contain" loading="lazy" />}
             {caption && (
-              <figcaption style={{ fontSize: 13, color: "#999", textAlign: "center", marginTop: 8 }}>{caption}</figcaption>
+              <figcaption style={{ fontSize: 13, color: "#777", textAlign: "center", marginTop: 8 }}>{caption}</figcaption>
             )}
           </figure>,
         );
         break;
       }
+      case "callout":
+        out.push(
+          <aside key={b.id} className="my-6 flex gap-3 rounded-2xl p-5" style={{ background: NOTION_BACKGROUNDS[data.color] || "#F3EDE6" }}>
+            <span aria-hidden="true">{data.icon?.emoji || "💡"}</span>
+            <div className="min-w-0 flex-1 text-base leading-7"><RT rich={data.rich_text || []} />{b.children && renderBlocks(b.children, depth + 1)}</div>
+          </aside>,
+        );
+        break;
+      case "code":
+        out.push(
+          <figure key={b.id} className="my-7 overflow-hidden rounded-2xl" style={{ background: "#24211E", color: "#F7F2EA" }}>
+            {data.language && <figcaption className="px-5 pt-4 text-xs opacity-60">{data.language}</figcaption>}
+            <pre className="overflow-x-auto p-5 pt-3 text-sm leading-6"><code>{(data.rich_text || []).map((t: RichText) => t.plain_text).join("")}</code></pre>
+          </figure>,
+        );
+        break;
+      case "toggle":
+        out.push(
+          <details key={b.id} className="my-4 rounded-2xl border p-4" style={{ border: BORDER_FAINT }}>
+            <summary className="cursor-pointer font-semibold"><RT rich={data.rich_text || []} /></summary>
+            {b.children && <div className="mt-4 pl-4">{renderBlocks(b.children, depth + 1)}</div>}
+          </details>,
+        );
+        break;
+      case "to_do":
+        out.push(
+          <div key={b.id} className="mb-3 flex items-start gap-3 text-base leading-7">
+            <input type="checkbox" checked={Boolean(data.checked)} readOnly className="mt-1.5 h-4 w-4 accent-[#C4622D]" />
+            <div><RT rich={data.rich_text || []} />{b.children && renderBlocks(b.children, depth + 1)}</div>
+          </div>,
+        );
+        break;
+      case "bookmark":
+      case "link_preview":
+        out.push(
+          <a key={b.id} href={data.url} target="_blank" rel="noreferrer" className="my-5 block rounded-2xl border p-4 text-sm break-all" style={{ border: BORDER_FAINT, color: TERRACOTA }}>
+            {data.url}
+            {getCaption(data) && <span className="mt-2 block" style={{ color: INK }}>{getCaption(data)}</span>}
+          </a>,
+        );
+        break;
+      case "video":
+      case "embed": {
+        const src = getMediaUrl(data) || data.url;
+        out.push(
+          <figure key={b.id} className="my-8">
+            {src && (type === "video" && data.type === "file" ? (
+              <video src={src} controls className="aspect-video w-full rounded-2xl" />
+            ) : (
+              <iframe src={src} title={getCaption(data) || "Contenido multimedia"} className="aspect-video w-full rounded-2xl" loading="lazy" allowFullScreen />
+            ))}
+            {getCaption(data) && <figcaption className="mt-2 text-center text-xs" style={{ color: "#777" }}>{getCaption(data)}</figcaption>}
+          </figure>,
+        );
+        break;
+      }
+      case "file":
+      case "pdf": {
+        const src = getMediaUrl(data);
+        out.push(src ? <a key={b.id} href={src} target="_blank" rel="noreferrer" className="my-4 inline-flex rounded-full border px-4 py-2 text-sm" style={{ border: BORDER_FAINT, color: TERRACOTA }}>Abrir {type === "pdf" ? "PDF" : "archivo"} ↗</a> : null);
+        break;
+      }
+      case "column_list":
+        out.push(<div key={b.id} className="my-6 grid gap-6 md:grid-cols-2">{b.children?.map((child) => <div key={child.id} className="min-w-0">{renderBlocks(child.children || [], depth + 1)}</div>)}</div>);
+        break;
+      case "column":
+        out.push(<div key={b.id}>{renderBlocks(b.children || [], depth + 1)}</div>);
+        break;
       case "divider":
         out.push(<hr key={b.id} style={{ border: 0, borderTop: "1px solid #E8E8E8", margin: "24px 0" }} />);
         break;
       default:
         if (data?.rich_text) {
           out.push(
-            <p key={b.id} className="font-quicksand" style={{ fontSize: 15, lineHeight: 1.8, color: INK, marginBottom: 16 }}>
+            <p key={b.id} className="font-quicksand" style={{ fontSize: 16, lineHeight: 1.8, color: INK, marginBottom: 16 }}>
               <RT rich={data.rich_text} />
             </p>,
           );
@@ -227,9 +328,9 @@ const GardenPost = () => {
         </div>
       </nav>
 
-      <article className="mx-auto px-6 md:px-8 pt-32 pb-24" style={{ maxWidth: 680 }}>
+      <article className="pt-16 pb-24">
         {loading ? (
-          <div className="animate-pulse">
+          <div className="mx-auto max-w-5xl animate-pulse px-6 pt-16 md:px-10">
             <div className="h-3 w-24 bg-[#E8E2DA] mb-4" />
             <div className="h-10 w-full bg-[#E8E2DA] mb-4" />
             <div className="h-10 w-3/4 bg-[#E8E2DA] mb-8" />
@@ -244,7 +345,7 @@ const GardenPost = () => {
           <>
             {post.coverUrl && (
               <div
-                className="relative mb-10 aspect-[16/7] min-h-[210px] overflow-hidden rounded-2xl md:min-h-[280px]"
+                className="relative mb-12 h-[42vh] min-h-[280px] w-full overflow-hidden md:h-[52vh] md:min-h-[380px] md:max-h-[620px]"
                 style={{ background: INK }}
               >
                 <img
@@ -261,6 +362,7 @@ const GardenPost = () => {
                 />
               </div>
             )}
+            <div className="mx-auto w-full max-w-5xl px-6 md:px-10">
             {(icon || post.maturity) && (
               <p className="font-caveat" style={{ color: TERRACOTA, fontSize: 22, marginBottom: 12 }}>
                 {icon} {post.maturity}
@@ -304,6 +406,7 @@ const GardenPost = () => {
               >
                 ← Volver al jardín
               </Link>
+            </div>
             </div>
           </>
         )}
