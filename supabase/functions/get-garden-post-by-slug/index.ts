@@ -81,6 +81,7 @@ Deno.serve(async (req) => {
       maturity: p.Maturity?.select?.name || '',
       temas: (p.Temas?.multi_select || []).map((t: any) => t.name),
       tipo: p.Select?.select?.name || p.Tipo?.select?.name || '',
+      coverUrl: p.URL?.url || '',
       blocks,
     };
 
