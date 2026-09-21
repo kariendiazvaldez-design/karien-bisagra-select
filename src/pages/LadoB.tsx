@@ -108,7 +108,7 @@ const Hero = () => (
         }}
       />
       <div className="flex-1 text-center md:text-left">
-        <h1 style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 16, fontFamily: "'Elms Sans', sans-serif", fontWeight: 700 }}>
+        <h1 className="font-pt-serif" style={{ color: TERRACOTA, fontSize: 48, lineHeight: 1, marginBottom: 16, fontWeight: 700 }}>
           Karien
         </h1>
         <p className="font-quicksand" style={{ fontSize: 16, color: "#444", lineHeight: 1.6, marginBottom: 16, maxWidth: 580, whiteSpace: "pre-line" }}>
@@ -178,6 +178,29 @@ const Badge = ({ label, color, bg }: { label: string; color: string; bg: string 
   </span>
 );
 
+const CategoryDate = ({
+  label,
+  date,
+  color,
+  bg,
+  dateColor = "#777",
+}: {
+  label: string;
+  date: string;
+  color: string;
+  bg: string;
+  dateColor?: string;
+}) => (
+  <div className="flex min-w-0 items-center gap-2">
+    <Badge label={label} color={color} bg={bg} />
+    {date && (
+      <span className="font-quicksand truncate" style={{ color: dateColor, fontSize: 10, fontWeight: 500 }}>
+        {fmtDate(date)}
+      </span>
+    )}
+  </div>
+);
+
 const Excerpt = ({ text, color = "#555", lines = 2 }: { text: string; color?: string; lines?: number }) => {
   if (!text) return null;
   return (
@@ -220,7 +243,7 @@ const ResenaCard = ({ p }: { p: GardenPost }) => (
       )}
     </div>
     <div style={{ padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
-      <Badge label="Reseña" color="#7A5A0E" bg="#D4A01744" />
+      <CategoryDate label="Reseña" date={p.date} color="#7A5A0E" bg="#D4A01744" dateColor="#6B5A2A" />
       <h3 className="font-quicksand" style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.25, color: TEXT, margin: 0 }}>
         {p.nombre}
       </h3>
@@ -275,7 +298,7 @@ const OverlayCard = ({
       }}
     />
     <div style={{ position: "relative", padding: 12, display: "flex", flexDirection: "column", gap: 6, height: "100%" }}>
-      <Badge label={label} color={badgeColor} bg={badgeBg} />
+      <CategoryDate label={label} date={p.date} color={badgeColor} bg={badgeBg} dateColor={textColor} />
       <h3 className="font-quicksand" style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.25, color: textColor, margin: 0 }}>
         {p.nombre}
       </h3>
@@ -305,7 +328,7 @@ const DiarioCard = ({ p }: { p: GardenPost }) => (
       )}
     </div>
     <div style={{ padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
-      <Badge label="Diario" color={TERRACOTA} bg={TERRACOTA_SOFT} />
+      <CategoryDate label="Diario" date={p.date} color={TERRACOTA} bg={TERRACOTA_SOFT} />
       <h3 className="font-quicksand" style={{ fontSize: 12, fontWeight: 700, lineHeight: 1.25, color: TERRACOTA, margin: 0 }}>
         {p.nombre}
       </h3>
@@ -346,7 +369,7 @@ const BlogCard = ({ p }: { p: GardenPost }) => (
         gap: 16,
       }}
     >
-      <Badge label="Blog" color="#3A3A14" bg="#A0A060" />
+      <CategoryDate label="Blog" date={p.date} color="#3A3A14" bg="#A0A060" dateColor="#E8E8C0" />
       <h3
         className="font-quicksand"
         style={{

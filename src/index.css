@@ -66,6 +66,7 @@
   .font-quicksand { font-family: 'Quicksand', system-ui, sans-serif; }
   .font-caveat { font-family: 'Caveat', cursive; }
   .font-ubuntu { font-family: 'Ubuntu', system-ui, sans-serif; }
+  .font-pt-serif { font-family: 'PT Serif', serif; }
 }
 
 /* ===== Lado A — Design System (scoped) ===== */
