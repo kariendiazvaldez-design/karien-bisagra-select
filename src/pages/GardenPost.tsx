@@ -143,23 +143,32 @@ const renderBlocks = (blocks: Block[], depth = 0) => {
         break;
       case "heading_1":
         out.push(
-          <h1 key={b.id} className="font-quicksand" style={{ fontWeight: 700, fontSize: 32, color: TERRACOTA, marginTop: 32, marginBottom: 16, letterSpacing: "-0.01em" }}>
+          <div key={b.id}>
+          <h1 className="font-quicksand" style={{ fontWeight: 700, fontSize: 32, color: TERRACOTA, marginTop: 32, marginBottom: 16, letterSpacing: "-0.01em" }}>
             <RT rich={data.rich_text || []} />
-          </h1>,
+          </h1>
+          {b.children && b.children.length > 0 && renderBlocks(b.children, depth + 1)}
+          </div>,
         );
         break;
       case "heading_2":
         out.push(
-          <h2 key={b.id} className="font-quicksand" style={{ fontWeight: 700, fontSize: 22, color: TERRACOTA, marginTop: 28, marginBottom: 12 }}>
+          <div key={b.id}>
+          <h2 className="font-quicksand" style={{ fontWeight: 700, fontSize: 22, color: TERRACOTA, marginTop: 28, marginBottom: 12 }}>
             <RT rich={data.rich_text || []} />
-          </h2>,
+          </h2>
+          {b.children && b.children.length > 0 && renderBlocks(b.children, depth + 1)}
+          </div>,
         );
         break;
       case "heading_3":
         out.push(
-          <h3 key={b.id} className="font-quicksand" style={{ fontWeight: 600, fontSize: 18, color: INK, marginTop: 24, marginBottom: 10 }}>
+          <div key={b.id}>
+          <h3 className="font-quicksand" style={{ fontWeight: 600, fontSize: 18, color: INK, marginTop: 24, marginBottom: 10 }}>
             <RT rich={data.rich_text || []} />
-          </h3>,
+          </h3>
+          {b.children && b.children.length > 0 && renderBlocks(b.children, depth + 1)}
+          </div>,
         );
         break;
       case "quote":
@@ -258,6 +267,32 @@ const renderBlocks = (blocks: Block[], depth = 0) => {
         out.push(src ? <a key={b.id} href={src} target="_blank" rel="noreferrer" className="my-4 inline-flex rounded-full border px-4 py-2 text-sm" style={{ border: BORDER_FAINT, color: TERRACOTA }}>Abrir {type === "pdf" ? "PDF" : "archivo"} ↗</a> : null);
         break;
       }
+      case "audio": {
+        const src = getMediaUrl(data);
+        out.push(src ? <audio key={b.id} src={src} controls className="my-6 w-full" /> : null);
+        break;
+      }
+      case "equation":
+        out.push(<div key={b.id} className="my-6 overflow-x-auto py-3 text-center font-mono text-lg">{data.expression}</div>);
+        break;
+      case "table":
+        out.push(
+          <div key={b.id} className="my-7 overflow-x-auto rounded-2xl border" style={{ border: BORDER_FAINT }}>
+            <table className="w-full min-w-[520px] border-collapse text-left text-sm">
+              <tbody>{b.children?.map((row, rowIndex) => {
+                const cells = row.table_row?.cells || [];
+                return <tr key={row.id}>{cells.map((cell: RichText[], cellIndex: number) => {
+                  const Cell = data.has_column_header && rowIndex === 0 ? "th" : "td";
+                  return <Cell key={`${row.id}-${cellIndex}`} className="border-b border-r p-3 align-top last:border-r-0" style={{ borderColor: "rgba(28, 26, 23, 0.12)", fontWeight: Cell === "th" ? 600 : 400 }}><RT rich={cell} /></Cell>;
+                })}</tr>;
+              })}</tbody>
+            </table>
+          </div>,
+        );
+        break;
+      case "synced_block":
+        out.push(<div key={b.id}>{renderBlocks(b.children || [], depth + 1)}</div>);
+        break;
       case "column_list":
         out.push(<div key={b.id} className="my-6 grid gap-6 md:grid-cols-2">{b.children?.map((child) => <div key={child.id} className="min-w-0">{renderBlocks(child.children || [], depth + 1)}</div>)}</div>);
         break;
