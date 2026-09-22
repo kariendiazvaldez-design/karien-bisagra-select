@@ -435,11 +435,11 @@ const GardenPost = () => {
 
             <div className="mt-16">
               <Link
-                to="/jardin"
+                to="/lado-b"
                 className="inline-block px-5 py-2.5 text-sm transition-colors"
                 style={{ border: `1px solid ${TERRACOTA}`, color: TERRACOTA }}
               >
-                ← Volver al jardín
+                ← Volver a Karien
               </Link>
             </div>
             </div>
