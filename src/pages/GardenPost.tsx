@@ -196,7 +196,7 @@ const renderBlocks = (blocks: Block[], depth = 0) => {
         const src = getMediaUrl(data);
         const caption = getCaption(data);
         out.push(
-          <figure key={b.id} style={{ margin: "32px 0", textAlign: "center" }}>
+          <figure key={b.id} className="my-8 flex flex-col items-center justify-center text-center">
             {src && <img src={src} alt={caption || ""} className="mx-auto block h-auto max-w-full rounded-2xl object-contain" loading="lazy" />}
             {caption && (
               <figcaption style={{ fontSize: 13, color: "#777", textAlign: "center", marginTop: 8 }}>{caption}</figcaption>
