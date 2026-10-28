@@ -31,7 +31,6 @@ async function fetchEdgeFunction(name: string) {
 async function main() {
   const staticEntries: SitemapEntry[] = [
     { path: "/", changefreq: "weekly", priority: "1.0" },
-    { path: "/lado-a", changefreq: "weekly", priority: "0.9" },
     { path: "/lado-b", changefreq: "weekly", priority: "0.9" },
     { path: "/blog", changefreq: "weekly", priority: "0.8" },
     { path: "/portafolio/innova-plus", changefreq: "monthly", priority: "0.7" },
