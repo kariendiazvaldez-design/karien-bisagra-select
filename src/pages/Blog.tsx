@@ -108,7 +108,6 @@ const Blog = () => {
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
           <Link to="/" className="font-medium">Karien.xyz</Link>
           <div className="flex items-center gap-6 text-sm">
-            <Link to="/" className="text-a-accent-soft hover:text-a-accent">Lado A</Link>
             <Link to="/lado-b" className="text-a-accent-soft hover:text-a-accent">Lado B</Link>
           </div>
         </div>
