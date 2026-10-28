@@ -697,7 +697,7 @@ const ProjectDetail = ({
             Karien.xyz
           </Link>
           <Link
-            to="/lado-a"
+            to="/"
             style={{ color: OLIVE, fontSize: 14, fontFamily: "Lexend, sans-serif" }}
           >
             ← Volver

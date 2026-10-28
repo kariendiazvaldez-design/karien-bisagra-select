@@ -279,7 +279,7 @@ export default function NotionProjectDetail({ slug }: { slug: string }) {
       <div style={{ background: BG, minHeight: "100vh", fontFamily: "Lexend, sans-serif" }}>
         <div className="max-w-3xl mx-auto px-6 pt-32 text-center">
           <p style={{ color: "#666" }}>Proyecto no encontrado.</p>
-          <Link to="/lado-a" style={{ color: OLIVE, marginTop: 16, display: "inline-block" }}>← Volver</Link>
+          <Link to="/" style={{ color: OLIVE, marginTop: 16, display: "inline-block" }}>← Volver</Link>
         </div>
       </div>
     );
@@ -300,7 +300,7 @@ export default function NotionProjectDetail({ slug }: { slug: string }) {
       <nav className="sticky top-0 z-40" style={{ background: BG, borderBottom: "1px solid #E8E8E8" }}>
         <div className="max-w-5xl mx-auto px-6 md:px-16 h-14 flex items-center justify-between">
           <Link to="/" style={{ fontFamily: "Lexend, sans-serif", fontSize: 14, color: "#1A1A1A", textDecoration: "none" }}>Karien.xyz</Link>
-          <Link to="/lado-a" style={{ color: OLIVE, fontSize: 14, fontFamily: "Lexend, sans-serif" }}>← Volver</Link>
+          <Link to="/" style={{ color: OLIVE, fontSize: 14, fontFamily: "Lexend, sans-serif" }}>← Volver</Link>
         </div>
       </nav>
 
