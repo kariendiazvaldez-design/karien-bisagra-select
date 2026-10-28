@@ -44,8 +44,7 @@ const App = () => (
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/lado-a" element={<LadoA />} />
+          <Route path="/" element={<LadoA />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           
