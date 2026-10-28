@@ -5,6 +5,7 @@ import { sanityClient } from "@/lib/sanityClient";
 import { CASE_STUDIES_QUERY, BLOG_POSTS_QUERY } from "@/lib/sanityQueries";
 import { supabase } from "@/integrations/supabase/client";
 import Seo from "@/components/Seo";
+import TypewriterHeadline from "@/components/TypewriterHeadline";
 
 type NotionPost = {
   id: string;
@@ -430,11 +431,14 @@ const LadoA = () => {
       )}
 
       <div className="pt-24 px-4 md:px-6 pb-6" style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        {/* HERO — titular con máquina de escribir */}
+        <TypewriterHeadline />
+
         {/* HERO */}
         <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-14 md:py-20 text-center">
           <div className="relative max-w-[720px] mx-auto">
             <p className="ds-eyebrow mb-6">DISEÑO · TRANSFORMACIÓN DIGITAL · INNOVACIÓN</p>
-            <h1
+            <h2
               style={{
                 fontSize: "clamp(38px, 6vw, 48px)",
                 lineHeight: 1.08,
