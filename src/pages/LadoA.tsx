@@ -452,7 +452,7 @@ const LadoA = () => {
               <span style={{ color: "#E8B820", fontWeight: 300, display: "block" }}>
                 para diseñar mejor.
               </span>
-            </h1>
+            </h2>
             <p
               className="mx-auto mb-10 whitespace-pre-line"
               style={{
