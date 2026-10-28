@@ -431,6 +431,9 @@ const LadoA = () => {
       )}
 
       <div className="pt-24 px-4 md:px-6 pb-6" style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        {/* HERO — titular con máquina de escribir */}
+        <TypewriterHeadline />
+
         {/* HERO */}
         <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-14 md:py-20 text-center">
           <div className="relative max-w-[720px] mx-auto">
