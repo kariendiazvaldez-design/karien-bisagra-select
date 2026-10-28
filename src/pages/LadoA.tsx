@@ -438,7 +438,7 @@ const LadoA = () => {
         <section className="ds-hero-bg max-w-6xl w-full mx-auto px-6 md:px-16 py-14 md:py-20 text-center">
           <div className="relative max-w-[720px] mx-auto">
             <p className="ds-eyebrow mb-6">DISEÑO · TRANSFORMACIÓN DIGITAL · INNOVACIÓN</p>
-            <h1
+            <h2
               style={{
                 fontSize: "clamp(38px, 6vw, 48px)",
                 lineHeight: 1.08,
