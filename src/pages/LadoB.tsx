@@ -76,7 +76,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8 font-quicksand" style={{ fontSize: 14 }}>
           <a href="#about" style={{ color: TEXT }}>Sobre mí</a>
           <a href="#jardin" style={{ color: TEXT }}>Jardín</a>
-          <Link to="/lado-a" style={{ color: TERRACOTA, fontWeight: 600 }}>Lado A →</Link>
+          <Link to="/" style={{ color: TERRACOTA, fontWeight: 600 }}>Lado A →</Link>
         </div>
         <button className="md:hidden" onClick={() => setOpen(!open)} aria-label="menu" style={{ color: TEXT }}>
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -86,7 +86,7 @@ const Navbar = () => {
         <div className="md:hidden px-6 pb-4 flex flex-col gap-3 font-quicksand" style={{ background: BG, borderTop: `1px solid ${DIVIDER}` }}>
           <a href="#about" onClick={() => setOpen(false)} style={{ color: TEXT }}>Sobre mí</a>
           <a href="#jardin" onClick={() => setOpen(false)} style={{ color: TEXT }}>Jardín</a>
-          <Link to="/lado-a" onClick={() => setOpen(false)} style={{ color: TERRACOTA, fontWeight: 600 }}>Lado A →</Link>
+          <Link to="/" onClick={() => setOpen(false)} style={{ color: TERRACOTA, fontWeight: 600 }}>Lado A →</Link>
         </div>
       )}
     </nav>

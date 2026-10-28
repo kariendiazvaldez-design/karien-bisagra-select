@@ -20,7 +20,7 @@ const CaseStudy = () => {
     <div className="lado-a font-lexend min-h-screen bg-background text-foreground">
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background border-b border-[#D4CFC5]" style={{ borderBottomWidth: "0.5px" }}>
         <div className="max-w-6xl mx-auto px-6 md:px-20 h-16 flex items-center justify-between">
-          <Link to="/lado-a" className="font-medium">← Karien.xyz</Link>
+          <Link to="/" className="font-medium">← Karien.xyz</Link>
           <Link to="/lado-b" className="text-sm text-a-accent-soft hover:text-a-accent">Lado B →</Link>
         </div>
       </nav>
@@ -54,7 +54,7 @@ const CaseStudy = () => {
               {data.body && <PortableText value={data.body} />}
               {!data.body && data.description && <p>{data.description}</p>}
             </div>
-            <Link to="/lado-a#proyectos" className="inline-block mt-12 text-a-accent">
+            <Link to="/#proyectos" className="inline-block mt-12 text-a-accent">
               ← Ver todos los proyectos
             </Link>
           </>
